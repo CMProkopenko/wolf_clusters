@@ -1,5 +1,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/r
 # Edit at https://www.toptal.com/developers/gitignore?templates=r
+# modified by c prokopenko
+
+###data files 
+
+2021-09-17_RMNP_All_Sites.csv
 
 ### R ###
 # History files

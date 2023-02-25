@@ -22,14 +22,14 @@ inv_datrm = inv_datrm[inv_datrm$Behaviour_1 != 'MORT' & inv_datrm$Behaviour_1 !=
 
 ###create prey categories for kill behavours
 ###clean up behaviours for plotting
-inv_datrm[,'Behav':= as.factor('Other')]
-inv_datrm$Behav[inv_datrm$Behaviour_1  =="Kill" & inv_datrm$Calf == 1] <- 'Calf Kill'
-inv_datrm$Behav[inv_datrm$Behaviour_1  =="Kill" & inv_datrm$Moose == 1 & inv_datrm$Calf == 0] <- 'Moose Kill'
-inv_datrm$Behav[inv_datrm$Behaviour_1  =="Kill" & inv_datrm$Elk == 1 & inv_datrm$Calf == 0] <- 'Elk Kill'
-inv_datrm$Behav[inv_datrm$Behaviour_1  =="Kill" & inv_datrm$Moose == 1 & inv_datrm$WTD == 0] <- 'Deer Kill'
-inv_datrm$Behav[inv_datrm$Behaviour_1  =="Kill" & inv_datrm$Beaver == 1] <- 'Beaver Kill'
-inv_datrm$Behav[inv_datrm$Behaviour_1  =="Probable kill"]<-"Probable kill"
-inv_datrm$Behav[inv_datrm$Behaviour_1  =="Probable prey encounter"]<-"Probable kill" ###check this is what we want to do
+inv_datrm[,'Behav':= as.character('Other')]
+inv_datrm$Behav[inv_datrm$Behaviour_1 =="Kill" & inv_datrm$Calf == 1] <-'Calf Kill'
+inv_datrm$Behav[inv_datrm$Behaviour_1 =="Kill" & inv_datrm$Moose == 1 & inv_datrm$Calf == 0] <- 'Moose Kill'
+inv_datrm$Behav[inv_datrm$Behaviour_1 =="Kill" & inv_datrm$Elk == 1 & inv_datrm$Calf == 0] <- 'Elk Kill'
+inv_datrm$Behav[inv_datrm$Behaviour_1 =="Kill" & inv_datrm$Moose == 1 & inv_datrm$WTD == 0] <- 'Deer Kill'
+inv_datrm$Behav[inv_datrm$Behaviour_1 =="Kill" & inv_datrm$Beaver == 1] <- 'Beaver Kill'
+inv_datrm$Behav[inv_datrm$Behaviour_1 =="Probable kill"] <-"Probable kill"
+inv_datrm$Behav[inv_datrm$Behaviour_1 =="Probable prey encounter"]<-"Probable kill" ###check this is what we want to do
 inv_datrm$Behav[inv_datrm$Behaviour_1  =="Revisit"]<-"Revisit"
 inv_datrm$Behav[inv_datrm$Behaviour_1  =="Scavenge"]<-"Scavenge"
 inv_datrm$Behav[inv_datrm$Behaviour_1  =="Resting"]<-"Resting"
@@ -84,7 +84,8 @@ ridge_timeinv <-
 
 ridge_timeinv +   ggridges::stat_density_ridges(
   quantile_lines = TRUE, quantiles = 2, 
-  color = "black", alpha = .8, size = 1) + xlim(-100,50)
+  color = "black", alpha = .8, size = 1) + xlim(-100,50) + 
+  scale_fill_viridis(discrete = TRUE)
 
 
 
@@ -106,7 +107,8 @@ ridge_behavfix <-
 
 ridge_behavfix +   ggridges::stat_density_ridges(
   quantile_lines = TRUE, quantiles = 2, 
-  color = "black", alpha = .8, size = 1) 
+  color = "black", alpha = .8, size = 1) + 
+  scale_fill_viridis(discrete = TRUE)
 
 
 ##plot radius size by behaviour
@@ -116,13 +118,27 @@ p_behavrad <- ggplot(inv_datrm,aes(x = reorder(Behav, -Clus_rad_m), y = Clus_rad
 p_behavrad +  geom_boxplot() + coord_flip()
 
 ridge_behavrad <- 
-  ggplot(inv_datrm, aes(Clus_rad_m, fct_rev(Behav), color = Behav, fill = Behaviour_1)) + 
+  ggplot(inv_datrm, aes(Clus_rad_m, fct_rev(Behav))) + 
   coord_cartesian(clip = "off") +
   scale_y_discrete(expand = c(.07, .07))  
 
 ridge_behavrad +   ggridges::stat_density_ridges(
   quantile_lines = TRUE, quantiles = 2, 
-  color = "black", alpha = .8, size = 1) 
+  color = "black", alpha = .8, size = 1) + 
+  scale_fill_viridis(discrete = TRUE) + 
+  ylab("Behaviours") + xlab("Cluster Radius (m)") +
+  theme_bw() +theme_bw()  + theme(
+    panel.background =element_rect(colour = "black", fill=NA, size=1),
+    panel.border = element_blank(), 
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line = element_line(colour = "black", size = .1),
+    axis.text.x = element_text(size=20), 
+    axis.title = element_text(size=20),
+    axis.text.y = element_text(size=20),
+    legend.title=element_text(size=20),
+    legend.text = element_text(size = 20)) 
+
 
 # ridge_behavrad + 
 #   ggridges::stat_density_ridges(
@@ -136,29 +152,3 @@ ridge_behavrad +   ggridges::stat_density_ridges(
 #     labels = c("(0, 0.025]", "(0.025, 0.975]", "(0.975, 1]")
 #   ) +
 #   guides(fill = guide_legend(override.aes = list(color = "transparent")))
-
-####### kill clusters only #######
-
-###plot fixes for prey kills
-
-ridge_killfix <- 
-  ggplot(kclu_datrm, aes(Act_fixes, fct_rev(Prey_1), color = Prey_1, fill = Prey_1)) + 
-  coord_cartesian(clip = "off") +
-  scale_y_discrete(expand = c(.07, .07))  
-
-ridge_killfix +   ggridges::stat_density_ridges(
-  quantile_lines = TRUE, quantiles = 2, 
-  color = "black", alpha = .8, size = 1) 
-
-
-###plot radius size for prey kills
-
-ridge_killrad <- 
-  ggplot(kclu_datrm, aes(Clus_rad_m, fct_rev(Prey_1), color = Prey_1, fill = Prey_1)) + 
-  coord_cartesian(clip = "off") +
-  scale_y_discrete(expand = c(.07, .07))  
-
-ridge_killrad +   ggridges::stat_density_ridges(
-  quantile_lines = TRUE, quantiles = 2, 
-  color = "black", alpha = .8, size = 1) 
-

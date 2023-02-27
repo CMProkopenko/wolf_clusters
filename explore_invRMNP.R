@@ -28,8 +28,8 @@ inv_datrm$Behav[inv_datrm$Behaviour_1 =="Kill" & inv_datrm$Moose == 1 & inv_datr
 inv_datrm$Behav[inv_datrm$Behaviour_1 =="Kill" & inv_datrm$Elk == 1 & inv_datrm$Calf == 0] <- 'Elk Kill'
 inv_datrm$Behav[inv_datrm$Behaviour_1 =="Kill" & inv_datrm$WTD == 1& inv_datrm$Calf == 0] <- 'Deer Kill'
 inv_datrm$Behav[inv_datrm$Behaviour_1 =="Kill" & inv_datrm$Beaver == 1] <- 'Beaver Kill'
-inv_datrm$Behav[inv_datrm$Behaviour_1 =="Probable kill"] <-"Probable kill"
-inv_datrm$Behav[inv_datrm$Behaviour_1 =="Probable prey encounter"]<-"Probable kill" ###check this is what we want to do
+inv_datrm$Behav[inv_datrm$Behaviour_1 =="Probable kill"] <-"Probable Kill"
+inv_datrm$Behav[inv_datrm$Behaviour_1 =="Probable prey encounter"]<-"Probable Kill" ###check this is what we want to do
 inv_datrm$Behav[inv_datrm$Behaviour_1  =="Revisit"]<-"Revisit"
 inv_datrm$Behav[inv_datrm$Behaviour_1  =="Scavenge"]<-"Scavenge"
 inv_datrm$Behav[inv_datrm$Behaviour_1  =="Resting"]<-"Resting"
@@ -37,7 +37,18 @@ inv_datrm$Behav[inv_datrm$Behaviour_1  =="Probable resting"]<-"Resting"
 inv_datrm$Behav[inv_datrm$Behaviour_1  =="Den"]<-"Den"
 inv_datrm$Behav[inv_datrm$Behaviour_1  =="Rendez-vous"]<-"Rendez-vous"
 
-summary(as.factor(inv_datrm$Behav))
+
+
+####specify levels 
+inv_datrm$Behav <- as.factor(inv_datrm$Behav)
+summary(inv_datrm$Behav)
+
+inv_datrm$Behav <- factor(inv_datrm$Behav , levels = c("Other", "Resting",
+                                                       "Den", "Rendez-vous",
+                                                       "Scavenge", "Revisit",
+                                                       "Probable Kill", "Beaver Kill", "Calf Kill",  
+                                                       "Deer Kill", "Elk Kill","Moose Kill"))
+
 
 ### clusters that are kills
 kclu_datrm <- inv_datrm[Behaviour_1 == "Kill"]
@@ -89,21 +100,40 @@ p_timeinv +  geom_boxplot() + coord_flip()
 
 
 ##plot fix number by behaviour 
-p_behavfix <- ggplot(inv_datrm,aes(x = reorder(Behav, -Act_fixes), y = Act_fixes)) +
- geom_boxplot() + coord_flip() +
+p_behavfix <- ggplot(inv_datrm, aes(x = Behav, y = Act_fixes)) +
+ geom_boxplot(outlier.shape = NA)  +
+  geom_jitter( colour = "#5ec962", position=position_jitter(0.2), alpha = 0.2) +
+  coord_flip() + ylim(0,100) +
+  geom_vline(xintercept = 2.5) + geom_vline(xintercept = 4.5) +
+  geom_vline(xintercept = 7.5) + 
   xlab("Behaviours") + ylab("Number of fixes") +
+  ggtitle("b.") +
   theme_bw() +theme_bw()  + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
     panel.border = element_blank(),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
+    plot.title = element_text(size = 20, hjust = .98, vjust = -8),
     axis.line = element_line(colour = "black", size = .1),
     axis.text.x = element_text(size=20),
     axis.title = element_text(size=20),
     axis.text.y = element_text(size=20),
     legend.title=element_text(size=20),
-    legend.text = element_text(size = 20))
+    legend.text = element_text(size = 20)) 
 p_behavfix 
+
+png('results/behaviourvfixes.png', width = 10000, height = 7000, res=1000, units="px")
+
+p_behavfix
+
+dev.off()
+
+png('results/clusterinvestigationsfixes.png', width = 10000, height = 14000, res=1000, units="px")
+
+p_invfix /p_behavfix
+
+dev.off()
+
 
 ###add scatter
 
@@ -125,6 +155,7 @@ p_behavfix
 
 
 ##plot radius size by behaviour
+
 
 p_behavrad <- ggplot(inv_datrm,aes(x = reorder(Behav, -Clus_rad_m), y = Clus_rad_m)) +
  geom_boxplot() + coord_flip() +  

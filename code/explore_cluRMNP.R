@@ -81,22 +81,31 @@ p_invfix <- ggplot() +
   geom_smooth(data = propinv, aes(x = propinv$Act_fixes, y = propInv*a), se = F, size = 0.9, col = "#21918c") +
   scale_y_continuous("Frequency", 
                      sec.axis = sec_axis(~ (. - 1)/a, name = "Proportion Investigated")) +
-  scale_x_continuous("Number of fixes") +
-  scale_colour_manual(values = c("#3b528b","#5ec962")) +
-  scale_fill_manual(values = c("#3b528b","#5ec962")) +
+  xlab("Number of fixes") +  
+  ggtitle("a.") +
+  scale_colour_manual(values = c("#3b528b","#5ec962"),labels=c('Not Investigated', 'Investigated'), name = "Cluster Status") +
+  scale_fill_manual(values = c("#3b528b","#5ec962"),labels=c('Not Investigated', 'Investigated'), name = "Cluster Status") +
   theme_bw() +theme_bw()  + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
     panel.border = element_blank(), 
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
+    plot.title = element_text(size = 20, hjust = .98, vjust = -8),
     axis.line = element_line(colour = "black", size = .1),
     axis.text.x = element_text(size=20), 
     axis.title = element_text(size=20),
     axis.text.y = element_text(size=20),
     legend.title=element_text(size=20),
-    legend.text = element_text(size = 20)) + xlim(0,100)
+    legend.text = element_text(size = 20),
+    legend.position=c(0.8, 0.9)) + xlim(0,100)
   
 p_invfix 
+
+png('results/clustersvfixes.png', width = 10000, height = 7000, res=1000, units="px")
+
+p_invfix 
+
+dev.off()
 
 ### by cluster radius
 p_clu_rad <- ggplot(datrm) +

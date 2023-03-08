@@ -1,0 +1,224 @@
+####
+###investigated site data exploration
+
+###packages
+libs <- c('data.table', 'rcartocolor', 
+          'ggplot2', 'ggridges', 'ggdist', 'ggbeeswarm','gghalves',
+          'ggthemes', 'colorspace', 'viridis', 'patchwork')
+lapply(libs, require, character.only = TRUE)
+
+
+####Load and subset data ####
+
+### load All Sites data after cleaning protocol
+datgha26 <- fread('data/2023-02-22_GHA_All_Clu.csv')  ###11237 obs
+
+##clusters less than 150 actual fixes
+##removes inv match only as well because there are no clusters associated
+datgha26 <- datgha26[Act_fixes <= 150] ###11179 obs
+
+
+
+### clusters matched with investigated sites
+inv_datgha26 <-datgha26[JoinStatus == 'Matched' & finalIgnore == 0]
+inv_datgha26$Behaviour_1 <- as.factor(inv_datgha26$Behaviour_1)
+summary(inv_datgha26$Behaviour_1)
+summary(inv_datgha26$Behaviour_1)
+
+
+#####Morts not included in GHA data
+
+
+###create prey categories for kill behavours
+###clean up behaviours for plotting
+inv_datgha26[,'Behav':= as.character('Other')]
+inv_datgha26$Behav[inv_datgha26$Behaviour_1 =="Kill" & inv_datgha26$Calf == 1] <-'Calf Kill'
+inv_datgha26$Behav[inv_datgha26$Behaviour_1 =="Kill" & inv_datgha26$Moose == 1 & inv_datgha26$Calf == 0] <- 'Moose Kill'
+inv_datgha26$Behav[inv_datgha26$Behaviour_1 =="Kill" & inv_datgha26$Elk == 1 & inv_datgha26$Calf == 0] <- 'Elk Kill'
+inv_datgha26$Behav[inv_datgha26$Behaviour_1 =="Kill" & inv_datgha26$WTD == 1& inv_datgha26$Calf == 0] <- 'Deer Kill'
+inv_datgha26$Behav[inv_datgha26$Behaviour_1 =="Kill" & inv_datgha26$Beaver == 1] <- 'Beaver Kill'
+inv_datgha26$Behav[inv_datgha26$Behaviour_1 =="Probable kill"] <-"Probable Kill"
+inv_datgha26$Behav[inv_datgha26$Behaviour_1  =="Revisit"]<-"Revisit"
+inv_datgha26$Behav[inv_datgha26$Behaviour_1  =="Scavenging"]<-"Scavenge" ###is scavenging for GHA 26
+inv_datgha26$Behav[inv_datgha26$Behaviour_1  =="Resting"]<-"Resting"
+inv_datgha26$Behav[inv_datgha26$Behaviour_1  =="Probable resting"]<-"Resting"
+inv_datgha26$Behav[inv_datgha26$Behaviour_1  =="Den"]<-"Den"
+inv_datgha26$Behav[inv_datgha26$Behaviour_1  =="Rendez-vous"]<-"Rendez-vous"
+
+
+
+####specify levels 
+inv_datgha26$Behav <- as.factor(inv_datgha26$Behav)
+summary(inv_datgha26$Behav)
+
+inv_datgha26$Behav <- factor(inv_datgha26$Behav , levels = c("Other", 
+                                                         "Den", "Rendez-vous",
+                                                         "Resting",
+                                                         "Scavenge", "Revisit",
+                                                         "Probable Kill", "Beaver Kill", "Calf Kill",  
+                                                         "Deer Kill", "Elk Kill","Moose Kill"))
+
+
+### clusters that are kills
+kclu_datgha26 <- inv_datgha26[Behaviour_1 == "Kill"]
+### unique kill sites (remove multiple clusters and wolves) 
+ksite_datgha26 <- kclu_datgha26[mwKfirst == 1]
+
+
+###calculate mean investigation time for sites
+####
+summary(as.factor(inv_datgha26$Behaviour_1))
+
+sum_inv26 <- inv_datgha26[ , .(days.mean  = mean(daysEarly),
+                             days.min = min(daysEarly),
+                             days.max = max(daysEarly),
+                             fix.mean=mean(Act_fixes),
+                             fix.min = min(Act_fixes),
+                             fix.max=max(Act_fixes),
+                             hr.mean = mean(CluDurHours),
+                             hr.min = min(CluDurHours),
+                             hr.max = max(CluDurHours),
+                             rad.mean=mean(Clus_rad_m),
+                             rad.min = min(Clus_rad_m),
+                             rad.max=max(Clus_rad_m),
+                             count = .N
+), by = Behaviour_1]
+sum_inv26
+
+write.csv(sum_inv26,"results/gha26_inv.csv")
+
+####### investigated clusters #######
+####plot behaviour barplot for investigated clusters
+
+########need to order by count
+
+p_beclu26 <- ggplot(sum_inv26,aes( x = reorder(Behaviour_1, -count), y = count)) + geom_col()
+p_beclu26
+
+####time by behaviour
+
+p_timeinv26 <- ggplot(inv_datgha26,aes(x = reorder(Behav, -daysEarly), y = daysEarly)) 
+
+p_timeinv26 +  geom_boxplot() + coord_flip()
+
+# ridge_timeinv <- 
+#   ggplot(inv_datgha26, aes(daysEarly, fct_rev(Behav), color = Behav, fill = Behav)) + 
+#   coord_cartesian(clip = "off") +
+#   scale_y_discrete(expand = c(.07, .07))  
+# 
+# ridge_timeinv +   ggridges::stat_density_ridges(
+#   quantile_lines = TRUE, quantiles = 2, 
+#   color = "black", alpha = .8, size = 1) + xlim(-100,50)
+
+ 
+
+
+##plot fix number by behaviour 
+p_behavfix26 <- ggplot(inv_datgha26, aes(x = Behav, y = Act_fixes)) +
+  geom_boxplot(outlier.shape = NA)  +
+  geom_jitter( colour = "#5ec962", position=position_jitter(0.2), alpha = 0.2) +
+  coord_flip() + ylim(0,100) +
+  geom_vline(xintercept = 1.5) + 
+  geom_vline(xintercept = 3.5) +
+  geom_vline(xintercept = 4.5) +
+  annotate(geom="text", x=5, y=80, label="Energy Acquisition", alpha = .7, size = 6) +
+  annotate(geom="text", x=4, y=80, label="Energy Conservation",alpha = .7, size = 6) +
+  annotate(geom="text", x=2.5, y=80, label="Reproduction", alpha = .7, size = 6) +
+xlab("") + ylab("Number of locations") +
+  ggtitle("e. GHA 26") +
+  theme_bw() +theme_bw()  + theme(
+    panel.background =element_rect(colour = "black", fill=NA, size=1),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(size = 20, hjust = .98, vjust = -8),
+    axis.line = element_line(colour = "black", size = .1),
+    axis.text.x = element_text(size=20),
+    axis.title = element_text(size=20),
+    axis.text.y = element_text(size=20),
+    legend.title=element_text(size=20),
+    legend.text = element_text(size = 20)) 
+p_behavfix26
+
+png('results/behaviourvfixes26.png', width = 10000, height = 7000, res=1000, units="px")
+
+p_behavfix26
+
+dev.off()
+
+
+###add scatter
+
+# p_behavfix + geom_violin() + coord_flip()
+
+# p_behavfix + ggdist::stat_halfeye(
+#   aes(fill = Behaviour_1, fill = after_scale(colorspace::lighten(fill, .7)))
+# )
+
+# ridge_behavfix <- 
+#   ggplot(inv_datgha26, aes(Act_fixes, fct_rev(Behav), color = Behav, fill = Behav)) + 
+#   coord_cartesian(clip = "off") +
+#   scale_y_discrete(expand = c(.07, .07))  
+# 
+# ridge_behavfix +   ggridges::stat_density_ridges(
+#   quantile_lines = TRUE, quantiles = 2, 
+#   color = "black", alpha = .8, size = 1) + 
+#   scale_fill_viridis(discrete = TRUE)
+
+
+##plot radius size by behaviour
+
+
+p_behavrad26 <- ggplot(inv_datgha26,aes(x = reorder(Behav, -Clus_rad_m), y = Clus_rad_m)) +
+  geom_boxplot() + coord_flip() +  
+  xlab("Behaviours") + ylab("Cluster Radius (m)") +
+  theme_bw() +theme_bw()  + theme(
+    panel.background =element_rect(colour = "black", fill=NA, size=1),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line = element_line(colour = "black", size = .1),
+    axis.text.x = element_text(size=20),
+    axis.title = element_text(size=20),
+    axis.text.y = element_text(size=20),
+    legend.title=element_text(size=20),
+    legend.text = element_text(size = 20))
+p_behavrad26
+
+#####add scatter
+
+# ridge_behavrad <- 
+#   ggplot(inv_datgha26, aes(Clus_rad_m, fct_rev(Behav))) + 
+#   coord_cartesian(clip = "off") +
+#   scale_y_discrete(expand = c(.07, .07))  
+# 
+# ridge_behavrad +   ggridges::stat_density_ridges(
+#   quantile_lines = TRUE, quantiles = 2, 
+#   color = "black", alpha = .8, size = 1) + 
+#   scale_fill_viridis(discrete = TRUE) + 
+#   ylab("Behaviours") + xlab("Cluster Radius (m)") +
+#   theme_bw() +theme_bw()  + theme(
+#     panel.background =element_rect(colour = "black", fill=NA, size=1),
+#     panel.border = element_blank(), 
+#     panel.grid.major = element_blank(),
+#     panel.grid.minor = element_blank(),
+#     axis.line = element_line(colour = "black", size = .1),
+#     axis.text.x = element_text(size=20), 
+#     axis.title = element_text(size=20),
+#     axis.text.y = element_text(size=20),
+#     legend.title=element_text(size=20),
+#     legend.text = element_text(size = 20)) 
+
+
+# ridge_behavrad + 
+#   ggridges::stat_density_ridges(
+#     aes(fill = factor(stat(quantile))),
+#     geom = "density_ridges_gradient", calc_ecdf = TRUE,
+#     quantiles = c(0.025, 0.975),
+#     color = "black", size = 1.5
+#   ) +
+#   scale_fill_manual(
+#     name = "Probability:", values = c("lightblue", "grey70", "#003366"),
+#     labels = c("(0, 0.025]", "(0.025, 0.975]", "(0.975, 1]")
+#   ) +
+#   guides(fill = guide_legend(override.aes = list(color = "transparent")))

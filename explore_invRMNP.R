@@ -10,86 +10,91 @@ lapply(libs, require, character.only = TRUE)
 ####Load and subset data ####
 
 ### load All Sites data after cleaning protocol
-datrm <- fread('data/2021-09-17_RMNP_All_Sites.csv')  ###6547 obs
-datrm <- datrm[Act_fixes <= 150] ###6433 obs. ##removes inv match only
+datrmp <- fread('data/2021-09-17_RMNP_All_Sites.csv')  ###6547 obs
+datrmp <- datrmp[Act_fixes <= 150] ###6433 obs. ##removes inv match only
 
 ### clusters matched with investigated sites
-inv_datrm <-datrm[JoinStatus == 'Matched' & finalIgnore == 0]
-inv_datrm$Behaviour_1 <- as.factor(inv_datrm$Behaviour_1)
-summary(inv_datrm$Behaviour_1)
+inv_datrmnp <-datrmp[JoinStatus == 'Matched' & finalIgnore == 0]
+inv_datrmnp$Behaviour_1 <- as.factor(inv_datrmnp$Behaviour_1)
+summary(inv_datrmnp$Behaviour_1)
 
-inv_datrm = inv_datrm[inv_datrm$Behaviour_1 != 'MORT' & inv_datrm$Behaviour_1 != 'Non collared wolf mort',]
+inv_datrmnp = inv_datrmnp[inv_datrmnp$Behaviour_1 != 'MORT' & inv_datrmnp$Behaviour_1 != 'Non collared wolf mort',]
 
 ###create prey categories for kill behavours
 ###clean up behaviours for plotting
-inv_datrm[,'Behav':= as.character('Other')]
-inv_datrm$Behav[inv_datrm$Behaviour_1 =="Kill" & inv_datrm$Calf == 1] <-'Calf Kill'
-inv_datrm$Behav[inv_datrm$Behaviour_1 =="Kill" & inv_datrm$Moose == 1 & inv_datrm$Calf == 0] <- 'Moose Kill'
-inv_datrm$Behav[inv_datrm$Behaviour_1 =="Kill" & inv_datrm$Elk == 1 & inv_datrm$Calf == 0] <- 'Elk Kill'
-inv_datrm$Behav[inv_datrm$Behaviour_1 =="Kill" & inv_datrm$WTD == 1& inv_datrm$Calf == 0] <- 'Deer Kill'
-inv_datrm$Behav[inv_datrm$Behaviour_1 =="Kill" & inv_datrm$Beaver == 1] <- 'Beaver Kill'
-inv_datrm$Behav[inv_datrm$Behaviour_1 =="Probable kill"] <-"Probable Kill"
-inv_datrm$Behav[inv_datrm$Behaviour_1 =="Probable prey encounter"]<-"Probable Kill" ###check this is what we want to do
-inv_datrm$Behav[inv_datrm$Behaviour_1  =="Revisit"]<-"Revisit"
-inv_datrm$Behav[inv_datrm$Behaviour_1  =="Scavenge"]<-"Scavenge"
-inv_datrm$Behav[inv_datrm$Behaviour_1  =="Resting"]<-"Resting"
-inv_datrm$Behav[inv_datrm$Behaviour_1  =="Probable resting"]<-"Resting"
-inv_datrm$Behav[inv_datrm$Behaviour_1  =="Den"]<-"Den"
-inv_datrm$Behav[inv_datrm$Behaviour_1  =="Rendez-vous"]<-"Rendez-vous"
+inv_datrmnp[,'Behav':= as.character('Other')]
+inv_datrmnp$Behav[inv_datrmnp$Behaviour_1 =="Kill" & inv_datrmnp$Calf == 1] <-'Calf Kill'
+inv_datrmnp$Behav[inv_datrmnp$Behaviour_1 =="Kill" & inv_datrmnp$Moose == 1 & inv_datrmnp$Calf == 0] <- 'Moose Kill'
+inv_datrmnp$Behav[inv_datrmnp$Behaviour_1 =="Kill" & inv_datrmnp$Elk == 1 & inv_datrmnp$Calf == 0] <- 'Elk Kill'
+inv_datrmnp$Behav[inv_datrmnp$Behaviour_1 =="Kill" & inv_datrmnp$WTD == 1& inv_datrmnp$Calf == 0] <- 'Deer Kill'
+inv_datrmnp$Behav[inv_datrmnp$Behaviour_1 =="Kill" & inv_datrmnp$Beaver == 1] <- 'Beaver Kill'
+inv_datrmnp$Behav[inv_datrmnp$Behaviour_1 =="Probable kill"] <-"Probable Kill"
+inv_datrmnp$Behav[inv_datrmnp$Behaviour_1 =="Probable prey encounter"]<-"Probable Kill" ###check this is what we want to do
+inv_datrmnp$Behav[inv_datrmnp$Behaviour_1  =="Revisit"]<-"Revisit"
+inv_datrmnp$Behav[inv_datrmnp$Behaviour_1  =="Scavenge"]<-"Scavenge"
+inv_datrmnp$Behav[inv_datrmnp$Behaviour_1  =="Resting"]<-"Resting"
+inv_datrmnp$Behav[inv_datrmnp$Behaviour_1  =="Probable resting"]<-"Resting"
+inv_datrmnp$Behav[inv_datrmnp$Behaviour_1  =="Den"]<-"Den"
+inv_datrmnp$Behav[inv_datrmnp$Behaviour_1  =="Rendez-vous"]<-"Rendez-vous"
 
 
 
 ####specify levels 
-inv_datrm$Behav <- as.factor(inv_datrm$Behav)
-summary(inv_datrm$Behav)
+inv_datrmnp$Behav <- as.factor(inv_datrmnp$Behav)
+summary(inv_datrmnp$Behav)
 
-inv_datrm$Behav <- factor(inv_datrm$Behav , levels = c("Other", "Resting",
+inv_datrmnp$Behav <- factor(inv_datrmnp$Behav , levels = c("Other", 
                                                        "Den", "Rendez-vous",
+                                                       "Resting",
                                                        "Scavenge", "Revisit",
                                                        "Probable Kill", "Beaver Kill", "Calf Kill",  
                                                        "Deer Kill", "Elk Kill","Moose Kill"))
 
 
 ### clusters that are kills
-kclu_datrm <- inv_datrm[Behaviour_1 == "Kill"]
+kclu_datrmp <- inv_datrmnp[Behaviour_1 == "Kill"]
 ### unique kill sites (remove multiple clusters and wolves) 
-ksite_datrm <- kclu_datrm[mwKfirst == 1]
+ksite_datrmp <- kclu_datrmp[mwKfirst == 1]
 
 
 ###calculate mean investigation time for sites
 ####
-summary(as.factor(inv_datrm$Behaviour_1))
+summary(as.factor(inv_datrmnp$Behaviour_1))
 
-sum_inv <- inv_datrm[ , .(days.mean  = mean(daysEarly),
+sum_invrm <- inv_datrmnp[ , .(days.mean  = mean(daysEarly),
                           days.min = min(daysEarly),
                           days.max = max(daysEarly),
                           fix.mean=mean(Act_fixes),
                           fix.min = min(Act_fixes),
                           fix.max=max(Act_fixes),
+                          hr.mean = mean(CluDurHours),
+                          hr.min = min(CluDurHours),
+                          hr.max = max(CluDurHours),
                           rad.mean=mean(Clus_rad_m),
                           rad.min = min(Clus_rad_m),
                           rad.max=max(Clus_rad_m),
                           count = .N
 ), by = Behaviour_1]
-sum_inv
+sum_invrm
 
+write.csv(sum_invrm,"results/rmnp_inv.csv")
 
 ####### investigated clusters #######
 ####plot behaviour barplot for investigated clusters
 
 ########need to order by count
 
-p_beclu <- ggplot(sum_inv,aes( x = reorder(Behaviour_1, -count), y = count)) + geom_col()
-p_beclu
+p_beclurm <- ggplot(sum_invrm,aes( x = reorder(Behaviour_1, -count), y = count)) + geom_col()
+p_beclurm
 
 ####time by behaviour
 
-p_timeinv <- ggplot(inv_datrm,aes(x = reorder(Behav, -daysEarly), y = daysEarly)) 
+p_timeinvrm <- ggplot(inv_datrmnp,aes(x = reorder(Behav, -daysEarly), y = daysEarly)) 
 
-p_timeinv +  geom_boxplot() + coord_flip()
+p_timeinvrm +  geom_boxplot() + coord_flip()
 
 # ridge_timeinv <- 
-#   ggplot(inv_datrm, aes(daysEarly, fct_rev(Behav), color = Behav, fill = Behav)) + 
+#   ggplot(inv_datrmnp, aes(daysEarly, fct_rev(Behav), color = Behav, fill = Behav)) + 
 #   coord_cartesian(clip = "off") +
 #   scale_y_discrete(expand = c(.07, .07))  
 # 
@@ -100,14 +105,18 @@ p_timeinv +  geom_boxplot() + coord_flip()
 
 
 ##plot fix number by behaviour 
-p_behavfix <- ggplot(inv_datrm, aes(x = Behav, y = Act_fixes)) +
+p_behavfixrm <- ggplot(inv_datrmnp, aes(x = Behav, y = Act_fixes)) +
  geom_boxplot(outlier.shape = NA)  +
   geom_jitter( colour = "#5ec962", position=position_jitter(0.2), alpha = 0.2) +
   coord_flip() + ylim(0,100) +
-  geom_vline(xintercept = 2.5) + geom_vline(xintercept = 4.5) +
-  geom_vline(xintercept = 7.5) + 
-  xlab("Behaviours") + ylab("Number of fixes") +
-  ggtitle("b.") +
+  geom_vline(xintercept = 1.5) + 
+  geom_vline(xintercept = 3.5) +
+  geom_vline(xintercept = 4.5) +
+  annotate(geom="text", x=5, y=80, label="Energy Acquisition", alpha = .7, size = 6) +
+  annotate(geom="text", x=4, y=80, label="Energy Conservation",alpha = .7, size = 6) +
+  annotate(geom="text", x=2.5, y=80, label="Reproduction", alpha = .7, size = 6) +
+  xlab("Behaviours") + ylab("Number of locations") +
+  ggtitle("d. RMNP") +
   theme_bw() +theme_bw()  + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
     panel.border = element_blank(),
@@ -120,17 +129,17 @@ p_behavfix <- ggplot(inv_datrm, aes(x = Behav, y = Act_fixes)) +
     axis.text.y = element_text(size=20),
     legend.title=element_text(size=20),
     legend.text = element_text(size = 20)) 
-p_behavfix 
+p_behavfixrm 
 
 png('results/behaviourvfixes.png', width = 10000, height = 7000, res=1000, units="px")
 
-p_behavfix
+p_behavfixrm
 
 dev.off()
 
 png('results/clusterinvestigationsfixes.png', width = 10000, height = 14000, res=1000, units="px")
 
-p_invfix /p_behavfix
+p_invfixrm /p_behavfixrm
 
 dev.off()
 
@@ -144,7 +153,7 @@ dev.off()
 # )
 
 # ridge_behavfix <- 
-#   ggplot(inv_datrm, aes(Act_fixes, fct_rev(Behav), color = Behav, fill = Behav)) + 
+#   ggplot(inv_datrmnp, aes(Act_fixes, fct_rev(Behav), color = Behav, fill = Behav)) + 
 #   coord_cartesian(clip = "off") +
 #   scale_y_discrete(expand = c(.07, .07))  
 # 
@@ -157,7 +166,7 @@ dev.off()
 ##plot radius size by behaviour
 
 
-p_behavrad <- ggplot(inv_datrm,aes(x = reorder(Behav, -Clus_rad_m), y = Clus_rad_m)) +
+p_behavradrm <- ggplot(inv_datrmnp,aes(x = reorder(Behav, -Clus_rad_m), y = Clus_rad_m)) +
  geom_boxplot() + coord_flip() +  
   xlab("Behaviours") + ylab("Cluster Radius (m)") +
     theme_bw() +theme_bw()  + theme(
@@ -171,12 +180,12 @@ p_behavrad <- ggplot(inv_datrm,aes(x = reorder(Behav, -Clus_rad_m), y = Clus_rad
       axis.text.y = element_text(size=20),
       legend.title=element_text(size=20),
       legend.text = element_text(size = 20))
-p_behavrad 
+p_behavradrm
 
 #####add scatter
 
 # ridge_behavrad <- 
-#   ggplot(inv_datrm, aes(Clus_rad_m, fct_rev(Behav))) + 
+#   ggplot(inv_datrmnp, aes(Clus_rad_m, fct_rev(Behav))) + 
 #   coord_cartesian(clip = "off") +
 #   scale_y_discrete(expand = c(.07, .07))  
 # 

@@ -1,7 +1,6 @@
 
 
 
-
 ###run explore cluRMNP and cluGHA26
 ###combine hists and scatterplot 
 
@@ -40,5 +39,71 @@ png('results/clusters_invest.png', width = 25000, height = 20000, res=1200, unit
 
 ((p_histfixrm/p_histfix26)|p_invfix2)/(p_behavfixrm|p_behavfix26)
 
+
+dev.off()
+
+
+
+
+
+#####radius
+
+
+p_invrad2 <- ggplot() +
+  geom_point(data = allctradrm, aes(x = allctradrm$Clus_rad_m, y = propInv,  col = "RMNP"), alpha = 0.5) +
+  geom_point(data = allctrad26, aes(x = allctrad26$Clus_rad_m, y = propInv,  col = "GHA 26"), alpha = 0.5) +
+  geom_smooth(data = allctradrm, aes(x = allctradrm$Clus_rad_m, y = propInv,  col = "RMNP"), alpha = 0.5, se = F) +
+  geom_smooth(data = allctrad26, aes(x = allctrad26$Clus_rad_m, y = propInv,  col = "GHA 26"), alpha = 0.5, se = F) +
+  ylab("Proportion Investigated") +
+  xlab("Cluster Radius (m)") + 
+  theme_bw()  + theme(
+    panel.background =element_rect(colour = "black", fill=NA, size=1),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(size = 20, hjust = .98, vjust = -8),
+    axis.line = element_line(colour = "black", size = .1),
+    axis.text.x = element_text(size=20),
+    axis.title = element_text(size=20),
+    axis.text.y = element_text(size=20),
+    legend.title=element_text(size=20),
+    legend.text = element_text(size = 20),
+    legend.position=c(0.8, 0.7)) 
+p_invrad2 
+
+
+png('results/clusters_investradius.png', width = 12000, height = 10000, res=1200, units="px")
+
+p_invrad2 
+
+dev.off()
+
+
+p_invdur2 <- ggplot() +
+  geom_point(data = allctdurrm, aes(x = allctdurrm$CluDurHours, y = propInv,  col = "RMNP"), alpha = 0.5) +
+  geom_point(data = allctdur26, aes(x = allctdur26$CluDurHours, y = propInv,  col = "GHA 26"), alpha = 0.5) +
+  geom_smooth(data = allctdurrm, aes(x = allctdurrm$CluDurHours, y = propInv,  col = "RMNP"), alpha = 0.5, se = F) +
+  geom_smooth(data = allctdur26, aes(x = allctdur26$CluDurHours, y = propInv,  col = "GHA 26"), alpha = 0.5, se = F) +
+  ylab("Proportion Investigated") +
+  xlab("Cluster Duration (Hours)") + 
+  theme_bw()  + theme(
+    panel.background =element_rect(colour = "black", fill=NA, size=1),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(size = 20, hjust = .98, vjust = -8),
+    axis.line = element_line(colour = "black", size = .1),
+    axis.text.x = element_text(size=20),
+    axis.title = element_text(size=20),
+    axis.text.y = element_text(size=20),
+    legend.title=element_text(size=20),
+    legend.text = element_text(size = 20),
+    legend.position=c(0.8, 0.7)) 
+p_invdur2 
+
+
+png('results/clusters_investduration.png', width = 12000, height = 10000, res=1200, units="px")
+
+p_invdur2 
 
 dev.off()

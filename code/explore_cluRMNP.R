@@ -39,7 +39,7 @@ sum_clurm <- datrmnp[ , .(fix.mean=mean(Act_fixes),
 head(sum_clurm)
 
 
-### proportion of clusters investigated by size
+### proportion of clusters investigated by actual fixes
 catfixrm <- datrmnp
 catfixrm$Act_fixes <- as.factor(catfixrm$Act_fixes)
 catfixrm$JoinStatus <- as.factor(catfixrm$JoinStatus)
@@ -161,15 +161,108 @@ p_invfixrm
 # 
 # dev.off()
 
+### proportion of clusters investigated by radiues
+catradrm <- datrmnp
+catradrm$Clus_rad_m <- as.factor(catradrm$Clus_rad_m)
+catradrm$JoinStatus <- as.factor(catradrm$JoinStatus)
+
+radcountrm <- catradrm[,.(count = .N), by = c('Clus_rad_m', 'JoinStatus')]
+cluctradrm <- radcountrm[JoinStatus == 'CLUonly']
+invctradrm <-radcountrm[JoinStatus == 'Matched']
+allctradrm <- invctradrm[cluctradrm, on = 'Clus_rad_m']
+
+allctradrm[is.na(allctradrm$count), ] <- c(0)  
+
+propinvradrm <- allctradrm[, "propInv" := (count/(count+i.count))]
+propinvradrm <-propinvradrm[, "total" := (count+i.count)]
+
+propinvradrm$Clus_rad_m <-  as.numeric(as.character(propinvrm$Clus_rad_m))
+allctradrm$Clus_rad_m <-  as.numeric(as.character(allctradrm$Clus_rad_m))
+
+
 ### by cluster radius
 p_clu_radrm <- ggplot(datrmnp) +
   geom_histogram(aes(x= Clus_rad_m, colour = JoinStatus), 
                  fill = "white", alpha = 0.2, position = "dodge") +
   geom_vline(data = sum_clurm, aes(xintercept = rad.mean, colour = JoinStatus),
-             linetype="dashed")
-
+             linetype="dashed") +
+  xlab("Count") + ylab("Cluster Radius (meters)") +
+  ggtitle("RMNP") +
+  theme_bw() +theme_bw()  + theme(
+    panel.background =element_rect(colour = "black", fill=NA, size=1),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+#    plot.title = element_text(size = 20, hjust = .98, vjust = -8),
+    axis.line = element_line(colour = "black", size = .1),
+    axis.text.x = element_text(size=20),
+    axis.title = element_text(size=20),
+    axis.text.y = element_text(size=20),
+    legend.title=element_text(size=20),
+    legend.text = element_text(size = 20),
+    legend.position=c(0.7, 0.7)) 
 p_clu_radrm
 
 
+png('results/clu_radrm.png', width = 12000, height = 10000, res=1200, units="px")
+
+p_clu_radrm
+
+dev.off()
 
 
+#####cluster duration 
+
+catdurrm <- datrmnp
+#catdurrm$CluDurHours- as.factor(catdurrm$CluDurHours)
+catdurrm$JoinStatus <- as.factor(catdurrm$JoinStatus)
+
+durcountrm <- catdurrm[,.(count = .N), by = c('CluDurHours', 'JoinStatus')]
+cluctdurrm <- durcountrm[JoinStatus == 'CLUonly']
+invctdurrm <-durcountrm[JoinStatus == 'Matched']
+allctdurrm <- invctdurrm[cluctdurrm, on = 'CluDurHours']
+
+allctdurrm[is.na(allctdurrm$count), ] <- c(0)  
+
+propinvdurrm <- allctdurrm[, "propInv" := (count/(count+i.count))]
+propinvdurrm <-propinvdurrm[, "total" := (count+i.count)]
+
+propinvdurrm$CluDurHours<-  as.numeric(as.character(propinvrm$CluDurHours))
+allctdurrm$CluDurHours <-  as.numeric(as.character(allctrm$CluDurHours))
+
+
+
+
+###### by cluster duration
+p_clu_dur<- ggplot(datrmnp) +
+  geom_histogram(aes(x= CluDurHours, colour = JoinStatus), 
+                 fill = "white", alpha = 0.2, position = "dodge") +
+  geom_vline(data = sum_clurm, aes(xintercept = hr.mean, colour = JoinStatus),
+             linetype="dashed") +
+  xlab("Count") + ylab("Cluster Duration (hours)") +
+  ggtitle("RMNP") +
+  theme_bw() +theme_bw()  + theme(
+    panel.background =element_rect(colour = "black", fill=NA, size=1),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+#    plot.title = element_text(size = 20, hjust = .98, vjust = -8),
+    axis.line = element_line(colour = "black", size = .1),
+    axis.text.x = element_text(size=20),
+    axis.title = element_text(size=20),
+    axis.text.y = element_text(size=20),
+    legend.title=element_text(size=20),
+    legend.text = element_text(size = 20),
+    legend.position=c(0.7, 0.7)) 
+p_clu_dur
+
+
+png('results/clu_durrm.png', width = 12000, height = 10000, res=1200, units="px")
+
+p_clu_dur
+
+dev.off()
+
+
+#### seems the same
+#time <- ggplot(datrmnp) + geom_point(aes(x = CluDurHours, y = Total_hours))

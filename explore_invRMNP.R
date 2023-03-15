@@ -56,28 +56,74 @@ kclu_datrmp <- inv_datrmnp[Behaviour_1 == "Kill"]
 ### unique kill sites (remove multiple clusters and wolves) 
 ksite_datrmp <- kclu_datrmp[mwKfirst == 1]
 
+#####calculate mean for investigated clusters
 
-###calculate mean investigation time for sites
-####
 summary(as.factor(inv_datrmnp$Behaviour_1))
 
-sum_invrm <- inv_datrmnp[ , .(days.mean  = mean(daysEarly),
-                          days.min = min(daysEarly),
-                          days.max = max(daysEarly),
-                          fix.mean=mean(Act_fixes),
-                          fix.min = min(Act_fixes),
-                          fix.max=max(Act_fixes),
-                          hr.mean = mean(CluDurHours),
-                          hr.min = min(CluDurHours),
-                          hr.max = max(CluDurHours),
-                          rad.mean=mean(Clus_rad_m),
-                          rad.min = min(Clus_rad_m),
-                          rad.max=max(Clus_rad_m),
-                          count = .N
+sum_invrm <- inv_datrmnp[ , .(days.med = med(daysEarly),
+                              days.mean  = mean(daysEarly),
+                              days.min = min(daysEarly),
+                              days.max = max(daysEarly),
+                              fix.med = med(Act_fixes),
+                              fix.mean=mean(Act_fixes),
+                              fix.min = min(Act_fixes),
+                              fix.max=max(Act_fixes),
+                              hr.med = median(CluDurHours),
+                              hr.mean = mean(CluDurHours),
+                              hr.min = min(CluDurHours),
+                              hr.max = max(CluDurHours),
+                              rad.med = median(Clus_rad_m),
+                              rad.mean=mean(Clus_rad_m),
+                              rad.min = min(Clus_rad_m),
+                              rad.max=max(Clus_rad_m),
+                              rev.med = median(Site_revisit),
+                              rev.mean = mean(Site_revisit),
+                              rev.min = min(Site_revisit),
+                              rev.max = max(Site_revisit),
+                              away.med = median(Away_ratio),
+                              away.mean = mean(Away_ratio),
+                              away.min = min(Away_ratio),
+                              away.max = max(Away_ratio),
+                              count = .N
 ), by = Behaviour_1]
 sum_invrm
 
 write.csv(sum_invrm,"results/rmnp_inv.csv")
+
+
+###calculate mean investigation time for clusters
+####
+summary(as.factor(inv_datrmnp$Behav))
+
+sum_invrm_2 <- inv_datrmnp[ , .(days.med = med(daysEarly),
+                                days.mean  = mean(daysEarly),
+                                days.min = min(daysEarly),
+                                days.max = max(daysEarly),
+                                fix.med = med(Act_fixes),
+                                fix.mean=mean(Act_fixes),
+                                fix.min = min(Act_fixes),
+                                fix.max=max(Act_fixes),
+                                hr.med = median(CluDurHours),
+                                hr.mean = mean(CluDurHours),
+                                hr.min = min(CluDurHours),
+                                hr.max = max(CluDurHours),
+                                rad.med = median(Clus_rad_m),
+                                rad.mean=mean(Clus_rad_m),
+                                rad.min = min(Clus_rad_m),
+                                rad.max=max(Clus_rad_m),
+                                rev.med = median(Site_revisit),
+                                rev.mean = mean(Site_revisit),
+                                rev.min = min(Site_revisit),
+                                rev.max = max(Site_revisit),
+                                away.med = median(Away_ratio),
+                                away.mean = mean(Away_ratio),
+                                away.min = min(Away_ratio),
+                                away.max = max(Away_ratio),
+                                count = .N
+), by = Behav]
+sum_invrm_2
+
+write.csv(sum_invrm_2,"results/rmnp_inv2.csv")
 
 ####### investigated clusters #######
 ####plot behaviour barplot for investigated clusters
@@ -137,11 +183,7 @@ p_behavfixrm
 
 dev.off()
 
-png('results/clusterinvestigationsfixes.png', width = 10000, height = 14000, res=1000, units="px")
 
-p_invfixrm /p_behavfixrm
-
-dev.off()
 
 
 ###add scatter
@@ -166,8 +208,12 @@ dev.off()
 ##plot radius size by behaviour
 
 
-p_behavradrm <- ggplot(inv_datrmnp,aes(x = reorder(Behav, -Clus_rad_m), y = Clus_rad_m)) +
- geom_boxplot() + coord_flip() +  
+
+p_behavradrm <- ggplot(inv_datrmnp,aes(x = Behav, y = Clus_rad_m)) +
+  geom_boxplot(outlier.shape = NA)  +
+  geom_jitter( position=position_jitter(0.2), alpha = 0.2) +
+  coord_flip() + 
+  ggtitle("RMNP") +
   xlab("Behaviours") + ylab("Cluster Radius (m)") +
     theme_bw() +theme_bw()  + theme(
       panel.background =element_rect(colour = "black", fill=NA, size=1),
@@ -182,7 +228,12 @@ p_behavradrm <- ggplot(inv_datrmnp,aes(x = reorder(Behav, -Clus_rad_m), y = Clus
       legend.text = element_text(size = 20))
 p_behavradrm
 
-#####add scatter
+png('results/behaviour_radrm.png', width = 12000, height = 10000, res=1200, units="px")
+
+p_behavradrm
+
+dev.off()
+
 
 # ridge_behavrad <- 
 #   ggplot(inv_datrmnp, aes(Clus_rad_m, fct_rev(Behav))) + 
@@ -219,3 +270,142 @@ p_behavradrm
 #     labels = c("(0, 0.025]", "(0.025, 0.975]", "(0.975, 1]")
 #   ) +
 #   guides(fill = guide_legend(override.aes = list(color = "transparent")))
+
+###duration
+# p_behavdurrm <- ggplot(inv_datrmnp,aes(x = Behav, y = Total_hours)) +
+#   geom_boxplot(outlier.shape = NA)  +
+#   geom_jitter( colour = "#5ec962", position=position_jitter(0.2), alpha = 0.2) +
+#   coord_flip() + 
+#  #ylim(0,500) +
+#   xlab("Behaviours") + ylab("Duration (hours)") +
+#   theme_bw() +theme_bw()  + theme(
+#     panel.background =element_rect(colour = "black", fill=NA, size=1),
+#     panel.border = element_blank(),
+#     panel.grid.major = element_blank(),
+#     panel.grid.minor = element_blank(),
+#     axis.line = element_line(colour = "black", size = .1),
+#     axis.text.x = element_text(size=20),
+#     axis.title = element_text(size=20),
+#     axis.text.y = element_text(size=20),
+#     legend.title=element_text(size=20),
+#     legend.text = element_text(size = 20))
+# p_behavdurrm
+
+
+# p_behavs_tvr <- ggplot(inv_datrmnp,aes(x = Clus_rad_m, y = Total_hours)) +
+#   geom_point(aes(col = Behav))
+
+
+p_behavdurrm <- ggplot(inv_datrmnp,aes(x = Behav, y = CluDurHours)) +
+  geom_boxplot(outlier.shape = NA)  +
+  geom_jitter(position=position_jitter(0.2), alpha = 0.2) +
+  coord_flip() + 
+  #ylim(0,500) +
+  ggtitle("RMNP") +
+  xlab("Behaviours") + ylab("Duration (hours)") +
+  theme_bw() +theme_bw()  + theme(
+    panel.background =element_rect(colour = "black", fill=NA, size=1),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line = element_line(colour = "black", size = .1),
+    axis.text.x = element_text(size=20),
+    axis.title = element_text(size=20),
+    axis.text.y = element_text(size=20),
+    legend.title=element_text(size=20),
+    legend.text = element_text(size = 20))
+p_behavdurrm
+
+
+
+png('results/behaviour_durrm.png', width = 12000, height = 10000, res=1200, units="px")
+
+p_behavdurrm
+
+dev.off()
+
+p_revisitrm <- ggplot(inv_datrmnp, aes(x = Behav, y = Site_revisit)) +
+  geom_boxplot(outlier.shape = NA)  +
+  geom_jitter(position=position_jitter(0.2), alpha = 0.2) +
+  coord_flip() + 
+  #ylim(0,500) +
+  ggtitle("RMNP") +
+  xlab("Behaviours") + ylab("Revisit") +
+  theme_bw() +theme_bw()  + theme(
+    panel.background =element_rect(colour = "black", fill=NA, size=1),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line = element_line(colour = "black", size = .1),
+    axis.text.x = element_text(size=20),
+    axis.title = element_text(size=20),
+    axis.text.y = element_text(size=20),
+    legend.title=element_text(size=20),
+    legend.text = element_text(size = 20))
+p_revisitrm
+
+
+png('results/behaviour_revisitrm.png', width = 12000, height = 10000, res=1200, units="px")
+
+p_revisitrm
+
+dev.off()
+
+p_awayrm <- ggplot(inv_datrmnp, aes(x = Behav, y = Away_ratio)) +
+  geom_boxplot(outlier.shape = NA)  +
+  geom_jitter(position=position_jitter(0.2), alpha = 0.2) +
+  coord_flip() + 
+  #ylim(0,500) +
+  ggtitle("RMNP") +
+  xlab("Behaviours") + ylab("Away Ratio") +
+  theme_bw() +theme_bw()  + theme(
+    panel.background =element_rect(colour = "black", fill=NA, size=1),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line = element_line(colour = "black", size = .1),
+    axis.text.x = element_text(size=20),
+    axis.title = element_text(size=20),
+    axis.text.y = element_text(size=20),
+    legend.title=element_text(size=20),
+    legend.text = element_text(size = 20))
+p_awayrm
+
+
+png('results/behaviour_awayrm.png', width = 12000, height = 10000, res=1200, units="px")
+
+p_awayrm
+
+dev.off()
+
+
+
+p_investdaysrm <- ggplot(inv_datrmnp, aes(x = Behav, y = daysEarly)) +
+  geom_boxplot(outlier.shape = NA)  +
+  geom_jitter(position=position_jitter(0.2), alpha = 0.2) +
+  coord_flip() + 
+  #ylim(0,500) +
+  ggtitle("RMNP") +
+  xlab("Behaviours") + ylab("Investigation Time (days)") +
+  theme_bw() +theme_bw()  + theme(
+    panel.background =element_rect(colour = "black", fill=NA, size=1),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line = element_line(colour = "black", size = .1),
+    axis.text.x = element_text(size=20),
+    axis.title = element_text(size=20),
+    axis.text.y = element_text(size=20),
+    legend.title=element_text(size=20),
+    legend.text = element_text(size = 20))
+p_investdaysrm
+
+
+png('results/investigationtimerm.png', width = 12000, height = 10000, res=1200, units="px")
+
+p_investdaysrm
+
+dev.off()
+
+
+

@@ -164,14 +164,122 @@ p_histfix26/p_invfix26
 dev.off()
 
 
+
+### proportion of clusters investigated by radiues
+catrad26 <- datgha26
+catrad26$Clus_rad_m <- as.factor(catrad26$Clus_rad_m)
+catrad26$JoinStatus <- as.factor(catrad26$JoinStatus)
+
+radcount26 <- catrad26[,.(count = .N), by = c('Clus_rad_m', 'JoinStatus')]
+cluctrad26 <- radcount26[JoinStatus == 'CLUonly']
+invctrad26 <-radcount26[JoinStatus == 'Matched']
+allctrad26 <- invctrad26[cluctrad26, on = 'Clus_rad_m']
+
+allctrad26[is.na(allctrad26$count), ] <- c(0)  
+
+propinvrad26 <- allctrad26[, "propInv" := (count/(count+i.count))]
+propinvrad26 <-propinvrad26[, "total" := (count+i.count)]
+
+propinvrad26$Clus_rad_m <-  as.numeric(as.character(propinv26$Clus_rad_m))
+allctrad26$Clus_rad_m <-  as.numeric(as.character(allctrad26$Clus_rad_m))
+
+
+
 ### by cluster radius
+
 p_clu_rad26 <- ggplot(datgha26) +
   geom_histogram(aes(x= Clus_rad_m, colour = JoinStatus), 
                  fill = "white", alpha = 0.2, position = "dodge") +
-  geom_vline(data = sum_clu26, aes(xintercept = rad.mean, colour = JoinStatus),
-             linetype="dashed")
+  geom_vline(data = sum_clurm, aes(xintercept = rad.mean, colour = JoinStatus),
+             linetype="dashed") +
+  ggtitle("GHA 26") +
+  xlab("Behaviours") + ylab("Cluster Radius (meters)") +
+  theme_bw() + theme(
+    panel.background =element_rect(colour = "black", fill=NA, size=1),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+#    plot.title = element_text(size = 20, hjust = .98, vjust = -8),
+    axis.line = element_line(colour = "black", size = .1),
+    axis.text.x = element_text(size=20),
+    axis.title = element_text(size=20),
+    axis.text.y = element_text(size=20),
+    legend.title=element_text(size=20),
+    legend.text = element_text(size = 20),
+    legend.position=c(0.7, 0.7)) 
 
 p_clu_rad26
+
+png('results/clu_rad26.png', width = 12000, height = 10000, res=1200, units="px")
+
+p_clu_rad26
+
+dev.off()
+
+
+
+
+#####cluster duration 
+
+catdur26 <- datgha26
+#catdurrm$CluDurHours- as.factor(catdurrm$CluDurHours)
+catdur26$JoinStatus <- as.factor(catdur26$JoinStatus)
+
+durcount26 <- catdur26[,.(count = .N), by = c('CluDurHours', 'JoinStatus')]
+cluctdur26 <- durcount26[JoinStatus == 'CLUonly']
+invctdur26 <-durcount26[JoinStatus == 'Matched']
+allctdur26 <- invctdur26[cluctdur26, on = 'CluDurHours']
+
+allctdur26[is.na(allctdur26$count), ] <- c(0)  
+
+propinvdur26 <- allctdur26[, "propInv" := (count/(count+i.count))]
+propinvdur26 <-propinvdur26[, "total" := (count+i.count)]
+
+propinvdur26$CluDurHours<-  as.numeric(as.character(propinv26$CluDurHours))
+allctdur26$CluDurHours <-  as.numeric(as.character(allct26$CluDurHours))
+
+
+
+
+###### by cluster duration
+p_clu_dur26<- ggplot(datgha26) +
+  geom_histogram(aes(x= CluDurHours, colour = JoinStatus), 
+                 fill = "white", alpha = 0.2, position = "dodge") +
+  geom_vline(data = sum_clu26, aes(xintercept = hr.mean, colour = JoinStatus),
+             linetype="dashed") +
+  ggtitle("GHA 26") +
+  xlab("Behaviours") + ylab("Cluster Duration (hours)") +
+  theme_bw() + theme(
+    panel.background =element_rect(colour = "black", fill=NA, size=1),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+#   plot.title = element_text(size = 20, hjust = .98, vjust = -8),
+    axis.line = element_line(colour = "black", size = .1),
+    axis.text.x = element_text(size=20),
+    axis.title = element_text(size=20),
+    axis.text.y = element_text(size=20),
+    legend.title=element_text(size=20),
+    legend.text = element_text(size = 20),
+    legend.position=c(0.7, 0.7)) 
+
+p_clu_dur26
+
+
+png('results/clu_dur26.png', width = 12000, height = 10000, res=1200, units="px")
+
+p_clu_dur26
+
+dev.off()
+
+
+
+#### seems the same
+#time <- ggplot(datgha26) + geom_point(aes(x = CluDurHours, y = Total_hours))
+
+
+
+
 
 
 

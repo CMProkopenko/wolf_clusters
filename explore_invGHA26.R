@@ -8,6 +8,7 @@ libs <- c('data.table', 'rcartocolor',
 lapply(libs, require, character.only = TRUE)
 
 
+
 ####Load and subset data ####
 
 ### load All Sites data after cleaning protocol
@@ -81,11 +82,40 @@ sum_inv26 <- inv_datgha26[ , .(days.mean  = mean(daysEarly),
                              rad.mean=mean(Clus_rad_m),
                              rad.min = min(Clus_rad_m),
                              rad.max=max(Clus_rad_m),
+                             rev.med = median(Site_revisit),
+                             rev.mean = mean(Site_revisit),
+                             rev.min = min(Site_revisit),
+                             rev.max = max(Site_revisit),
                              count = .N
 ), by = Behaviour_1]
 sum_inv26
 
 write.csv(sum_inv26,"results/gha26_inv.csv")
+
+
+summary(as.factor(inv_datgha26$Behav))
+
+sum_inv26_2<- inv_datgha26[ , .(days.mean  = mean(daysEarly),
+                              days.min = min(daysEarly),
+                              days.max = max(daysEarly),
+                              fix.mean=mean(Act_fixes),
+                              fix.min = min(Act_fixes),
+                              fix.max=max(Act_fixes),
+                              hr.mean = mean(CluDurHours),
+                              hr.min = min(CluDurHours),
+                              hr.max = max(CluDurHours),
+                              rad.mean=mean(Clus_rad_m),
+                              rad.min = min(Clus_rad_m),
+                              rad.max=max(Clus_rad_m),
+                              rev.med = median(Site_revisit),
+                              rev.mean = mean(Site_revisit),
+                              rev.min = min(Site_revisit),
+                              rev.max = max(Site_revisit),
+                              count = .N
+), by = Behav]
+sum_inv26_2
+
+write.csv(sum_inv26_2,"results/gha26_inv2.csv")
 
 ####### investigated clusters #######
 ####plot behaviour barplot for investigated clusters
@@ -169,8 +199,9 @@ dev.off()
 ##plot radius size by behaviour
 
 
-p_behavrad26 <- ggplot(inv_datgha26,aes(x = reorder(Behav, -Clus_rad_m), y = Clus_rad_m)) +
-  geom_boxplot() + coord_flip() +  
+p_behavrad26 <- ggplot(inv_datgha26,aes(x = Behav, y = Clus_rad_m)) +
+  geom_boxplot(outlier.shape = NA) + coord_flip() +  
+  geom_jitter(position=position_jitter(0.2), alpha = 0.2) +
   xlab("Behaviours") + ylab("Cluster Radius (m)") +
   theme_bw() +theme_bw()  + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
@@ -185,7 +216,13 @@ p_behavrad26 <- ggplot(inv_datgha26,aes(x = reorder(Behav, -Clus_rad_m), y = Clu
     legend.text = element_text(size = 20))
 p_behavrad26
 
-#####add scatter
+
+png('results/behaviour_rad26.png', width = 12000, height = 10000, res=1200, units="px")
+
+p_behavrad26
+
+dev.off()
+
 
 # ridge_behavrad <- 
 #   ggplot(inv_datgha26, aes(Clus_rad_m, fct_rev(Behav))) + 
@@ -222,3 +259,85 @@ p_behavrad26
 #     labels = c("(0, 0.025]", "(0.025, 0.975]", "(0.975, 1]")
 #   ) +
 #   guides(fill = guide_legend(override.aes = list(color = "transparent")))
+
+
+p_behavdur26 <- ggplot(inv_datgha26,aes(x = Behav, y = CluDurHours)) +
+  geom_boxplot(outlier.shape = NA ) + coord_flip() +  
+  geom_jitter(position=position_jitter(0.2), alpha = 0.2) +
+  ggtitle("GHA 26") +
+  xlab("Behaviours") + ylab("Cluster Duration (hours)") +
+  theme_bw() +theme_bw()  + theme(
+    panel.background =element_rect(colour = "black", fill=NA, size=1),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line = element_line(colour = "black", size = .1),
+    axis.text.x = element_text(size=20),
+    axis.title = element_text(size=20),
+    axis.text.y = element_text(size=20),
+    legend.title=element_text(size=20),
+    legend.text = element_text(size = 20))
+p_behavdur26
+
+
+png('results/behaviour_dur26.png', width = 12000, height = 10000, res=1200, units="px")
+
+p_behavdur26
+
+dev.off()
+
+
+p_revisit26 <- ggplot(inv_datgha26, aes(x = Behav, y = Site_revisit)) +
+  geom_boxplot(outlier.shape = NA)  +
+  geom_jitter(position=position_jitter(0.2), alpha = 0.2) +
+  coord_flip() + 
+  #ylim(0,500) +
+  ggtitle("GHA 26") +
+  xlab("Behaviours") + ylab("Revisit") +
+  theme_bw() +theme_bw()  + theme(
+    panel.background =element_rect(colour = "black", fill=NA, size=1),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line = element_line(colour = "black", size = .1),
+    axis.text.x = element_text(size=20),
+    axis.title = element_text(size=20),
+    axis.text.y = element_text(size=20),
+    legend.title=element_text(size=20),
+    legend.text = element_text(size = 20))
+p_revisit26
+
+
+png('results/behaviour_revisit26.png', width = 12000, height = 10000, res=1200, units="px")
+
+p_revisit26
+
+dev.off()
+
+
+p_investdays26 <- ggplot(inv_datgha26, aes(x = Behav, y = daysEarly)) +
+  geom_boxplot(outlier.shape = NA)  +
+  geom_jitter(position=position_jitter(0.2), alpha = 0.2) +
+  coord_flip() + 
+  #ylim(0,500) +
+  ggtitle("GHA 26") +
+  xlab("Behaviours") + ylab("Investigation Time (days)") +
+  theme_bw() +theme_bw()  + theme(
+    panel.background =element_rect(colour = "black", fill=NA, size=1),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line = element_line(colour = "black", size = .1),
+    axis.text.x = element_text(size=20),
+    axis.title = element_text(size=20),
+    axis.text.y = element_text(size=20),
+    legend.title=element_text(size=20),
+    legend.text = element_text(size = 20))
+p_investdays26
+
+
+png('results/investigationtime26.png', width = 12000, height = 10000, res=1200, units="px")
+
+p_investdays26
+
+dev.off()

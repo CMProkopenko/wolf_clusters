@@ -70,23 +70,31 @@ ksite_datgha26 <- kclu_datgha26[mwKfirst == 1]
 ####
 summary(as.factor(inv_datgha26$Behaviour_1))
 
-sum_inv26 <- inv_datgha26[ , .(days.mean  = mean(daysEarly),
-                             days.min = min(daysEarly),
-                             days.max = max(daysEarly),
-                             fix.mean=mean(Act_fixes),
-                             fix.min = min(Act_fixes),
-                             fix.max=max(Act_fixes),
-                             hr.mean = mean(CluDurHours),
-                             hr.min = min(CluDurHours),
-                             hr.max = max(CluDurHours),
-                             rad.mean=mean(Clus_rad_m),
-                             rad.min = min(Clus_rad_m),
-                             rad.max=max(Clus_rad_m),
-                             rev.med = median(Site_revisit),
-                             rev.mean = mean(Site_revisit),
-                             rev.min = min(Site_revisit),
-                             rev.max = max(Site_revisit),
-                             count = .N
+sum_inv26 <- inv_datgha26[ , .(days.med = med(daysEarly),
+                               days.mean  = mean(daysEarly),
+                               days.min = min(daysEarly),
+                               days.max = max(daysEarly),
+                               fix.med = med(Act_fixes),
+                               fix.mean=mean(Act_fixes),
+                               fix.min = min(Act_fixes),
+                               fix.max=max(Act_fixes),
+                               hr.med = median(CluDurHours),
+                               hr.mean = mean(CluDurHours),
+                               hr.min = min(CluDurHours),
+                               hr.max = max(CluDurHours),
+                               rad.med = median(Clus_rad_m),
+                               rad.mean=mean(Clus_rad_m),
+                               rad.min = min(Clus_rad_m),
+                               rad.max=max(Clus_rad_m),
+                               rev.med = median(Site_revisit),
+                               rev.mean = mean(Site_revisit),
+                               rev.min = min(Site_revisit),
+                               rev.max = max(Site_revisit),
+                               away.med = median(Away_ratio),
+                               away.mean = mean(Away_ratio),
+                               away.min = min(Away_ratio),
+                               away.max = max(Away_ratio),
+                               count = .N
 ), by = Behaviour_1]
 sum_inv26
 
@@ -95,15 +103,19 @@ write.csv(sum_inv26,"results/gha26_inv.csv")
 
 summary(as.factor(inv_datgha26$Behav))
 
-sum_inv26_2<- inv_datgha26[ , .(days.mean  = mean(daysEarly),
+sum_inv26_2<- inv_datgha26[ , .(days.med = med(daysEarly),
+                              days.mean  = mean(daysEarly),
                               days.min = min(daysEarly),
                               days.max = max(daysEarly),
+                              fix.med = med(Act_fixes),
                               fix.mean=mean(Act_fixes),
                               fix.min = min(Act_fixes),
                               fix.max=max(Act_fixes),
+                              hr.med = median(CluDurHours),
                               hr.mean = mean(CluDurHours),
                               hr.min = min(CluDurHours),
                               hr.max = max(CluDurHours),
+                              rad.med = median(Clus_rad_m),
                               rad.mean=mean(Clus_rad_m),
                               rad.min = min(Clus_rad_m),
                               rad.max=max(Clus_rad_m),
@@ -111,6 +123,10 @@ sum_inv26_2<- inv_datgha26[ , .(days.mean  = mean(daysEarly),
                               rev.mean = mean(Site_revisit),
                               rev.min = min(Site_revisit),
                               rev.max = max(Site_revisit),
+                              away.med = median(Away_ratio),
+                              away.mean = mean(Away_ratio),
+                              away.min = min(Away_ratio),
+                              away.max = max(Away_ratio),
                               count = .N
 ), by = Behav]
 sum_inv26_2
@@ -313,6 +329,35 @@ png('results/behaviour_revisit26.png', width = 12000, height = 10000, res=1200, 
 p_revisit26
 
 dev.off()
+
+
+p_away26 <- ggplot(inv_datgha26, aes(x = Behav, y = Away_ratio)) +
+  geom_boxplot(outlier.shape = NA)  +
+  geom_jitter(position=position_jitter(0.2), alpha = 0.2) +
+  coord_flip() + 
+  #ylim(0,500) +
+  ggtitle("GHA 26") +
+  xlab("Behaviours") + ylab("Away Ratio") +
+  theme_bw() +theme_bw()  + theme(
+    panel.background =element_rect(colour = "black", fill=NA, size=1),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line = element_line(colour = "black", size = .1),
+    axis.text.x = element_text(size=20),
+    axis.title = element_text(size=20),
+    axis.text.y = element_text(size=20),
+    legend.title=element_text(size=20),
+    legend.text = element_text(size = 20))
+p_away26
+
+
+png('results/behaviour_away26.png', width = 12000, height = 10000, res=1200, units="px")
+
+p_away26
+
+dev.off()
+
 
 
 p_investdays26 <- ggplot(inv_datgha26, aes(x = Behav, y = daysEarly)) +

@@ -3,7 +3,7 @@
 # modified by c prokopenko
 
 ###data files 
-
+data/
 2021-09-17_RMNP_All_Sites.csv
 
 ### R ###
@@ -62,3 +62,5 @@ rsconnect/
 /*_files/
 
 # End of https://www.toptal.com/developers/gitignore/api/r
+
+DS_Store

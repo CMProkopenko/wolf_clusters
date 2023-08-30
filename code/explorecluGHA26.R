@@ -11,30 +11,32 @@ lapply(libs, require, character.only = TRUE)
 ####Load and subset data ####
 
 ### load All Sites data after cleaning protocol
-datgha26 <- fread('data/2023-02-22_GHA_All_Clu.csv')  ###11237 obs
-
-##clusters less than 150 actual fixes
+datgha26 <- fread('data/2023-08-01_GHA_K_All_Clu.csv')  ###11833 obs
+summary(datgha26$Act_fixes) ###max Actual fixes 260
+##clusters less than 265 actual fixes
 ##removes inv match only as well because there are no clusters associated
-datgha26 <- datgha26[Act_fixes <= 150] ###11179 obs
-
+datgha26 <- datgha26[Act_fixes <= 300] ###11804 obs
 
 
 ### unique investigated sites (remove multi wolves)
 ####Do not have a column ID for this yet
-### calculate mean actual fixes and radius for clusters
+### calculate stats for actual fixes and radius for clusters
 
 summary(as.factor(datgha26$JoinStatus))
 
 sum_clu26 <- datgha26[ , .(fix.mean=mean(Act_fixes), 
-                          fix.min = min(Act_fixes),
-                          fix.max=max(Act_fixes),
-                          hr.mean = mean(CluDurHours),
-                          hr.min = min(CluDurHours),
-                          hr.max = max(CluDurHours),
-                          rad.mean=mean(Clus_rad_m), 
-                          rad.min = min(Clus_rad_m),
-                          rad.max=max(Clus_rad_m),
-                          count = .N), by = JoinStatus]
+                           fix.med=median(Act_fixes),
+                           fix.min = min(Act_fixes),
+                           fix.max=max(Act_fixes),
+                           hr.mean = mean(CluDurHours),
+                           hr.med = median(CluDurHours),
+                           hr.min = min(CluDurHours),
+                           hr.max = max(CluDurHours),
+                           rad.mean=mean(Clus_rad_m), 
+                           rad.med=median(Clus_rad_m),
+                           rad.min = min(Clus_rad_m),
+                           rad.max=max(Clus_rad_m),
+                           count = .N), by = JoinStatus]
 
 head(sum_clu26)
 
@@ -49,7 +51,17 @@ cluct26 <- fixcount26[JoinStatus == 'CLUonly']
 invct26  <-fixcount26[JoinStatus == 'Matched']
 allct26  <- invct26 [cluct26, on = 'Act_fixes']
 
-allct26 [is.na(allct26 $count), ] <- 0 
+###if for a point number it is NA I just want it to be 0 for count,
+##but if Matched is NA then it should still be matched even if the count is 0
+
+
+allct26$count <- as.numeric(allct26$count)
+allct26$i.count <- as.numeric(allct26$i.count)
+
+allct26$JoinStatus[is.na(allct26$JoinStatus)]  <- "Matched"
+allct26$count[is.na(allct26$count)]  <- 0
+
+
 
 allct26  <- allct26 [, "propInv" := (count/(count+i.count))]
 allct26  <-allct26 [, "total" := (count+i.count)]
@@ -112,10 +124,10 @@ p_clu26
 p_histfix26 <- ggplot() +
   geom_histogram(data = datgha26, aes(x= Act_fixes,fill = JoinStatus, colour = JoinStatus),
                    alpha = 0.1, size = 0.9, binwidth = 2) +
-  geom_vline(data = sum_clu26, aes(xintercept = fix.mean, colour = JoinStatus),
+  geom_vline(data = sum_clu26, aes(xintercept = fix.med, colour = JoinStatus),
                linetype="dashed", size = 0.9) +
-  ylab("Frequency") + ylim(0,5000) +
-  xlab("Number of locations") +   xlim(0,100) +
+  ylab("Frequency") + #ylim(0,6000) +
+  xlab("Number of locations") +   #xlim(0,100) +
   ggtitle("b. GHA 26") + 
   scale_colour_manual(values = c("#3b528b","#5ec962"),labels=c('Not Investigated', 'Investigated'), name = "Cluster Status") +
   scale_fill_manual(values = c("#3b528b","#5ec962"),labels=c('Not Investigated', 'Investigated'), name = "Cluster Status") +
@@ -190,7 +202,7 @@ allctrad26$Clus_rad_m <-  as.numeric(as.character(allctrad26$Clus_rad_m))
 p_clu_rad26 <- ggplot(datgha26) +
   geom_histogram(aes(x= Clus_rad_m, colour = JoinStatus), 
                  fill = "white", alpha = 0.2, position = "dodge") +
-  geom_vline(data = sum_clurm, aes(xintercept = rad.mean, colour = JoinStatus),
+  geom_vline(data = sum_clurm, aes(xintercept = rad.med, colour = JoinStatus),
              linetype="dashed") +
   ggtitle("GHA 26") +
   xlab("Behaviours") + ylab("Cluster Radius (meters)") +
@@ -245,7 +257,7 @@ allctdur26$CluDurHours <-  as.numeric(as.character(allct26$CluDurHours))
 p_clu_dur26<- ggplot(datgha26) +
   geom_histogram(aes(x= CluDurHours, colour = JoinStatus), 
                  fill = "white", alpha = 0.2, position = "dodge") +
-  geom_vline(data = sum_clu26, aes(xintercept = hr.mean, colour = JoinStatus),
+  geom_vline(data = sum_clu26, aes(xintercept = hr.med, colour = JoinStatus),
              linetype="dashed") +
   ggtitle("GHA 26") +
   xlab("Behaviours") + ylab("Cluster Duration (hours)") +

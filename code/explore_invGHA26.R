@@ -12,11 +12,13 @@ lapply(libs, require, character.only = TRUE)
 ####Load and subset data ####
 
 ### load All Sites data after cleaning protocol
-datgha26 <- fread('data/2023-02-22_GHA_All_Clu.csv')  ###11237 obs
+datgha26 <- fread('data/2023-08-01_GHA_K_All_Clu.csv')  ###11237 obs
 
-##clusters less than 150 actual fixes
+summary(datgha26$Act_fixes) ###max Actual fixes 260
+##clusters less than 265 actual fixes
 ##removes inv match only as well because there are no clusters associated
-datgha26 <- datgha26[Act_fixes <= 150] ###11179 obs
+datgha26 <- datgha26[Act_fixes <= 265] ###11804 obs
+
 
 
 
@@ -24,7 +26,7 @@ datgha26 <- datgha26[Act_fixes <= 150] ###11179 obs
 inv_datgha26 <-datgha26[JoinStatus == 'Matched' & finalIgnore == 0]
 inv_datgha26$Behaviour_1 <- as.factor(inv_datgha26$Behaviour_1)
 summary(inv_datgha26$Behaviour_1)
-summary(inv_datgha26$Behaviour_1)
+
 
 
 #####Morts not included in GHA data
@@ -70,11 +72,11 @@ ksite_datgha26 <- kclu_datgha26[mwKfirst == 1]
 ####
 summary(as.factor(inv_datgha26$Behaviour_1))
 
-sum_inv26 <- inv_datgha26[ , .(days.med = med(daysEarly),
+sum_inv26 <- inv_datgha26[ , .(days.med = median(daysEarly),
                                days.mean  = mean(daysEarly),
                                days.min = min(daysEarly),
                                days.max = max(daysEarly),
-                               fix.med = med(Act_fixes),
+                               fix.med = median(Act_fixes),
                                fix.mean=mean(Act_fixes),
                                fix.min = min(Act_fixes),
                                fix.max=max(Act_fixes),
@@ -103,11 +105,11 @@ write.csv(sum_inv26,"results/gha26_inv.csv")
 
 summary(as.factor(inv_datgha26$Behav))
 
-sum_inv26_2<- inv_datgha26[ , .(days.med = med(daysEarly),
+sum_inv26_2<- inv_datgha26[ , .(days.med = median(daysEarly),
                               days.mean  = mean(daysEarly),
                               days.min = min(daysEarly),
                               days.max = max(daysEarly),
-                              fix.med = med(Act_fixes),
+                              fix.med = median(Act_fixes),
                               fix.mean=mean(Act_fixes),
                               fix.min = min(Act_fixes),
                               fix.max=max(Act_fixes),
@@ -163,13 +165,13 @@ p_timeinv26 +  geom_boxplot() + coord_flip()
 p_behavfix26 <- ggplot(inv_datgha26, aes(x = Behav, y = Act_fixes)) +
   geom_boxplot(outlier.shape = NA)  +
   geom_jitter( colour = "#5ec962", position=position_jitter(0.2), alpha = 0.2) +
-  coord_flip() + ylim(0,100) +
+  coord_flip() + #ylim(0,100) +
   geom_vline(xintercept = 1.5) + 
   geom_vline(xintercept = 3.5) +
   geom_vline(xintercept = 4.5) +
-  annotate(geom="text", x=5, y=80, label="Energy Acquisition", alpha = .7, size = 6) +
-  annotate(geom="text", x=4, y=80, label="Energy Conservation",alpha = .7, size = 6) +
-  annotate(geom="text", x=2.5, y=80, label="Reproduction", alpha = .7, size = 6) +
+  annotate(geom="text", x=5, y=200, label="Energy Acquisition", alpha = .7, size = 6) +
+  annotate(geom="text", x=4, y=200, label="Energy Conservation",alpha = .7, size = 6) +
+  annotate(geom="text", x=2.5, y=200, label="Reproduction", alpha = .7, size = 6) +
 xlab("") + ylab("Number of locations") +
   ggtitle("e. GHA 26") +
   theme_bw() +theme_bw()  + theme(

@@ -11,7 +11,7 @@ p_invfix2 <- ggplot() +
   geom_point(data = allct26 , aes(x = allct26 $Act_fixes, y = propInv, col = "GHA 26"), alpha = 0.5) + 
   geom_smooth(data = allct26 , aes(x = allct26 $Act_fixes, y = propInv, col = "GHA 26"), span = .75, se = F, size = 0.9) +
   ylab("Proportion Investigated") +
-  xlab("Number of locations") +   xlim(0,100) +
+  xlab("Number of locations") +   #xlim(0,100) +
   ggtitle("c.") + 
   scale_colour_manual(values = c("#440154","#21918c"),labels=c('GHA 26', 'RMNP'), name = "Study Area") +
   scale_fill_manual(values = c("#440154","#21918c"),labels=c('GHA 26', 'RMNP'), name = "Study Area") +

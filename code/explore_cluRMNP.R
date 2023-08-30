@@ -11,27 +11,36 @@ lapply(libs, require, character.only = TRUE)
 ####Load and subset data ####
 
 ### load All Sites data after cleaning protocol
-datrmnp <- fread('data/2021-09-17_RMNP_All_Sites.csv')  ###6547 obs
+datrmnp <- fread('data/2023-02-22_RMNP_K_All_Clu.csv')  ###6547 obs
+
+summary(datrmnp$Act_fixes) ###max actual fixes 275
 
 ##clusters less than 150 actual fixes
 ##removes inv match only as well because there are no clusters associated
-datrmnp <- datrmnp[Act_fixes <= 150] ###6433 obs
+datrmnp <- datrmnp[Act_fixes <= 300] ###6433 obs
 
 
 
 ### unique investigated sites (remove multi wolves)
 ####Do not have a column ID for this yet
-### calculate mean actual fixes and radius for clusters
+
+summary (datrmnp$mwKid)
+
+
+### calculate stats for actual fixes and radius for clusters
 
 summary(as.factor(datrmnp$JoinStatus))
 
 sum_clurm <- datrmnp[ , .(fix.mean=mean(Act_fixes), 
+                   fix.med=median(Act_fixes),
                    fix.min = min(Act_fixes),
                    fix.max=max(Act_fixes),
                    hr.mean = mean(CluDurHours),
+                   hr.med = median(CluDurHours),
                    hr.min = min(CluDurHours),
                    hr.max = max(CluDurHours),
                    rad.mean=mean(Clus_rad_m), 
+                   rad.med=median(Clus_rad_m),
                    rad.min = min(Clus_rad_m),
                    rad.max=max(Clus_rad_m),
                    count = .N), by = JoinStatus]
@@ -44,12 +53,25 @@ catfixrm <- datrmnp
 catfixrm$Act_fixes <- as.factor(catfixrm$Act_fixes)
 catfixrm$JoinStatus <- as.factor(catfixrm$JoinStatus)
 
+
 fixcountrm <- catfixrm[,.(count = .N), by = c('Act_fixes', 'JoinStatus')]
 cluctrm <- fixcountrm[JoinStatus == 'CLUonly']
 invctrm <-fixcountrm[JoinStatus == 'Matched']
 allctrm <- invctrm[cluctrm, on = 'Act_fixes']
 
-allctrm[is.na(allctrm$count), ] <- c(0)  
+
+
+###if for a point number it is NA I just want it to be 0 for count,
+##but if Matched is NA then it should still be matched even if the count is 0
+
+
+allctrm$count <- as.numeric(allctrm$count)
+allctrm$i.count <- as.numeric(allctrm$i.count)
+
+allctrm$JoinStatus[is.na(allctrm$JoinStatus)]  <- "Matched"
+allctrm$count[is.na(allctrm$count)]  <- 0
+
+
 
 propinvrm <- allctrm[, "propInv" := (count/(count+i.count))]
 propinvrm <-propinvrm[, "total" := (count+i.count)]
@@ -62,7 +84,7 @@ allctrm$Act_fixes <-  as.numeric(as.character(allctrm$Act_fixes))
 
 p_clu <- ggplot() +
   geom_histogram(data = datrmnp, aes(x= Act_fixes, colour = JoinStatus), 
-                 fill = "white", alpha = 0.2, position = "dodge") +
+                 fill = "white", alpha = 0.2, position = "dodge", binwidth = 2) +
   geom_vline(data = sum_clurm, aes(xintercept = fix.mean, colour = JoinStatus),
              linetype="dashed") 
 
@@ -111,10 +133,10 @@ p_clu
 p_histfixrm <- ggplot() +
   geom_histogram(data = datrmnp, aes(x= Act_fixes,fill = JoinStatus, colour = JoinStatus),
                  alpha = 0.1, size = 0.9, binwidth = 2) +
-  geom_vline(data = sum_clurm, aes(xintercept = fix.mean, colour = JoinStatus),
+  geom_vline(data = sum_clurm, aes(xintercept = fix.med, colour = JoinStatus),
              linetype="dashed", size = 0.9) +
-  ylab("Frequency") + ylim(0,3000) +
-  xlab("Number of locations") +  xlim(0,100) +
+  ylab("Frequency") + #ylim(0,6000) +
+  xlab("Number of locations") + #xlim(0,100) +
   ggtitle("a. RMNP") + 
   scale_colour_manual(values = c("#3b528b","#5ec962"),labels=c('Not Investigated', 'Investigated'), name = "Cluster Status") +
   scale_fill_manual(values = c("#3b528b","#5ec962"),labels=c('Not Investigated', 'Investigated'), name = "Cluster Status") +
@@ -184,7 +206,7 @@ allctradrm$Clus_rad_m <-  as.numeric(as.character(allctradrm$Clus_rad_m))
 p_clu_radrm <- ggplot(datrmnp) +
   geom_histogram(aes(x= Clus_rad_m, colour = JoinStatus), 
                  fill = "white", alpha = 0.2, position = "dodge") +
-  geom_vline(data = sum_clurm, aes(xintercept = rad.mean, colour = JoinStatus),
+  geom_vline(data = sum_clurm, aes(xintercept = rad.med, colour = JoinStatus),
              linetype="dashed") +
   xlab("Count") + ylab("Cluster Radius (meters)") +
   ggtitle("RMNP") +
@@ -222,7 +244,7 @@ cluctdurrm <- durcountrm[JoinStatus == 'CLUonly']
 invctdurrm <-durcountrm[JoinStatus == 'Matched']
 allctdurrm <- invctdurrm[cluctdurrm, on = 'CluDurHours']
 
-allctdurrm[is.na(allctdurrm$count), ] <- c(0)  
+allctdurrm[is.na(allctdurrm$count), ] <- c(0)
 
 propinvdurrm <- allctdurrm[, "propInv" := (count/(count+i.count))]
 propinvdurrm <-propinvdurrm[, "total" := (count+i.count)]
@@ -237,7 +259,7 @@ allctdurrm$CluDurHours <-  as.numeric(as.character(allctrm$CluDurHours))
 p_clu_dur<- ggplot(datrmnp) +
   geom_histogram(aes(x= CluDurHours, colour = JoinStatus), 
                  fill = "white", alpha = 0.2, position = "dodge") +
-  geom_vline(data = sum_clurm, aes(xintercept = hr.mean, colour = JoinStatus),
+  geom_vline(data = sum_clurm, aes(xintercept = hr.med, colour = JoinStatus),
              linetype="dashed") +
   xlab("Count") + ylab("Cluster Duration (hours)") +
   ggtitle("RMNP") +

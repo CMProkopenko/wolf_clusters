@@ -10,8 +10,8 @@ lapply(libs, require, character.only = TRUE)
 ####Load and subset data ####
 
 ### load All Sites data after cleaning protocol
-datrmp <- fread('data/2021-09-17_RMNP_All_Sites.csv')  ###6547 obs
-datrmp <- datrmp[Act_fixes <= 150] ###6433 obs. ##removes inv match only
+datrmp <- fread('data/2023-02-22_RMNP_K_All_Clu.csv')  ###6547 obs
+datrmp <- datrmp[Act_fixes <= 300] ###6433 obs. ##removes inv match only
 
 ### clusters matched with investigated sites
 inv_datrmnp <-datrmp[JoinStatus == 'Matched' & finalIgnore == 0]
@@ -56,15 +56,15 @@ kclu_datrmp <- inv_datrmnp[Behaviour_1 == "Kill"]
 ### unique kill sites (remove multiple clusters and wolves) 
 ksite_datrmp <- kclu_datrmp[mwKfirst == 1]
 
-#####calculate mean for investigated clusters
+#####calculate stats for investigated clusters
 
 summary(as.factor(inv_datrmnp$Behaviour_1))
 
-sum_invrm <- inv_datrmnp[ , .(days.med = med(daysEarly),
+sum_invrm <- inv_datrmnp[ , .(days.med = median(daysEarly),
                               days.mean  = mean(daysEarly),
                               days.min = min(daysEarly),
                               days.max = max(daysEarly),
-                              fix.med = med(Act_fixes),
+                              fix.med = median(Act_fixes),
                               fix.mean=mean(Act_fixes),
                               fix.min = min(Act_fixes),
                               fix.max=max(Act_fixes),
@@ -91,15 +91,15 @@ sum_invrm
 write.csv(sum_invrm,"results/rmnp_inv.csv")
 
 
-###calculate mean investigation time for clusters
+###calculate stats investigation time for clusters
 ####
 summary(as.factor(inv_datrmnp$Behav))
 
-sum_invrm_2 <- inv_datrmnp[ , .(days.med = med(daysEarly),
+sum_invrm_2 <- inv_datrmnp[ , .(days.med = median(daysEarly),
                                 days.mean  = mean(daysEarly),
                                 days.min = min(daysEarly),
                                 days.max = max(daysEarly),
-                                fix.med = med(Act_fixes),
+                                fix.med = median(Act_fixes),
                                 fix.mean=mean(Act_fixes),
                                 fix.min = min(Act_fixes),
                                 fix.max=max(Act_fixes),
@@ -154,13 +154,13 @@ p_timeinvrm +  geom_boxplot() + coord_flip()
 p_behavfixrm <- ggplot(inv_datrmnp, aes(x = Behav, y = Act_fixes)) +
  geom_boxplot(outlier.shape = NA)  +
   geom_jitter( colour = "#5ec962", position=position_jitter(0.2), alpha = 0.2) +
-  coord_flip() + ylim(0,100) +
+  coord_flip() + #ylim(0,100) +
   geom_vline(xintercept = 1.5) + 
   geom_vline(xintercept = 3.5) +
   geom_vline(xintercept = 4.5) +
-  annotate(geom="text", x=5, y=80, label="Energy Acquisition", alpha = .7, size = 6) +
-  annotate(geom="text", x=4, y=80, label="Energy Conservation",alpha = .7, size = 6) +
-  annotate(geom="text", x=2.5, y=80, label="Reproduction", alpha = .7, size = 6) +
+  annotate(geom="text", x=5, y=120, label="Energy Acquisition", alpha = .7, size = 6) +
+  annotate(geom="text", x=4, y=120, label="Energy Conservation",alpha = .7, size = 6) +
+  annotate(geom="text", x=2.5, y=120, label="Reproduction", alpha = .7, size = 6) +
   xlab("Behaviours") + ylab("Number of locations") +
   ggtitle("d. RMNP") +
   theme_bw() +theme_bw()  + theme(

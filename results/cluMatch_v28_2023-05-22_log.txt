@@ -1,0 +1,1001 @@
+>>> CMD#: 54  Action: Early
+>>> CMD#: 55  Action: Review
+>>> CMD#: 56  Action: Early
+>>> CMD#: 57  Action: Early
+>>> CMD#: 58  Action: Early
+>>> CMD#: 59  Action: Late
+>>> CMD#: 60  Action: Late
+>>> CMD#: 61  Action: Early
+>>> CMD#: 62  Action: Early
+>>> CMD#: 63  Action: Early
+>>> CMD#: 64  Action: Early
+>>> CMD#: 65  Action: Edit
+>>> CMD#: 66  Action: Review
+>>> CMD#: 67  Action: Early
+>>> CMD#: 68  Action: Early
+>>> CMD#: 69  Action: Early
+>>> CMD#: 70  Action: Early
+>>> CMD#: 71  Action: Early
+>>> CMD#: 72  Action: Early
+>>> CMD#: 73  Action: Early
+>>> CMD#: 74  Action: Early
+>>> CMD#: 75  Action: Edit
+>>> CMD#: 76  Action: Edit
+>>> CMD#: 77  Action: Review
+>>> CMD#: 78  Action: Early
+>>> CMD#: 79  Action: Edit
+>>> CMD#: 80  Action: Edit
+>>> CMD#: 81  Action: Edit
+>>> CMD#: 82  Action: Edit
+>>> CMD#: 83  Action: Review
+>>> CMD#: 84  Action: Ok
+>>> CMD#: 85  Action: Ok
+>>> CMD#: 86  Action: Ok
+>>> CMD#: 87  Action: Ok
+>>> CMD#: 88  Action: Review
+>>> CMD#: 89  Action: Review
+>>> CMD#: 90  Action: Ok
+>>> CMD#: 91  Action: Review
+>>> CMD#: 92  Action: Review
+>>> CMD#: 93  Action: Late
+>>> CMD#: 94  Action: Late
+>>> CMD#: 95  Action: Edit
+>>> CMD#: 96  Action: Edit
+>>> CMD#: 97  Action: Edit
+>>> CMD#: 98  Action: Edit
+>>> CMD#: 99  Action: Edit
+>>> CMD#: 100  Action: Edit
+>>> CMD#: 101  Action: Edit
+>>> CMD#: 102  Action: Edit
+>>> CMD#: 103  Action: Edit
+>>> CMD#: 104  Action: Review
+>>> CMD#: 105  Action: Edit
+>>> CMD#: 106  Action: Edit
+>>> CMD#: 107  Action: Ok
+>>> CMD#: 108  Action: Review
+>>> CMD#: 109  Action: Early
+>>> CMD#: 110  Action: Review
+>>> CMD#: 111  Action: Edit
+>>> CMD#: 112  Action: Edit
+>>> CMD#: 113  Action: Review
+>>> CMD#: 114  Action: Edit
+>>> CMD#: 115  Action: Review
+>>> CMD#: 116  Action: Review
+>>> CMD#: 117  Action: Edit
+>>> CMD#: 118  Action: Edit
+>>> CMD#: 119  Action: Edit
+>>> CMD#: 120  Action: Review
+>>> CMD#: 121  Action: Review
+>>> CMD#: 122  Action: Ok
+>>> CMD#: 123  Action: Edit
+>>> CMD#: 124  Action: Review
+>>> CMD#: 125  Action: Edit
+>>> CMD#: 126  Action: Edit
+>>> CMD#: 127  Action: Edit
+>>> CMD#: 128  Action: Review
+>>> CMD#: 129  Action: Review
+>>> CMD#: 130  Action: Ok
+>>> CMD#: 131  Action: Ok
+>>> CMD#: 132  Action: Review
+>>> CMD#: 133  Action: Review
+>>> CMD#: 134  Action: Review
+>>> CMD#: 135  Action: Review
+>>> CMD#: 136  Action: Edit
+>>> CMD#: 137  Action: Review
+>>> CMD#: 138  Action: Edit
+>>> CMD#: 139  Action: Edit
+>>> CMD#: 140  Action: Review
+>>> CMD#: 141  Action: Review
+>>> CMD#: 142  Action: Review
+>>> CMD#: 143  Action: Edit
+>>> CMD#: 144  Action: Edit
+>>> CMD#: 145  Action: Ok
+>>> CMD#: 146  Action: Review
+>>> CMD#: 147  Action: Review
+>>> CMD#: 148  Action: Edit
+>>> CMD#: 149  Action: Edit
+>>> CMD#: 150  Action: Edit
+>>> CMD#: 151  Action: Review
+>>> CMD#: 152  Action: Ok
+>>> CMD#: 153  Action: Review
+>>> CMD#: 154  Action: Edit
+>>> CMD#: 155  Action: Review
+>>> CMD#: 156  Action: Edit
+>>> CMD#: 157  Action: Review
+>>> CMD#: 158  Action: Review
+>>> CMD#: 159  Action: Edit
+>>> CMD#: 160  Action: Edit
+>>> CMD#: 161  Action: Edit
+>>> CMD#: 162  Action: Review
+>>> CMD#: 163  Action: Review
+>>> CMD#: 164  Action: Ok
+>>> CMD#: 165  Action: Review
+>>> CMD#: 166  Action: Review
+>>> CMD#: 167  Action: Review
+>>> CMD#: 168  Action: Edit
+>>> CMD#: 169  Action: Review
+>>> CMD#: 170  Action: Review
+>>> CMD#: 171  Action: Review
+>>> CMD#: 172  Action: Review
+>>> CMD#: 173  Action: Review
+>>> CMD#: 174  Action: Review
+>>> CMD#: 175  Action: Review
+>>> CMD#: 176  Action: Review
+>>> CMD#: 177  Action: Review
+>>> CMD#: 178  Action: Review
+>>> CMD#: 179  Action: Ok
+>>> CMD#: 180  Action: Review
+>>> CMD#: 181  Action: Review
+>>> CMD#: 182  Action: Review
+>>> CMD#: 183  Action: Review
+>>> CMD#: 184  Action: Ok
+>>> CMD#: 185  Action: Review
+>>> CMD#: 186  Action: Review
+>>> CMD#: 187  Action: Review
+>>> CMD#: 188  Action: Review
+>>> CMD#: 189  Action: Review
+>>> CMD#: 190  Action: Review
+>>> CMD#: 191  Action: Review
+>>> CMD#: 192  Action: Review
+>>> CMD#: 193  Action: Ok
+>>> CMD#: 194  Action: Ok
+>>> CMD#: 195  Action: Review
+>>> CMD#: 196  Action: Review
+>>> CMD#: 197  Action: Review
+>>> CMD#: 198  Action: Review
+>>> CMD#: 199  Action: Ok
+>>> CMD#: 200  Action: Ok
+>>> CMD#: 201  Action: Ok
+>>> CMD#: 202  Action: Review
+>>> CMD#: 203  Action: Review
+>>> CMD#: 204  Action: Review
+>>> CMD#: 205  Action: Ok
+>>> CMD#: 206  Action: Review
+>>> CMD#: 207  Action: Ok
+>>> CMD#: 208  Action: Ok
+>>> CMD#: 209  Action: Review
+>>> CMD#: 210  Action: Edit
+>>> CMD#: 211  Action: Review
+>>> CMD#: 212  Action: Review
+>>> CMD#: 213  Action: Review
+>>> CMD#: 214  Action: Ok
+>>> CMD#: 215  Action: Edit
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_5137_20180323_210000 Kill GF_20180412_02 cmd# 215
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 1 : GF_5137_20180323_210000 : NA : Kill : GF_20180412_02 : NA cmd# 215
+>>> CMD#: 216  Action: Edit
+>>> CMD#: 217  Action: Review
+>>> CMD#: 218  Action: Edit
+>>> CMD#: 219  Action: Review
+>>> CMD#: 220  Action: Ok
+>>> CMD#: 221  Action: Review
+>>> CMD#: 222  Action: Review
+>>> CMD#: 223  Action: Review
+>>> CMD#: 224  Action: Ok
+>>> CMD#: 225  Action: Review
+>>> CMD#: 226  Action: Review
+>>> CMD#: 227  Action: Review
+>>> CMD#: 228  Action: Review
+>>> CMD#: 229  Action: Ok
+>>> CMD#: 230  Action: Review
+>>> CMD#: 231  Action: Review
+>>> CMD#: 232  Action: Ok
+>>> CMD#: 233  Action: Ok
+>>> CMD#: 234  Action: Review
+>>> CMD#: 235  Action: Ok
+>>> CMD#: 236  Action: Review
+>>> CMD#: 237  Action: Edit
+>>> CMD#: 238  Action: Review
+>>> CMD#: 239  Action: Ok
+>>> CMD#: 240  Action: Review
+>>> CMD#: 241  Action: Ok
+>>> CMD#: 242  Action: Ok
+>>> CMD#: 243  Action: Review
+>>> CMD#: 244  Action: Edit
+ +++ WARNING - Multiple Commands affecting same data row: 1535 xrefID: 295  Manual Action cmd#: 244 overriding Action: Ok from Manual Action cmd#: 194
+>>> CMD#: 245  Action: Review
+>>> CMD#: 246  Action: Review
+>>> CMD#: 247  Action: Ok
+>>> CMD#: 248  Action: Review
+>>> CMD#: 249  Action: Review
+>>> CMD#: 250  Action: Ok
+>>> CMD#: 251  Action: Review
+>>> CMD#: 252  Action: Edit
+>>> CMD#: 253  Action: Review
+>>> CMD#: 254  Action: Review
+>>> CMD#: 255  Action: Ok
+>>> CMD#: 256  Action: Review
+>>> CMD#: 257  Action: Review
+>>> CMD#: 258  Action: Ok
+>>> CMD#: 259  Action: Edit
+>>> CMD#: 260  Action: Edit
+>>> CMD#: 261  Action: Review
+>>> CMD#: 262  Action: Edit
+>>> CMD#: 263  Action: Ok
+>>> CMD#: 264  Action: Edit
+>>> CMD#: 265  Action: Review
+>>> CMD#: 266  Action: Review
+>>> CMD#: 267  Action: Ok
+>>> CMD#: 268  Action: Ok
+>>> CMD#: 269  Action: Review
+>>> CMD#: 270  Action: Review
+>>> CMD#: 271  Action: Review
+>>> CMD#: 272  Action: Edit
+>>> CMD#: 273  Action: Review
+>>> CMD#: 274  Action: Edit
+>>> CMD#: 275  Action: Review
+>>> CMD#: 276  Action: Edit
+>>> CMD#: 277  Action: Review
+>>> CMD#: 278  Action: Ok
+>>> CMD#: 279  Action: Ok
+>>> CMD#: 280  Action: Edit
+>>> CMD#: 281  Action: Review
+>>> CMD#: 282  Action: Review
+>>> CMD#: 283  Action: Edit
+>>> CMD#: 284  Action: Ok
+>>> CMD#: 285  Action: Review
+>>> CMD#: 286  Action: Ok
+>>> CMD#: 287  Action: Ok
+>>> CMD#: 288  Action: Review
+>>> CMD#: 289  Action: Review
+>>> CMD#: 290  Action: Ok
+>>> CMD#: 291  Action: Review
+>>> CMD#: 292  Action: Ok
+>>> CMD#: 293  Action: Ok
+>>> CMD#: 294  Action: Review
+>>> CMD#: 295  Action: Review
+>>> CMD#: 296  Action: Edit
+>>> CMD#: 297  Action: Ok
+>>> CMD#: 298  Action: Ok
+>>> CMD#: 299  Action: Ok
+>>> CMD#: 300  Action: Review
+>>> CMD#: 301  Action: Review
+>>> CMD#: 302  Action: Review
+>>> CMD#: 303  Action: Ok
+>>> CMD#: 304  Action: Edit
+>>> CMD#: 305  Action: Review
+>>> CMD#: 306  Action: Edit
+>>> CMD#: 307  Action: Review
+>>> CMD#: 308  Action: Ok
+>>> CMD#: 309  Action: Review
+>>> CMD#: 310  Action: Review
+>>> CMD#: 311  Action: Ok
+>>> CMD#: 312  Action: Review
+>>> CMD#: 313  Action: Review
+>>> CMD#: 314  Action: Review
+>>> CMD#: 315  Action: Ok
+>>> CMD#: 316  Action: Review
+>>> CMD#: 317  Action: Review
+>>> CMD#: 318  Action: Ok
+>>> CMD#: 319  Action: Review
+>>> CMD#: 320  Action: Review
+>>> CMD#: 321  Action: Review
+>>> CMD#: 322  Action: Review
+>>> CMD#: 323  Action: Review
+>>> CMD#: 324  Action: Review
+>>> CMD#: 325  Action: Review
+>>> CMD#: 326  Action: Edit
+>>> CMD#: 327  Action: Review
+>>> CMD#: 328  Action: Edit
+>>> CMD#: 329  Action: Review
+ +++ WARNING - Multiple Commands affecting same data row: 1718 xrefID: 124  Manual Action cmd#: 329 overriding Action: Review from Manual Action cmd#: 211
+>>> CMD#: 330  Action: Edit
+>>> CMD#: 331  Action: Edit
+>>> CMD#: 332  Action: Review
+>>> CMD#: 333  Action: Ok
+>>> CMD#: 334  Action: Review
+>>> CMD#: 335  Action: Review
+>>> CMD#: 336  Action: Review
+>>> CMD#: 337  Action: Review
+>>> CMD#: 338  Action: Ok
+>>> CMD#: 339  Action: Ok
+>>> CMD#: 340  Action: Review
+>>> CMD#: 341  Action: Edit
+>>> CMD#: 342  Action: Edit
+>>> CMD#: 343  Action: Edit
+>>> CMD#: 344  Action: Review
+>>> CMD#: 345  Action: Review
+>>> CMD#: 346  Action: Edit
+>>> CMD#: 347  Action: Review
+>>> CMD#: 348  Action: Review
+>>> CMD#: 349  Action: Edit
+>>> CMD#: 350  Action: Edit
+>>> CMD#: 351  Action: Review
+>>> CMD#: 352  Action: Review
+>>> CMD#: 353  Action: Edit
+>>> CMD#: 354  Action: Review
+>>> CMD#: 355  Action: Edit
+>>> CMD#: 356  Action: Edit
+>>> CMD#: 357  Action: Edit
+>>> CMD#: 358  Action: Review
+>>> CMD#: 359  Action: Edit
+>>> CMD#: 360  Action: Edit
+>>> CMD#: 361  Action: Review
+>>> CMD#: 362  Action: Ok
+>>> CMD#: 363  Action: Review
+>>> CMD#: 364  Action: Review
+>>> CMD#: 365  Action: Review
+>>> CMD#: 366  Action: Edit
+>>> CMD#: 367  Action: Review
+>>> CMD#: 368  Action: Review
+>>> CMD#: 369  Action: Review
+>>> CMD#: 370  Action: Ok
+>>> CMD#: 371  Action: Review
+>>> CMD#: 372  Action: Edit
+>>> CMD#: 373  Action: Edit
+>>> CMD#: 374  Action: Review
+>>> CMD#: 375  Action: Review
+>>> CMD#: 376  Action: Review
+>>> CMD#: 377  Action: Review
+>>> CMD#: 378  Action: Review
+>>> CMD#: 379  Action: Review
+>>> CMD#: 380  Action: Review
+>>> CMD#: 381  Action: Review
+>>> CMD#: 382  Action: Review
+>>> CMD#: 383  Action: Ok
+>>> CMD#: 384  Action: Ok
+>>> CMD#: 385  Action: Ok
+>>> CMD#: 386  Action: Ok
+>>> CMD#: 387  Action: Ok
+>>> CMD#: 388  Action: Ok
+>>> CMD#: 389  Action: Ok
+>>> CMD#: 390  Action: Review
+>>> CMD#: 391  Action: Edit
+>>> CMD#: 392  Action: Edit
+>>> CMD#: 393  Action: Edit
+>>> CMD#: 394  Action: Edit
+>>> CMD#: 395  Action: Edit
+>>> CMD#: 396  Action: Ok
+>>> CMD#: 397  Action: Ok
+>>> CMD#: 398  Action: Edit
+>>> CMD#: 399  Action: Edit
+>>> CMD#: 400  Action: Ok
+>>> CMD#: 401  Action: Edit
+>>> CMD#: 402  Action: Ok
+>>> CMD#: 403  Action: Ok
+>>> CMD#: 404  Action: Ok
+>>> CMD#: 405  Action: Ok
+>>> CMD#: 406  Action: Edit
+>>> CMD#: 407  Action: Ok
+>>> CMD#: 408  Action: Ok
+>>> CMD#: 409  Action: Ok
+>>> CMD#: 410  Action: Ok
+>>> CMD#: 411  Action: Edit
+ +++ WARNING - Multiple Commands affecting same data row: 10656 xrefID: 9154  Manual Action cmd#: 411 overriding Action: Edit from Manual Action cmd#: 360
+>>> CMD#: 412  Action: Edit
+>>> CMD#: 413  Action: Edit
+>>> CMD#: 414  Action: Edit
+>>> CMD#: 415  Action: Review
+>>> CMD#: 416  Action: Review
+>>> CMD#: 417  Action: Ok
+>>> CMD#: 418  Action: Ok
+>>> CMD#: 419  Action: Review
+>>> CMD#: 420  Action: Ok
+>>> CMD#: 421  Action: Ok
+>>> CMD#: 422  Action: Ok
+>>> CMD#: 423  Action: Ok
+>>> CMD#: 424  Action: Ok
+>>> CMD#: 425  Action: Edit
+>>> CMD#: 426  Action: Edit
+>>> CMD#: 427  Action: Review
+>>> CMD#: 428  Action: Review
+>>> CMD#: 429  Action: Ok
+>>> CMD#: 430  Action: Review
+>>> CMD#: 431  Action: Review
+>>> CMD#: 432  Action: Edit
+>>> CMD#: 433  Action: Edit
+>>> CMD#: 434  Action: Review
+>>> CMD#: 435  Action: Ok
+>>> CMD#: 436  Action: Ok
+>>> CMD#: 437  Action: Ok
+>>> CMD#: 438  Action: Review
+>>> CMD#: 439  Action: Review
+>>> CMD#: 440  Action: Review
+>>> CMD#: 441  Action: Review
+>>> CMD#: 442  Action: Review
+>>> CMD#: 443  Action: Review
+>>> CMD#: 444  Action: Ok
+>>> CMD#: 445  Action: Ok
+>>> CMD#: 446  Action: Edit
+>>> CMD#: 447  Action: Ok
+>>> CMD#: 448  Action: Ok
+>>> CMD#: 449  Action: Ok
+>>> CMD#: 450  Action: Edit
+>>> CMD#: 451  Action: Ok
+>>> CMD#: 452  Action: Ok
+>>> CMD#: 453  Action: Ok
+>>> CMD#: 454  Action: Review
+>>> CMD#: 455  Action: Ok
+>>> CMD#: 456  Action: Review
+>>> CMD#: 457  Action: Review
+>>> CMD#: 458  Action: Ok
+>>> CMD#: 459  Action: Review
+>>> CMD#: 460  Action: Review
+>>> CMD#: 461  Action: Review
+>>> CMD#: 462  Action: Ok
+>>> CMD#: 463  Action: Review
+>>> CMD#: 464  Action: Review
+>>> CMD#: 465  Action: Ok
+>>> CMD#: 466  Action: Ok
+>>> CMD#: 467  Action: Ok
+>>> CMD#: 468  Action: Ok
+>>> CMD#: 469  Action: Ok
+>>> CMD#: 470  Action: Ok
+>>> CMD#: 471  Action: Edit
+>>> CMD#: 472  Action: Review
+>>> CMD#: 473  Action: Ok
+>>> CMD#: 474  Action: Ok
+>>> CMD#: 475  Action: Review
+>>> CMD#: 476  Action: Edit
+>>> CMD#: 477  Action: Edit
+>>> CMD#: 478  Action: Edit
+>>> CMD#: 479  Action: Review
+>>> CMD#: 480  Action: Edit
+>>> CMD#: 481  Action: Edit
+>>> CMD#: 482  Action: Edit
+>>> CMD#: 483  Action: Edit
+>>> CMD#: 484  Action: Edit
+>>> CMD#: 485  Action: Edit
+>>> CMD#: 486  Action: Edit
+>>> CMD#: 487  Action: Edit
+>>> CMD#: 488  Action: Edit
+>>> CMD#: 489  Action: Edit
+>>> CMD#: 490  Action: Edit
+>>> CMD#: 491  Action: Edit
+>>> CMD#: 492  Action: Ok
+>>> CMD#: 493  Action: Ok
+>>> CMD#: 494  Action: Ok
+>>> CMD#: 495  Action: Edit
+>>> CMD#: 496  Action: Edit
+>>> CMD#: 497  Action: Ok
+>>> CMD#: 498  Action: Ok
+>>> CMD#: 499  Action: Edit
+>>> CMD#: 500  Action: Edit
+>>> CMD#: 501  Action: Edit
+>>> CMD#: 502  Action: Edit
+>>> CMD#: 503  Action: Ok
+>>> CMD#: 504  Action: Review
+>>> CMD#: 505  Action: Review
+>>> CMD#: 506  Action: Review
+>>> CMD#: 507  Action: Review
+>>> CMD#: 508  Action: Review
+>>> CMD#: 509  Action: Edit
+>>> CMD#: 510  Action: Edit
+>>> CMD#: 511  Action: Review
+>>> CMD#: 512  Action: Review
+>>> CMD#: 513  Action: Review
+>>> CMD#: 514  Action: Edit
+>>> CMD#: 515  Action: Edit
+>>> CMD#: 516  Action: Review
+>>> CMD#: 517  Action: Ok
+>>> CMD#: 518  Action: Ok
+>>> CMD#: 519  Action: Edit
+>>> CMD#: 520  Action: Edit
+>>> CMD#: 521  Action: Edit
+>>> CMD#: 522  Action: Edit
+>>> CMD#: 523  Action: Ok
+>>> CMD#: 524  Action: Ok
+>>> CMD#: 525  Action: Ok
+>>> CMD#: 526  Action: Ok
+>>> CMD#: 527  Action: Ok
+>>> CMD#: 528  Action: Edit
+>>> CMD#: 529  Action: Edit
+>>> CMD#: 530  Action: Edit
+>>> CMD#: 531  Action: Edit
+>>> CMD#: 532  Action: Edit
+>>> CMD#: 533  Action: Edit
+>>> CMD#: 534  Action: Review
+>>> CMD#: 535  Action: Edit
+>>> CMD#: 536  Action: Edit
+>>> CMD#: 537  Action: Edit
+>>> CMD#: 538  Action: Edit
+>>> CMD#: 539  Action: Review
+>>> CMD#: 540  Action: Review
+>>> CMD#: 541  Action: Ok
+>>> CMD#: 542  Action: Review
+>>> CMD#: 543  Action: Review
+>>> CMD#: 544  Action: Ok
+>>> CMD#: 545  Action: Edit
+>>> CMD#: 546  Action: Ok
+>>> CMD#: 547  Action: Ok
+>>> CMD#: 548  Action: Ok
+>>> CMD#: 549  Action: Ok
+>>> CMD#: 550  Action: Ok
+>>> CMD#: 551  Action: Ok
+>>> CMD#: 552  Action: Ok
+>>> CMD#: 553  Action: Edit
+>>> CMD#: 554  Action: Edit
+>>> CMD#: 555  Action: Review
+>>> CMD#: 556  Action: Edit
+>>> CMD#: 557  Action: Edit
+>>> CMD#: 558  Action: Edit
+>>> CMD#: 559  Action: Review
+>>> CMD#: 560  Action: Review
+>>> CMD#: 561  Action: Review
+>>> CMD#: 562  Action: Review
+>>> CMD#: 563  Action: Edit
+>>> CMD#: 564  Action: Edit
+>>> CMD#: 565  Action: Review
+>>> CMD#: 566  Action: Edit
+>>> CMD#: 567  Action: Review
+>>> CMD#: 568  Action: Edit
+>>> CMD#: 569  Action: Review
+>>> CMD#: 570  Action: Review
+>>> CMD#: 571  Action: Edit
+>>> CMD#: 572  Action: Ok
+>>> CMD#: 573  Action: Edit
+>>> CMD#: 574  Action: Ok
+>>> CMD#: 575  Action: Edit
+>>> CMD#: 576  Action: Ok
+>>> CMD#: 577  Action: Ok
+>>> CMD#: 578  Action: Ok
+>>> CMD#: 579  Action: Ok
+>>> CMD#: 580  Action: Ok
+>>> CMD#: 581  Action: Edit
+>>> CMD#: 582  Action: Ok
+>>> CMD#: 583  Action: Ok
+>>> CMD#: 584  Action: Ok
+>>> CMD#: 585  Action: Ok
+>>> CMD#: 586  Action: Ok
+>>> CMD#: 587  Action: Edit
+>>> CMD#: 588  Action: Edit
+>>> CMD#: 589  Action: Ok
+>>> CMD#: 590  Action: Ok
+>>> CMD#: 591  Action: Edit
+>>> CMD#: 592  Action: Review
+>>> CMD#: 593  Action: Edit
+>>> CMD#: 594  Action: Edit
+>>> CMD#: 595  Action: Edit
+>>> CMD#: 596  Action: Ok
+>>> CMD#: 597  Action: Review
+>>> CMD#: 598  Action: Ok
+>>> CMD#: 599  Action: Review
+>>> CMD#: 600  Action: Edit
+>>> CMD#: 601  Action: Edit
+>>> CMD#: 602  Action: Edit
+>>> CMD#: 603  Action: Edit
+>>> CMD#: 604  Action: Edit
+>>> CMD#: 605  Action: Review
+>>> CMD#: 606  Action: Review
+>>> CMD#: 607  Action: Edit
+>>> CMD#: 608  Action: Edit
+>>> CMD#: 609  Action: Edit
+>>> CMD#: 610  Action: Edit
+>>> CMD#: 611  Action: Edit
+>>> CMD#: 612  Action: Review
+>>> CMD#: 613  Action: Review
+>>> CMD#: 614  Action: Review
+>>> CMD#: 615  Action: Edit
+>>> CMD#: 616  Action: Edit
+>>> CMD#: 617  Action: Ok
+>>> CMD#: 618  Action: Edit
+>>> CMD#: 619  Action: Edit
+>>> CMD#: 620  Action: Ok
+>>> CMD#: 621  Action: Ok
+>>> CMD#: 622  Action: Review
+>>> CMD#: 623  Action: Ok
+>>> CMD#: 624  Action: Edit
+>>> CMD#: 625  Action: Edit
+>>> CMD#: 626  Action: Review
+>>> CMD#: 627  Action: Edit
+>>> CMD#: 628  Action: Ok
+>>> CMD#: 629  Action: Edit
+>>> CMD#: 630  Action: Edit
+>>> CMD#: 631  Action: Edit
+>>> CMD#: 632  Action: Ok
+>>> CMD#: 633  Action: Review
+>>> CMD#: 634  Action: Review
+>>> CMD#: 635  Action: Ok
+>>> CMD#: 636  Action: Ok
+>>> CMD#: 637  Action: Edit
+>>> CMD#: 638  Action: Edit
+>>> CMD#: 639  Action: Ok
+>>> CMD#: 640  Action: Edit
+>>> CMD#: 641  Action: Ok
+>>> CMD#: 642  Action: Review
+>>> CMD#: 643  Action: Ok
+>>> CMD#: 644  Action: Review
+>>> CMD#: 645  Action: Edit
+>>> CMD#: 646  Action: Review
+>>> CMD#: 647  Action: Review
+>>> CMD#: 648  Action: Review
+>>> CMD#: 649  Action: Review
+>>> CMD#: 650  Action: Ok
+>>> CMD#: 651  Action: Review
+>>> CMD#: 652  Action: Edit
+>>> CMD#: 653  Action: Ok
+>>> CMD#: 654  Action: Ok
+>>> CMD#: 655  Action: Ok
+>>> CMD#: 656  Action: Review
+>>> CMD#: 657  Action: Ok
+>>> CMD#: 658  Action: Review
+>>> CMD#: 659  Action: Ok
+>>> CMD#: 660  Action: Ok
+>>> CMD#: 661  Action: Review
+>>> CMD#: 662  Action: Review
+>>> CMD#: 663  Action: Edit
+>>> CMD#: 664  Action: Edit
+>>> CMD#: 665  Action: Edit
+>>> CMD#: 666  Action: Edit
+>>> CMD#: 667  Action: Review
+>>> CMD#: 668  Action: Review
+>>> CMD#: 669  Action: Ok
+>>> CMD#: 670  Action: Ok
+>>> CMD#: 671  Action: Ok
+>>> CMD#: 672  Action: Review
+>>> CMD#: 673  Action: Review
+>>> CMD#: 674  Action: Review
+>>> CMD#: 675  Action: Review
+>>> CMD#: 676  Action: Ok
+>>> CMD#: 677  Action: Ok
+>>> CMD#: 678  Action: Ok
+>>> CMD#: 679  Action: Review
+>>> CMD#: 680  Action: Review
+>>> CMD#: 681  Action: Ok
+>>> CMD#: 682  Action: Ok
+>>> CMD#: 683  Action: Edit
+>>> CMD#: 684  Action: Edit
+>>> CMD#: 685  Action: Edit
+>>> CMD#: 686  Action: Review
+>>> CMD#: 687  Action: Review
+>>> CMD#: 688  Action: Review
+>>> CMD#: 689  Action: Review
+>>> CMD#: 690  Action: Edit
+>>> CMD#: 691  Action: Review
+>>> CMD#: 692  Action: Ok
+>>> CMD#: 693  Action: Ok
+>>> CMD#: 694  Action: Ok
+>>> CMD#: 695  Action: Ok
+>>> CMD#: 696  Action: Edit
+>>> CMD#: 697  Action: Review
+>>> CMD#: 698  Action: Ok
+>>> CMD#: 699  Action: Edit
+>>> CMD#: 700  Action: Edit
+>>> CMD#: 701  Action: Ok
+>>> CMD#: 702  Action: Ok
+>>> CMD#: 703  Action: Edit
+>>> CMD#: 704  Action: Ok
+>>> CMD#: 705  Action: Ok
+>>> CMD#: 706  Action: Ok
+>>> CMD#: 707  Action: Ok
+>>> CMD#: 708  Action: Ok
+>>> CMD#: 709  Action: Edit
+>>> CMD#: 710  Action: Edit
+>>> CMD#: 711  Action: Edit
+>>> CMD#: 712  Action: Edit
+>>> CMD#: 713  Action: Edit
+>>> CMD#: 714  Action: Review
+>>> CMD#: 715  Action: Ok
+>>> CMD#: 716  Action: Review
+>>> CMD#: 717  Action: Edit
+>>> CMD#: 718  Action: Edit
+>>> CMD#: 719  Action: Edit
+>>> CMD#: 720  Action: Edit
+>>> CMD#: 721  Action: Ok
+>>> CMD#: 722  Action: Edit
+>>> CMD#: 723  Action: Review
+>>> CMD#: 724  Action: Ok
+>>> CMD#: 725  Action: Edit
+>>> CMD#: 726  Action: Edit
+>>> CMD#: 727  Action: Review
+>>> CMD#: 728  Action: Edit
+>>> CMD#: 729  Action: Review
+>>> CMD#: 730  Action: Review
+>>> CMD#: 731  Action: Edit
+>>> CMD#: 732  Action: Edit
+>>> CMD#: 733  Action: Ok
+>>> CMD#: 734  Action: Review
+>>> CMD#: 735  Action: Ok
+>>> CMD#: 736  Action: Edit
+>>> CMD#: 737  Action: Ok
+>>> CMD#: 738  Action: Edit
+>>> CMD#: 739  Action: Edit
+>>> CMD#: 740  Action: Ok
+>>> CMD#: 741  Action: Review
+>>> CMD#: 742  Action: Review
+>>> CMD#: 743  Action: Review
+>>> CMD#: 744  Action: Ok
+>>> CMD#: 745  Action: Edit
+>>> CMD#: 746  Action: Edit
+>>> CMD#: 747  Action: Edit
+>>> CMD#: 748  Action: Edit
+>>> CMD#: 749  Action: Edit
+>>> CMD#: 750  Action: Edit
+>>> CMD#: 751  Action: Ok
+>>> CMD#: 752  Action: Edit
+>>> CMD#: 753  Action: Ok
+>>> CMD#: 754  Action: Ok
+>>> CMD#: 755  Action: Ok
+>>> CMD#: 756  Action: Ok
+>>> CMD#: 757  Action: Ok
+>>> CMD#: 758  Action: Ok
+>>> CMD#: 759  Action: Edit
+>>> CMD#: 760  Action: Edit
+>>> CMD#: 761  Action: Edit
+>>> CMD#: 762  Action: Edit
+>>> CMD#: 763  Action: Edit
+>>> CMD#: 764  Action: Review
+>>> CMD#: 765  Action: Edit
+>>> CMD#: 766  Action: Review
+>>> CMD#: 767  Action: Review
+>>> CMD#: 768  Action: Ok
+>>> CMD#: 769  Action: Review
+>>> CMD#: 770  Action: Review
+>>> CMD#: 771  Action: Review
+>>> CMD#: 772  Action: Edit
+>>> CMD#: 773  Action: Edit
+>>> CMD#: 774  Action: Review
+>>> CMD#: 775  Action: Review
+>>> CMD#: 776  Action: Review
+>>> CMD#: 777  Action: Ok
+>>> CMD#: 778  Action: Review
+>>> CMD#: 779  Action: Review
+>>> CMD#: 780  Action: Ok
+>>> CMD#: 781  Action: Review
+>>> CMD#: 782  Action: Ok
+>>> CMD#: 783  Action: Review
+>>> CMD#: 784  Action: Review
+>>> CMD#: 785  Action: Ok
+>>> CMD#: 786  Action: Ok
+>>> CMD#: 787  Action: Review
+>>> CMD#: 788  Action: Review
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140728_060048 Resting 2014_07_25_35336_17 cmd# 788
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 2 : GF_35336_20140728_060048 : 1 : Resting : 2014_07_25_35336_17 : NA cmd# 788
+>>> CMD#: 789  Action: Review
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140728_060048 Resting 2014_08_08_35336_22 cmd# 789
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 2 : GF_35336_20140728_060048 : 2 : Resting : 2014_08_08_35336_22 : NA cmd# 789
+>>> CMD#: 790  Action: Ok
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140719_020102 Scavenging 2014_07_25_35336_16 cmd# 790
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 2 : GF_35336_20140719_020102 : 1 : Scavenging : 2014_07_25_35336_16 : NA cmd# 790
+>>> CMD#: 791  Action: Review
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140719_080224 Scavenging 2014_07_25_35336_16 cmd# 791
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 2 : GF_35336_20140719_080224 : 1 : Scavenging : 2014_07_25_35336_16 : NA cmd# 791
+>>> CMD#: 792  Action: Ok
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140719_080224 Resting 2014_07_25_35336_17 cmd# 792
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 2 : GF_35336_20140719_080224 : 2 : Resting : 2014_07_25_35336_17 : NA cmd# 792
+>>> CMD#: 793  Action: Review
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140719_020102 Resting 2014_08_08_35336_22 cmd# 793
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 2 : GF_35336_20140719_020102 : 2 : Resting : 2014_08_08_35336_22 : NA cmd# 793
+>>> CMD#: 794  Action: Review
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140719_080224 Resting 2014_08_08_35336_22 cmd# 794
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 2 : GF_35336_20140719_080224 : 3 : Resting : 2014_08_08_35336_22 : NA cmd# 794
+>>> CMD#: 795  Action: Review
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140719_020102 Scavenging 2014_08_15_35336_23 cmd# 795
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 2 : GF_35336_20140719_020102 : 3 : Scavenging : 2014_08_15_35336_23 : NA cmd# 795
+>>> CMD#: 796  Action: Review
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140719_080224 Scavenging 2014_08_15_35336_23 cmd# 796
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 2 : GF_35336_20140719_080224 : 4 : Scavenging : 2014_08_15_35336_23 : NA cmd# 796
+>>> CMD#: 797  Action: Ok
+>>> CMD#: 798  Action: Ok
+>>> CMD#: 799  Action: Review
+>>> CMD#: 800  Action: Ok
+>>> CMD#: 801  Action: Ok
+>>> CMD#: 802  Action: Review
+>>> CMD#: 803  Action: Review
+>>> CMD#: 804  Action: Edit
+>>> CMD#: 805  Action: Review
+ +++ WARNING - Multiple Commands affecting same data row: 41 xrefID: 9765  Manual Action cmd#: 805 overriding Action: Review from Manual Action cmd#: 802
+>>> CMD#: 806  Action: Review
+ +++ WARNING - Multiple Commands affecting same data row: 45 xrefID: 9766  Manual Action cmd#: 806 overriding Action: Review from Manual Action cmd#: 803
+>>> CMD#: 807  Action: Edit
+>>> CMD#: 808  Action: Review
+>>> CMD#: 809  Action: Review
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140609_080100 Scavenging 2014_07_11_35333_12B cmd# 809
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 2 : GF_35336_20140609_080100 : 1 : Scavenging : 2014_07_11_35333_12B : NA cmd# 809
+>>> CMD#: 810  Action: Review
+>>> CMD#: 811  Action: Review
+>>> CMD#: 812  Action: Review
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140607_120200 Resting 2014_06_03_35336_5 cmd# 812
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 1 : GF_35336_20140607_120200 : NA : Resting : 2014_06_03_35336_5 : NA cmd# 812
+>>> CMD#: 813  Action: Review
+>>> CMD#: 814  Action: Review
+>>> CMD#: 815  Action: Review
+>>> CMD#: 816  Action: Review
+>>> CMD#: 817  Action: Edit
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140627_020328 Kill 2014_04_18_35336_2 cmd# 817
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 1 : GF_35336_20140627_020328 : NA : Kill : 2014_04_18_35336_2 : NA cmd# 817
+>>> CMD#: 818  Action: Edit
+>>> CMD#: 819  Action: Edit
+>>> CMD#: 820  Action: Edit
+>>> CMD#: 821  Action: Edit
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140405_000048 Kill 2014_04_18_35336_2 cmd# 821
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 1 : GF_35336_20140405_000048 : NA : Kill : 2014_04_18_35336_2 : NA cmd# 821
+>>> CMD#: 822  Action: Edit
+>>> CMD#: 823  Action: Edit
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140327_000029 Kill 2014_04_18_35336_2 cmd# 823
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 1 : GF_35336_20140327_000029 : NA : Kill : 2014_04_18_35336_2 : NA cmd# 823
+>>> CMD#: 824  Action: Ok
+>>> CMD#: 825  Action: Ok
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140228_140014 Kill 2014_04_18_35336_2 cmd# 825
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 1 : GF_35336_20140228_140014 : NA : Kill : 2014_04_18_35336_2 : NA cmd# 825
+>>> CMD#: 826  Action: Review
+>>> CMD#: 827  Action: Edit
+>>> CMD#: 828  Action: Edit
+>>> CMD#: 829  Action: Edit
+>>> CMD#: 830  Action: Edit
+>>> CMD#: 831  Action: Ok
+>>> CMD#: 832  Action: Edit
+>>> CMD#: 833  Action: Edit
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140415_120034 Kill 2014_03_27_35333_3 cmd# 833
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 1 : GF_35336_20140415_120034 : NA : Kill : 2014_03_27_35333_3 : NA cmd# 833
+>>> CMD#: 834  Action: Edit
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140614_140118 Kill 2014_03_27_35333_3 cmd# 834
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 1 : GF_35336_20140614_140118 : NA : Kill : 2014_03_27_35333_3 : NA cmd# 834
+>>> CMD#: 835  Action: Edit
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140405_020013 Kill 2014_03_27_35333_3 cmd# 835
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 1 : GF_35336_20140405_020013 : NA : Kill : 2014_03_27_35333_3 : NA cmd# 835
+>>> CMD#: 836  Action: Edit
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140318_060029 Kill 2014_03_27_35333_3 cmd# 836
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 1 : GF_35336_20140318_060029 : NA : Kill : 2014_03_27_35333_3 : NA cmd# 836
+>>> CMD#: 837  Action: Edit
+>>> CMD#: 838  Action: Edit
+>>> CMD#: 839  Action: Edit
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140611_040038 Kill 2014_04_18_35336_1 cmd# 839
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 1 : GF_35336_20140611_040038 : NA : Kill : 2014_04_18_35336_1 : NA cmd# 839
+>>> CMD#: 840  Action: Edit
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140404_200029 Kill 2014_04_18_35336_1 cmd# 840
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 1 : GF_35336_20140404_200029 : NA : Kill : 2014_04_18_35336_1 : NA cmd# 840
+>>> CMD#: 841  Action: Edit
+>>> CMD#: 842  Action: Edit
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140322_200047 Kill 2014_04_18_35336_1 cmd# 842
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 1 : GF_35336_20140322_200047 : NA : Kill : 2014_04_18_35336_1 : NA cmd# 842
+>>> CMD#: 843  Action: Edit
+>>> CMD#: 844  Action: Edit
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140330_220055 Kill 2014_03_27_35333_1 cmd# 844
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 1 : GF_35336_20140330_220055 : NA : Kill : 2014_03_27_35333_1 : NA cmd# 844
+>>> CMD#: 845  Action: Edit
+>>> CMD#: 846  Action: Edit
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140325_040048 Kill 2014_03_27_35333_1 cmd# 846
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 1 : GF_35336_20140325_040048 : NA : Kill : 2014_03_27_35333_1 : NA cmd# 846
+>>> CMD#: 847  Action: Ok
+>>> CMD#: 848  Action: Ok
+>>> CMD#: 849  Action: Edit
+ ERROR - Mandatory Key (CentID,Site_Cat,invCID) Not Found: GF_35336_20140616_020133 Kill 2014_03_27_35333_4 cmd# 849
+ ERROR - Optional Key (Type,CentID,cluRep,Site_Cat,invCID,invRep) Not Found: 1 : GF_35336_20140616_020133 : NA : Kill : 2014_03_27_35333_4 : NA cmd# 849
+ >>> Commands Processed: 849  Rows Affected: 786  Number Errors: 64
+ >>>
+ 
+ >>> Stats - Data Driven
+ >>>    Num Early (Inv before Clu)   Rows: 486  Threshold Max Early (Days): 7
+ >>>    Num Late  (Inv after  Clu)   Rows: 591  Threshold Max Late  (Days): 60
+ >>>    Num Beaver                   Rows: 0
+ >>>    Num Data Ignore (ignoreFlag) Rows: 1077
+ 
+ >>> Stats - Manual Actions
+ >>>    Num Remove:        0
+ >>>    Num Late:          4
+ >>>    Num Early:         25
+ >>>    Num Ok:            220
+ >>>    Num Edit:          243
+ >>>    Num Review:        289
+ >>>    Num Skip:          31
+ 
+ >>> Stats - Action overrides of finalIgnore           
+ >>>    Num Overrides: from Set to Clear: 267
+ >>>    Num Overrides: from Clear to Set: 0
+ 
+ >>> Stats (finalIgnore) Rows:            810  (#ignoreFlag (Union of flags: early/late/beaver) - #overrides(Set to Clear) + #overrides(Clear to Set) )
+ 
+ >>>
+ >>> Checking:   Cluster Ambiguities:  #Dup CentID: 401  #Ambigous Site_Cat:        282
+ >>>                                                     #Rendez-vous n Kill Mixed: 8
+ >>>                                                     #Scavenge    n Kill Mixed: 0
+ >>>                                                     #Revisit     n Kill Mixed: 9
+ >>>                                                     #Ambigous Prey Species:    19
+ >>>                                   #Dup invCID: 647  #Ambigous Investigated:    119
+ 
+ >>> Removing Columns Ending in: .M  Count: 14
+ 
+ 
+ >>> Generating: Combination (Joined) Cluster List File: C:/Wolf-Projects/DataGHA/loc-CCv33utm15/results/2023-05-21_GHA_K_All_Clu.csv  Rows: 11667
+ >>>
+ >>>
+ 
+ >>> Generating: Matched Cluster List File Sorted Inv: C:/Wolf-Projects/DataGHA/loc-CCv33utm15/results/2023-05-21_GHA_K_Matched_Clu_sortedInv.csv  Rows: 2678
+ >>>
+ >>>    Total Ambigous Rows: 1124
+ >>>
+ 
+ >>> Generating: Matched Cluster List File Sorted Clu: C:/Wolf-Projects/DataGHA/loc-CCv33utm15/results/2023-05-21_GHA_K_Matched_Clu_sortedClu.csv  Rows: 2678
+ >>>
+ >>>    Total Ambigous Rows: 1124
+ >>>
+ 
+ >>>
+ >>> Summary of Site Categories for All Wolves
+ >>>
+ >>> Generating: Summary Site Category File: C:/Wolf-Projects/DataGHA/loc-CCv33utm15/results/2023-05-21_GHA_K_SumBy_Wolf.csv  Rows: 320
+ >>>
+ 
+ >>>
+ >>> Generating: File of Column Names: C:/Wolf-Projects/DataGHA/loc-CCv33utm15/results/Column_194_Names.csv  Rows: 194
+ >>>
+ 
+ 
+ >>> TOTAL UNIQUE COUNTS
+ >>>
+ >>> Behaviours:   Orig_Site_Cat=9  Site_Cat=9  Beh_1 =9  Beh_2 =5
+ >>> Prey:         Orig_Prey_spp=13  Prey_spp=14  Prey_1=14  Prey_2=12
+ >>> Investigated: invCID       =1186  invCVD  =281
+ >>> Clusters:     CentID       =11041
+ >>>
+ 
+ >>> Behavior_1 Breakdown
+ >>>
+   NA
+   Resting
+   Kill
+   Unknown
+   Probable kill
+   Scavenging
+   Revisit
+   Den
+   Rendez-vous
+ >>>
+ 
+ >>> Behavior_2 Breakdown
+ >>>
+   
+   Scavenging
+   Kill
+   Probable kill
+   Resting
+ >>>
+ 
+ >>> Prey_1 Breakdown
+ >>>
+   NA
+   
+   Moose
+   Beaver
+   Snowshoe hare
+   Deer
+   Squirrel
+   Bait
+   Fish
+   Bear
+   Unknown
+   Garbage
+   Grouse
+   Hare
+ >>>
+ 
+ >>> Prey_2 Breakdown
+ >>>
+   
+   Fish
+   Beaver
+   Snowshoe hare
+   Moose
+   Deer
+   Grouse
+   Bait
+   Raven
+   Hare
+   Bear
+   Rodent
+ >>>
+ 
+ >>> KillAge Breakdown
+ >>>
+   NA
+   
+   Yearling
+   Adult
+   Unknown
+   Calf
+   Fawn
+ >>>
+ 
+ >>> Prey_age_class Breakdown
+ >>>
+   NA
+   
+   Yearling
+   Adult
+   Unknown
+   Calf
+ >>>
+ 
+>>>>>>>>>> Complete: cluMatch_v28  --  Time: 2023-05-22 16:48:55
+There were 50 or more warnings (use warnings() to see the first 50)
+> 

@@ -1,0 +1,127 @@
+ 
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ >>> 
+ >>> Start Check #1  Duplicated IDs (Cluster_ID) in File: C:/Wolf-Projects/DataGHA/loc-CCv33utm15/results/GHA-26_cleaned-cluster_04-21-2023.csv
+ >>> 
+ >>>                 Output all rows with the same Cluster_ID
+ >>> 
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ 
+ 
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ >>> 
+ >>> End   Check #1  Duplicated IDs (Cluster_ID) in File: C:/Wolf-Projects/DataGHA/loc-CCv33utm15/results/GHA-26_cleaned-cluster_04-21-2023.csv
+ >>> 
+ >>>                 Total     IDs : 1185
+ >>>                 Duplicate IDs : 0
+ >>>                 Total     Rows: 1185
+ >>>                 Duplicate Rows: 0
+ >>> 
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ 
+ 
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ >>> 
+ >>> Start Check #2  Potential Bad Dates in File: C:/Wolf-Projects/DataGHA/loc-CCv33utm15/results/GHA-26_cleaned-cluster_04-21-2023.csv
+ >>> 
+ >>>                 Cluster_ID (Embedded Date) != Clstr_Vst
+ >>>                 Ignore Cluster_IDs containing DEAD
+ >>> 
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ 
+
+ >>>>>> Check #2: Bad Date Cluster ID: 2014_05_07_35335_6  Count: 1
+ >>>    Row: 0016 Clstr_Strt:  Clstr_End:  Clstr_Vst: 2014-05-06 CluID Date2014-_0-5_ Prey_spp:            Site_Cat: Resting        
+
+ >>>>>> Check #2: Bad Date Cluster ID: Mani_2017-07-15-4  Count: 1
+ >>>    Row: 0526 Clstr_Strt:  Clstr_End:  Clstr_Vst: 2017-07-16 CluID DateMani-_2-01 Prey_spp:            Site_Cat: Resting        
+
+ >>>>>> Check #2: Bad Date Cluster ID: Mani_2017-08-07-4  Count: 1
+ >>>    Row: 0530 Clstr_Strt:  Clstr_End:  Clstr_Vst: 2017-08-08 CluID DateMani-_2-01 Prey_spp: Moose      Site_Cat: Kill           
+
+ >>>>>> Check #2: Bad Date Cluster ID: Sandy_2109_12_30_2  Count: 1
+ >>>    Row: 1178 Clstr_Strt:  Clstr_End:  Clstr_Vst: 2019-12-30 CluID DateSand-y_-21 Prey_spp: Deer       Site_Cat: Scavenging     
+
+ >>>>>> Check #2: Bad Date Cluster ID: Sandy_2109_12_30_1  Count: 1
+ >>>    Row: 1179 Clstr_Strt:  Clstr_End:  Clstr_Vst: 2019-12-30 CluID DateSand-y_-21 Prey_spp: Deer       Site_Cat: Kill           
+ 
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ >>> 
+ >>> End   Check #2  Potential Bad Dates in File: C:/Wolf-Projects/DataGHA/loc-CCv33utm15/results/GHA-26_cleaned-cluster_04-21-2023.csv
+ >>> 
+ >>>                 Total      IDs : 1185
+ >>>                 Bad Dates  IDs : 5
+ >>>                 Total      Rows: 1185
+ >>>                 Bad Date   Rows: 5
+ >>> 
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ 
+ 
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ >>> 
+ >>> Start Check #3  Potential Bad Dates in File: C:/Wolf-Projects/DataGHA/loc-CCv33utm15/results/Join-Matched-CTM25-mergedWmc2-loc-CCv33utm15-BLEND_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.csv
+ >>> 
+ >>>                 invCID (Embedded Date) != invCVD
+ >>>                 Ignore Cluster_IDs containing DEAD
+ >>> 
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ 
+
+ >>>>>> Check #3: Bad Date invCID: Sandy_2109_12_30_2  Count: 1 Number Different invCVD: 1
+ >>>    Row: 3875 invCVD: 2019-12-30 CentID: SD_5146_20191210_170000 Prey_spp: Deer       Site_Cat: Scavenging      Notes: White-tailed deer by road. Rumen and hair. Scavenged and ate everything.
+
+ >>>>>> Check #3: Bad Date invCID: Sandy_2109_12_30_1  Count: 1 Number Different invCVD: 1
+ >>>    Row: 3878 invCVD: 2019-12-30 CentID: SD_5146_20191211_080000 Prey_spp: Deer       Site_Cat: Kill            Notes: Leg bones. Beds.
+
+ >>>>>> Check #3: Bad Date invCID: Mani_2017-07-15-4  Count: 2 Number Different invCVD: 1
+ >>>    Row: 6166 invCVD: 2017-07-16 CentID: MN_5151_20170623_063000 Prey_spp:            Site_Cat: Resting         Notes: Beds in lichen on rock
+ >>>    Row: 0772 invCVD: 2017-07-16 CentID: MN_37926_20150211_200021 Prey_spp:            Site_Cat: Resting         Notes: Beds in lichen on rock
+
+ >>>>>> Check #3: Bad Date invCID: Mani_2017-08-07-4  Count: 1 Number Different invCVD: 1
+ >>>    Row: 7583 invCVD: 2017-08-08 CentID: MN_5156_20170704_220000 Prey_spp: Moose      Site_Cat: Kill            Notes: Killed moose calf. Only found 1 leg bone and scat. Scats had short light brown in it.
+
+ >>>>>> Check #3: Bad Date invCID: 2014_05_07_35335_6  Count: 2 Number Different invCVD: 1
+ >>>    Row: 0002 invCVD: 2014-05-06 CentID: QB_35334_20140304_220022 Prey_spp:            Site_Cat: Resting         Notes: Scat at the top and bottom of rock outcrop. Old and new scat at site.
+ >>>    Row: 0055 invCVD: 2014-05-06 CentID: QB_35335_20140304_220003 Prey_spp:            Site_Cat: Resting         Notes: Scat at the top and bottom of rock outcrop. Old and new scat at site.
+ 
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ >>> 
+ >>> End   Check #3  Potential Bad Dates in File: C:/Wolf-Projects/DataGHA/loc-CCv33utm15/results/Join-Matched-CTM25-mergedWmc2-loc-CCv33utm15-BLEND_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.csv
+ >>> 
+ >>>                 Total      IDs : 1186
+ >>>                 Bad Date   IDs : 5
+ >>>                 Total      Rows: 11667
+ >>>                 Matched    Rows: 2678
+ >>>                 Bad Date   Rows: 7
+ >>> 
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ 
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ >>> 
+ >>> Start Check #4  Duplicated invCID rows in File: C:/Wolf-Projects/DataGHA/loc-CCv33utm15/results/Join-Matched-CTM25-mergedWmc2-loc-CCv33utm15-BLEND_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.csv
+ >>> 
+ >>>                 CentID (Centroid ID) Exists
+ >>>                 #Duplicate rows for invCID != #unique CentIDs
+ >>> 
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ 
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ >>> 
+ >>> End   Check #4  Duplicated invCID rows in File:: C:/Wolf-Projects/DataGHA/loc-CCv33utm15/results/Join-Matched-CTM25-mergedWmc2-loc-CCv33utm15-BLEND_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.csv
+ >>> 
+ >>>                 Total     IDs : 1186
+ >>>                 Duplicate IDs : 0
+ >>>                 Total     Rows: 11667
+ >>>                 Matched   Rows: 2678
+ >>>                 Duplicate Rows: 0
+ >>> 
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ 

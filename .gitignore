@@ -6,10 +6,11 @@
 data/
 2021-09-17_RMNP_All_Sites.csv
 
-### R ###
+
 # History files
 .Rhistory
 .Rapp.history
+
 
 # Session Data files
 .RData
@@ -17,6 +18,7 @@ data/
 
 # User-specific files
 .Ruserdata
+.Rproj.user
 
 # Example code in package build process
 *-Ex.R
@@ -57,10 +59,10 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
-### R.Bookdown Stack ###
-# R package: bookdown caching files
-/*_files/
+#data folder
+data/
 
 
 .DS_Store
-.DS_Store
+
+

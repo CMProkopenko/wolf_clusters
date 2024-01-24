@@ -1,6 +1,7 @@
 ####
 ###investigated site data exploration
 
+
 ###packages
 libs <- c('data.table', 'rcartocolor', 
           'ggplot2', 'ggridges', 'ggdist', 'ggbeeswarm','gghalves',
@@ -11,7 +12,7 @@ lapply(libs, require, character.only = TRUE)
 
 ### load All Sites data after cleaning protocol
 datrmp <- fread('data/2023-02-22_RMNP_K_All_Clu.csv')  ###6547 obs
-datrmp <- datrmp[Act_fixes <= 300] ###6433 obs. ##removes inv match only
+#datrmp <- datrmp[Act_fixes <= 300] ###6433 obs. ##removes inv match only
 
 ### clusters matched with investigated sites
 inv_datrmnp <-datrmp[JoinStatus == 'Matched' & finalIgnore == 0]
@@ -32,6 +33,7 @@ inv_datrmnp$Behav[inv_datrmnp$Behaviour_1 =="Probable kill"] <-"Probable Kill"
 inv_datrmnp$Behav[inv_datrmnp$Behaviour_1 =="Probable prey encounter"]<-"Probable Kill" ###check this is what we want to do
 inv_datrmnp$Behav[inv_datrmnp$Behaviour_1  =="Revisit"]<-"Revisit"
 inv_datrmnp$Behav[inv_datrmnp$Behaviour_1  =="Scavenge"]<-"Scavenge"
+#inv_datrmnp$Behav[inv_datrmnp$Behaviour_1  =="Probable scavenge"]<-"Scavenge" ##check
 inv_datrmnp$Behav[inv_datrmnp$Behaviour_1  =="Resting"]<-"Resting"
 inv_datrmnp$Behav[inv_datrmnp$Behaviour_1  =="Probable resting"]<-"Resting"
 inv_datrmnp$Behav[inv_datrmnp$Behaviour_1  =="Den"]<-"Den"
@@ -124,6 +126,51 @@ sum_invrm_2 <- inv_datrmnp[ , .(days.med = median(daysEarly),
 sum_invrm_2
 
 write.csv(sum_invrm_2,"results/rmnp_inv2.csv")
+
+####for large clusters only
+
+datrmnplarge <- inv_datrmnp[Act_fixes >= 6] 
+
+largeclurm <- datrmnplarge[ , .(fix.mean=mean(Act_fixes), 
+                                fix.med=median(Act_fixes),
+                                fix.min = min(Act_fixes),
+                                fix.max=max(Act_fixes),
+                                hr.mean = mean(CluDurHours),
+                                hr.med = median(CluDurHours),
+                                hr.min = min(CluDurHours),
+                                hr.max = max(CluDurHours),
+                                rad.mean=mean(Clus_rad_m), 
+                                rad.med=median(Clus_rad_m),
+                                rad.min = min(Clus_rad_m),
+                                rad.max=max(Clus_rad_m),
+                                count = .N), by = Behaviour_1]
+
+head(largeclurm )
+
+write.csv(largeclurm ,"results/largeclu_rmnp_inv1.csv")
+
+##########
+
+datrmnplarge <- inv_datrmnp[Act_fixes >= 6] 
+
+largeclurm <- datrmnplarge[ , .(fix.mean=mean(Act_fixes), 
+                                fix.med=median(Act_fixes),
+                                fix.min = min(Act_fixes),
+                                fix.max=max(Act_fixes),
+                                hr.mean = mean(CluDurHours),
+                                hr.med = median(CluDurHours),
+                                hr.min = min(CluDurHours),
+                                hr.max = max(CluDurHours),
+                                rad.mean=mean(Clus_rad_m), 
+                                rad.med=median(Clus_rad_m),
+                                rad.min = min(Clus_rad_m),
+                                rad.max=max(Clus_rad_m),
+                                count = .N), by = Behav]
+
+head(largeclurm )
+
+write.csv(largeclurm ,"results/largeclu_rmnp_inv5.csv")
+
 
 ####### investigated clusters #######
 ####plot behaviour barplot for investigated clusters

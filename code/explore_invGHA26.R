@@ -135,6 +135,73 @@ sum_inv26_2
 
 write.csv(sum_inv26_2,"results/gha26_inv2.csv")
 
+####
+
+
+dat26large <- inv_datgha26[Act_fixes >= 6] 
+
+largeclu26 <- dat26large[ , .(fix.mean=mean(Act_fixes), 
+                                fix.med=median(Act_fixes),
+                                fix.min = min(Act_fixes),
+                                fix.max=max(Act_fixes),
+                                hr.mean = mean(CluDurHours),
+                                hr.med = median(CluDurHours),
+                                hr.min = min(CluDurHours),
+                                hr.max = max(CluDurHours),
+                                rad.mean=mean(Clus_rad_m), 
+                                rad.med=median(Clus_rad_m),
+                                rad.min = min(Clus_rad_m),
+                                rad.max=max(Clus_rad_m),
+                                count = .N), by = Behaviour_1]
+
+head(largeclu26)
+
+write.csv(largeclurm ,"results/largeclu_gha26_inv1.csv")
+
+################now with behaviour
+
+dat26large <- inv_datgha26[Act_fixes >= 6] 
+
+largeclu26 <- dat26large[ , .(fix.mean=mean(Act_fixes), 
+                              fix.med=median(Act_fixes),
+                              fix.min = min(Act_fixes),
+                              fix.max=max(Act_fixes),
+                              hr.mean = mean(CluDurHours),
+                              hr.med = median(CluDurHours),
+                              hr.min = min(CluDurHours),
+                              hr.max = max(CluDurHours),
+                              rad.mean=mean(Clus_rad_m), 
+                              rad.med=median(Clus_rad_m),
+                              rad.min = min(Clus_rad_m),
+                              rad.max=max(Clus_rad_m),
+                              count = .N), by = Behav]
+
+head(largeclu26)
+
+write.csv(largeclurm ,"results/largeclu_gha26_inv5pt.csv")
+
+##### prey kills
+
+dat26large <- inv_datgha26[Act_fixes >= 8] 
+
+largeclu26 <- dat26large[ , .(fix.mean=mean(Act_fixes), 
+                              fix.med=median(Act_fixes),
+                              fix.min = min(Act_fixes),
+                              fix.max=max(Act_fixes),
+                              hr.mean = mean(CluDurHours),
+                              hr.med = median(CluDurHours),
+                              hr.min = min(CluDurHours),
+                              hr.max = max(CluDurHours),
+                              rad.mean=mean(Clus_rad_m), 
+                              rad.med=median(Clus_rad_m),
+                              rad.min = min(Clus_rad_m),
+                              rad.max=max(Clus_rad_m),
+                              count = .N), by = Behav]
+
+head(largeclu26)
+
+write.csv(largeclurm ,"results/largeclu_gha26_inv.csv")
+
 ####### investigated clusters #######
 ####plot behaviour barplot for investigated clusters
 

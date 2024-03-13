@@ -26,6 +26,10 @@ datrmnp <- datrmnp[Act_fixes <= 300] ###6433 obs
 
 summary (datrmnp$mwKid)
 
+##
+
+
+
 
 ### calculate stats for actual fixes and radius for clusters
 
@@ -46,6 +50,8 @@ sum_clurm <- datrmnp[ , .(fix.mean=mean(Act_fixes),
                    count = .N), by = JoinStatus]
 
 head(sum_clurm)
+
+
 
 
 ### proportion of clusters investigated by actual fixes

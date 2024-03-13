@@ -199,6 +199,10 @@ quantile(trk$sl_, probs = c(0.95, 0.99))
 
 # remove erroneous long steps
 trk.sub <- setDT(trk)[sl_ <= 25000]
+quantile(trk.sub$sl_)
+trk.sub[,.(quantile(sl_)), by = .(pop)]
+trk.sub[,.(quantile(sl_)), by = .(pop, season)]
+
 ## plots ----
 col_pal <- c("#440154","#21918c")
 
@@ -263,13 +267,14 @@ ggplot(trk.sub, aes(season, sl_, color = season, fill = season)) +
 
 
 sum.pop <- trk.sub[, .(median = median(sl_, na.rm = T), 
-                       mean = mean(sl_, na.rm = T)), by = .(pop)]
+                       mean = mean(sl_, na.rm = T), sd = sd(sl_, na.rm = T)), by = .(pop)]
 ggplot(trk.sub, aes(sl_)) + 
   geom_density(aes(fill = pop), alpha = 0.4) +
   geom_vline(data = sum.pop, aes(xintercept=mean, color = pop)) +
   xlim(c(0, 10000)) +
   scale_colour_manual(values = col_pal,labels=c('GHA 26', 'RMNP'), name = "Study Area") +
   scale_fill_manual(values = col_pal,labels=c('GHA 26', 'RMNP'), name = "Study Area") +
+  xlab("Step lengths (m)/2-hours")+
   theme_bw() + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
     panel.border = element_blank(),
@@ -285,7 +290,8 @@ ggplot(trk.sub, aes(sl_)) +
     legend.position=c(0.8, 0.9)) 
 
 sum.pop.season <- trk.sub[, .(median = median(sl_, na.rm = T), 
-                       mean = mean(sl_, na.rm = T)), by = .(pop, season)]
+                       mean = mean(sl_, na.rm = T),
+                       sd = sd(sl_, na.rm = T)), by = .(pop, season)]
 
 ggplot(trk.sub, aes(sl_)) + 
   geom_density(aes(fill = season), alpha = 0.4) +
@@ -294,7 +300,7 @@ ggplot(trk.sub, aes(sl_)) +
   scale_colour_manual(values = col_pal,labels=c('Snow', 'Snow free'), name = "Season") +
   scale_fill_manual(values = col_pal,labels=c('Snow', 'Snow free'), name = "Season") +
   facet_wrap(~pop) +  
-  xlab("Step lengths/2-hours")+
+  xlab("Step lengths (m)/2-hours")+
   theme_bw() + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
     panel.border = element_blank(),

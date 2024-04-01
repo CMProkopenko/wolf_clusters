@@ -134,7 +134,7 @@ p_clu
 #     legend.position=c(0.8, 0.9)) + xlim(0,100)
 #   
 # p_invfix 
-
+datrmnp$title <- "A. RMNP"
 
 p_histfixrm <- ggplot() +
   geom_histogram(data = datrmnp, aes(x= Act_fixes,fill = JoinStatus, colour = JoinStatus),
@@ -143,14 +143,16 @@ p_histfixrm <- ggplot() +
              linetype="dashed", size = 0.9) +
   ylab("Frequency") + #ylim(0,6000) +
   xlab("Number of locations") + #xlim(0,100) +
-  ggtitle("a. RMNP") + 
+  #ggtitle("A. RMNP") + 
+  facet_grid(. ~ title) + 
   scale_colour_manual(values = c("#3b528b","#5ec962"),labels=c('Not Investigated', 'Investigated'), name = "Cluster Status") +
   scale_fill_manual(values = c("#3b528b","#5ec962"),labels=c('Not Investigated', 'Investigated'), name = "Cluster Status") +
   theme_bw() +theme_bw()  + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
-    panel.border = element_blank(),
+   # panel.border = element_blank(),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
+    strip.text = element_text(size = 20,hjust = 0),
     plot.title = element_text(size = 20, hjust = .98, vjust = -8),
     axis.line = element_line(colour = "black", size = .1),
     axis.text.x = element_text(size=20),
@@ -274,7 +276,7 @@ p_clu_dur<- ggplot(datrmnp) +
     panel.border = element_blank(),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
-#    plot.title = element_text(size = 20, hjust = .98, vjust = -8),
+   plot.title = element_text(size = 20, hjust = .98, vjust = -8),
     axis.line = element_line(colour = "black", size = .1),
     axis.text.x = element_text(size=20),
     axis.title = element_text(size=20),

@@ -198,10 +198,12 @@ p_timeinvrm +  geom_boxplot() + coord_flip()
 
 
 ##plot fix number by behaviour 
+inv_datrmnp$title <- "D. RMNP"
+
 p_behavfixrm <- ggplot(inv_datrmnp, aes(x = Behav, y = Act_fixes)) +
  geom_boxplot(outlier.shape = NA)  +
   geom_jitter( colour = "#5ec962", position=position_jitter(0.2), alpha = 0.2) +
-  coord_flip() + #ylim(0,100) +
+  coord_flip() + ylim(0,100) +
   geom_vline(xintercept = 1.5) + 
   geom_vline(xintercept = 3.5) +
   geom_vline(xintercept = 4.5) +
@@ -209,12 +211,14 @@ p_behavfixrm <- ggplot(inv_datrmnp, aes(x = Behav, y = Act_fixes)) +
   annotate(geom="text", x=4, y=120, label="Energy Conservation",alpha = .7, size = 6) +
   annotate(geom="text", x=2.5, y=120, label="Reproduction", alpha = .7, size = 6) +
   xlab("Behaviours") + ylab("Number of locations") +
-  ggtitle("d. RMNP") +
+ # ggtitle("D. RMNP") +
+  facet_grid(. ~ title)+ 
   theme_bw() +theme_bw()  + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
-    panel.border = element_blank(),
+   # panel.border = element_blank(),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
+    strip.text = element_text(size = 20,hjust = 0),
     plot.title = element_text(size = 20, hjust = .98, vjust = -8),
     axis.line = element_line(colour = "black", size = .1),
     axis.text.x = element_text(size=20),
@@ -432,7 +436,8 @@ p_investdaysrm <- ggplot(inv_datrmnp, aes(x = Behav, y = daysEarly)) +
   geom_jitter(position=position_jitter(0.2), alpha = 0.2) +
   coord_flip() + 
   #ylim(0,500) +
-  ggtitle("RMNP") +
+ # ggtitle("RMNP") +
+  #facet_grid(. ~ title)+ 
   xlab("Behaviours") + ylab("Investigation Time (days)") +
   theme_bw() +theme_bw()  + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),

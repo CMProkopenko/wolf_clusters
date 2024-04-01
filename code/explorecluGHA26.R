@@ -119,7 +119,7 @@ p_clu26
 # 
 # p_invfix26
  
-
+datgha26$title <- "B. GHA 26"
 
 p_histfix26 <- ggplot() +
   geom_histogram(data = datgha26, aes(x= Act_fixes,fill = JoinStatus, colour = JoinStatus),
@@ -127,15 +127,17 @@ p_histfix26 <- ggplot() +
   geom_vline(data = sum_clu26, aes(xintercept = fix.med, colour = JoinStatus),
                linetype="dashed", size = 0.9) +
   ylab("Frequency") + #ylim(0,6000) +
-  xlab("Number of locations") +   #xlim(0,100) +
-  ggtitle("b. GHA 26") + 
+  xlab("Number of locations") +  # xlim(0,50) +
+  #ggtitle("B. GHA 26") + 
+  facet_grid(. ~ title) + 
   scale_colour_manual(values = c("#3b528b","#5ec962"),labels=c('Not Investigated', 'Investigated'), name = "Cluster Status") +
   scale_fill_manual(values = c("#3b528b","#5ec962"),labels=c('Not Investigated', 'Investigated'), name = "Cluster Status") +
   theme_bw() +theme_bw()  + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
-    panel.border = element_blank(),
+    #panel.border = element_blank(),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
+    strip.text = element_text(size = 20,hjust = 0),
     plot.title = element_text(size = 20, hjust = .98, vjust = -8),
     axis.line = element_line(colour = "black", size = .1),
     axis.text.x = element_text(size=20),
@@ -152,7 +154,7 @@ p_invfix26 <- ggplot() +
   geom_smooth(data = allct26 , aes(x = allct26 $Act_fixes, y = propInv), se = F, size = 0.9, col = "#21918c") +
   ylab("Proportion Investigated") +
   xlab("Number of locations") +   xlim(0,100) +
-  ggtitle("c.") + 
+  ggtitle("C.") + 
   theme_bw() +theme_bw()  + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
     panel.border = element_blank(),

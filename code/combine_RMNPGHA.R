@@ -45,7 +45,7 @@ png('results/clusters_invest2.png', width = 20000, height = 15000, res=1200, uni
 
 #((p_histfixrm/p_histfix26)|p_invfix2)/(p_behavfixrm|p_behavfix26)
 
-hists/p_behavfixrm|p_invfix2/p_behavfix26 
+hists/p_invfix2|p_behavfixrm/p_behavfix26 
 
 dev.off()
 

@@ -5,7 +5,7 @@
 ###combine hists and scatterplot 
 
 ###both study sites in one
-allct26$title <- "C."
+allct26$title <- "C. Both Study Areas"
 
 p_invfix2 <- ggplot() +
   geom_point(data = allctrm, aes(x = allctrm$Act_fixes, y = propInv,  col = "RMNP"), alpha = 0.5) + 

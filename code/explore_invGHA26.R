@@ -241,7 +241,7 @@ p_behavfix26 <- ggplot(inv_datgha26, aes(x = Behav, y = Act_fixes)) +
   annotate(geom="text", x=5, y=200, label="Energy Acquisition", alpha = .7, size = 6) +
   annotate(geom="text", x=4, y=200, label="Energy Conservation",alpha = .7, size = 6) +
   annotate(geom="text", x=2.5, y=200, label="Reproduction", alpha = .7, size = 6) +
-xlab("") + ylab("Number of locations") +
+xlab("Behaviors") + ylab("Number of locations") +
   facet_grid(. ~ title)+ 
   theme_bw()  + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),

@@ -125,9 +125,9 @@ p_histfix26 <- ggplot() +
   geom_histogram(data = datgha26, aes(x= Act_fixes,fill = JoinStatus, colour = JoinStatus),
                    alpha = 0.1, size = 0.9, binwidth = 2) +
   geom_vline(data = sum_clu26, aes(xintercept = fix.med, colour = JoinStatus),
-               linetype="dashed", size = 0.9) +
+               linetype= "solid", size = 1) +
   ylab("Frequency") + #ylim(0,6000) +
-  xlab("Number of locations") +  # xlim(0,50) +
+  xlab("Number of locations") +   xlim(0,50) +
   #ggtitle("B. GHA 26") + 
   facet_grid(. ~ title) + 
   scale_colour_manual(values = c("#3b528b","#5ec962"),labels=c('Not Investigated', 'Investigated'), name = "Cluster Status") +

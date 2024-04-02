@@ -203,14 +203,14 @@ inv_datrmnp$title <- "D. RMNP"
 p_behavfixrm <- ggplot(inv_datrmnp, aes(x = Behav, y = Act_fixes)) +
  geom_boxplot(outlier.shape = NA)  +
   geom_jitter( colour = "#5ec962", position=position_jitter(0.2), alpha = 0.2) +
-  coord_flip() + ylim(0,100) +
+  coord_flip() + #ylim(0,200) +
   geom_vline(xintercept = 1.5) + 
   geom_vline(xintercept = 3.5) +
   geom_vline(xintercept = 4.5) +
-  annotate(geom="text", x=5, y=120, label="Energy Acquisition", alpha = .7, size = 6) +
-  annotate(geom="text", x=4, y=120, label="Energy Conservation",alpha = .7, size = 6) +
-  annotate(geom="text", x=2.5, y=120, label="Reproduction", alpha = .7, size = 6) +
-  xlab("Behaviours") + ylab("Number of locations") +
+  annotate(geom="text", x=5, y=200, label="Energy Acquisition", alpha = .7, size = 6) +
+  annotate(geom="text", x=4, y=200, label="Energy Conservation",alpha = .7, size = 6) +
+  annotate(geom="text", x=2.5, y=200, label="Reproduction", alpha = .7, size = 6) +
+  xlab("Behaviors") + ylab("Number of locations") +
  # ggtitle("D. RMNP") +
   facet_grid(. ~ title)+ 
   theme_bw() +theme_bw()  + theme(

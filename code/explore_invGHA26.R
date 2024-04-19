@@ -229,6 +229,8 @@ p_timeinv26 +  geom_boxplot() + coord_flip()
 
 
 ##plot fix number by behaviour 
+inv_datgha26$title <- "E. GHA 26"
+
 p_behavfix26 <- ggplot(inv_datgha26, aes(x = Behav, y = Act_fixes)) +
   geom_boxplot(outlier.shape = NA)  +
   geom_jitter( colour = "#5ec962", position=position_jitter(0.2), alpha = 0.2) +
@@ -239,13 +241,14 @@ p_behavfix26 <- ggplot(inv_datgha26, aes(x = Behav, y = Act_fixes)) +
   annotate(geom="text", x=5, y=200, label="Energy Acquisition", alpha = .7, size = 6) +
   annotate(geom="text", x=4, y=200, label="Energy Conservation",alpha = .7, size = 6) +
   annotate(geom="text", x=2.5, y=200, label="Reproduction", alpha = .7, size = 6) +
-xlab("") + ylab("Number of locations") +
-  ggtitle("e. GHA 26") +
-  theme_bw() +theme_bw()  + theme(
+xlab("Behaviors") + ylab("Number of locations") +
+  facet_grid(. ~ title)+ 
+  theme_bw()  + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
     panel.border = element_blank(),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
+    strip.text = element_text(size = 20,hjust = 0),
     plot.title = element_text(size = 20, hjust = .98, vjust = -8),
     axis.line = element_line(colour = "black", size = .1),
     axis.text.x = element_text(size=20),
@@ -455,3 +458,4 @@ png('results/investigationtime26.png', width = 12000, height = 10000, res=1200, 
 p_investdays26
 
 dev.off()
+

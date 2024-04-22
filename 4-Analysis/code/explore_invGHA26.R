@@ -16,7 +16,7 @@ lapply(libs, require, character.only = TRUE)
 ####Load and subset data ####
 
 ### load All Sites data after cleaning protocol
-datgha26 <- fread('data/2023-08-01_GHA_K_All_Clu.csv')  ###11237 obs
+datgha26 <- fread('data/aspatial_clu_dat_GHA26.csv')  ###11237 obs
 
 summary(datgha26$Act_fixes) ###max Actual fixes 260
 ##clusters less than 265 actual fixes

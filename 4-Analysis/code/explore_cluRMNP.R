@@ -14,7 +14,7 @@ lapply(libs, require, character.only = TRUE)
 ####Load and subset data ####
 
 ### load All Sites data after cleaning protocol
-datrmnp <- fread('data/2023-02-22_RMNP_K_All_Clu.csv')  ###6547 obs
+datrmnp <- fread('data/aspatial_clu_dat_RMNP.csv')  ###6547 obs
 
 summary(datrmnp$Act_fixes) ###max actual fixes 275
 

@@ -1,7 +1,7 @@
 # wolf_clusters
 Warren Wolf Algorithm
 
-This software is designed to GPS tracking data for a single wolf and generate a set of clsuters.
+This software is designed to GPS tracking data for a single wolf and generate a set of clusters.
 
 Refer to the Warren Wolf Algorithm User Guide for more details.
 

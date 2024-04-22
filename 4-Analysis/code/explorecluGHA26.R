@@ -1,6 +1,9 @@
-
-####
-###cluster data exploration for RMNP
+#########################################
+###Cluster data exploration
+#### Eastern MB (GHA 26)
+###### Christina Prokopenko
+###### Started April 2023
+#########################################
 
 ###packages
 libs <- c('data.table', 'rcartocolor', 
@@ -285,14 +288,6 @@ png('results/clu_dur26.png', width = 12000, height = 10000, res=1200, units="px"
 p_clu_dur26
 
 dev.off()
-
-
-
-#### seems the same
-#time <- ggplot(datgha26) + geom_point(aes(x = CluDurHours, y = Total_hours))
-
-
-
 
 
 

@@ -1,5 +1,10 @@
 
-
+#########################################
+###Combining cluster data sets 
+####RMNP and Eastern MB (GHA 26)
+###### Christina Prokopenko
+###### Started April 2023
+#########################################
 
 ###run explore cluRMNP and cluGHA26
 ###combine hists and scatterplot 

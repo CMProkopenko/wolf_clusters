@@ -1,5 +1,9 @@
-####
-###investigated site data exploration
+#########################################
+###Investigated Site Data Exploration
+####EASTERN MB (GHA 26)
+###### Christina Prokopenko
+###### Started April 2023
+#########################################
 
 ###packages
 libs <- c('data.table', 'rcartocolor', 

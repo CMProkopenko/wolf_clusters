@@ -1,6 +1,9 @@
-####
-###investigated site data exploration
-
+#########################################
+###Investigated Site Data Exploration
+####Riding Mountain
+###### Christina Prokopenko
+###### Started April 2023
+#########################################
 
 ###packages
 libs <- c('data.table', 'rcartocolor', 

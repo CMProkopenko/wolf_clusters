@@ -28,7 +28,7 @@ derived <- file.path('data', 'derived')
 # 
 # dat.forays <- fread(file.path(raw, 'Foray_Remove_aKDE.csv'), header = T)
 # dat.forays$foray <- 'foray'
-# 
+
 # # utm zone 14n
 # # wgs84 32614
 # # nad83 26914
@@ -38,7 +38,7 @@ derived <- file.path('data', 'derived')
 # crs14 <- sf::st_crs(32614)
 # 
 # set.seed(57)
-# 
+
 # #### RMNP ----
 # datRMNP <- fread(file.path(raw, 'RMNPwolf_rarified.csv'))
 # datRMNP$datetime <- paste(datRMNP$gmtDate, datRMNP$gmtTime)
@@ -213,9 +213,9 @@ sum.pop <- trk.sub[, .(median = median(sl_, na.rm = T),
 ggplot(trk.sub, aes(sl_)) + 
   geom_density(aes(fill = pop), alpha = 0.4) +
   geom_vline(data = sum.pop, aes(xintercept=mean, color = pop)) +
-  xlim(c(0, 10000)) +
-  scale_colour_manual(values = col_pal,labels=c('GHA 26', 'RMNP'), name = "Study Area") +
-  scale_fill_manual(values = col_pal,labels=c('GHA 26', 'RMNP'), name = "Study Area") +
+  coord_cartesian(xlim = c(0, 10000)) +
+  scale_colour_manual(values = col_pal,labels=c('SEMB', 'RMNP'), name = "Study Area") +
+  scale_fill_manual(values = col_pal,labels=c('SEMB', 'RMNP'), name = "Study Area") +
   xlab("Step lengths (m)/2-hours")+
   theme_bw() + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
@@ -235,13 +235,15 @@ sum.pop.season <- trk.sub[, .(median = median(sl_, na.rm = T),
                        mean = mean(sl_, na.rm = T),
                        sd = sd(sl_, na.rm = T)), by = .(pop, season)]
 
+pop.labs <- c('SEMB', 'RMNP')
+names(pop.labs) <- c('GHA26', 'RMNP')
 ggplot(trk.sub, aes(sl_)) + 
   geom_density(aes(fill = season), alpha = 0.4) +
   geom_vline(data = sum.pop.season, aes(xintercept=mean, color = season)) +
-  xlim(c(0, 5000)) +
+  coord_cartesian(xlim = c(0, 5000)) +
   scale_colour_manual(values = col_pal,labels=c('Snow', 'Snow free'), name = "Season") +
   scale_fill_manual(values = col_pal,labels=c('Snow', 'Snow free'), name = "Season") +
-  facet_wrap(~pop) +  
+  facet_wrap(~pop, labeller = labeller(pop = pop.labs)) +  
   xlab("Step lengths (m)/2-hours")+
   theme_bw() + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),

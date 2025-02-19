@@ -14,7 +14,8 @@ lapply(libs, require, character.only = TRUE)
 ####Load and subset data ####
 
 ### load All Sites data after cleaning protocol
-datrmnp <- fread('data/aspatial_clu_dat_RMNP.csv')  ###6547 obs
+datrmnp <- fread('data/2023-02-22_RMNP_K_All_Clu.csv') 
+#datrmnp <- fread('data/aspatial_clu_dat_RMNP.csv')  ###6547 obs
 
 summary(datrmnp$Act_fixes) ###max actual fixes 275
 
@@ -256,7 +257,7 @@ cluctdurrm <- durcountrm[JoinStatus == 'CLUonly']
 invctdurrm <-durcountrm[JoinStatus == 'Matched']
 allctdurrm <- invctdurrm[cluctdurrm, on = 'CluDurHours']
 
-allctdurrm[is.na(allctdurrm$count), ] <- c(0)
+#allctdurrm[is.na(allctdurrm$count), ] <- c(0)
 
 propinvdurrm <- allctdurrm[, "propInv" := (count/(count+i.count))]
 propinvdurrm <-propinvdurrm[, "total" := (count+i.count)]

@@ -14,7 +14,8 @@ lapply(libs, require, character.only = TRUE)
 ####Load and subset data ####
 
 ### load All Sites data after cleaning protocol
-datgha26 <- fread('data/aspatial_clu_dat_GHA26')  ###11833 obs
+datgha26 <- fread('data/2023-08-01_GHA_K_All_Clu.csv') 
+#datgha26 <- fread('data/aspatial_clu_dat_GHA26')  ###11833 obs
 summary(datgha26$Act_fixes) ###max Actual fixes 260
 ##clusters less than 265 actual fixes
 ##removes inv match only as well because there are no clusters associated
@@ -77,7 +78,7 @@ allct26 $Act_fixes <-  as.numeric(as.character(allct26 $Act_fixes))
 
 p_clu26 <- ggplot() +
   geom_histogram(data = datgha26, aes(x= Act_fixes, colour = JoinStatus), 
-                 fill = "white", alpha = 0.2, position = "dodge") +
+                 fill = "white", alpha = 0.2, position = "dodge", bins =30) +
   geom_vline(data = sum_clu26, aes(xintercept = fix.mean, colour = JoinStatus),
              linetype="dashed") 
 
@@ -192,7 +193,7 @@ cluctrad26 <- radcount26[JoinStatus == 'CLUonly']
 invctrad26 <-radcount26[JoinStatus == 'Matched']
 allctrad26 <- invctrad26[cluctrad26, on = 'Clus_rad_m']
 
-allctrad26[is.na(allctrad26$count), ] <- c(0)  
+#allctrad26[is.na(allctrad26$count), ] <- 0  
 
 propinvrad26 <- allctrad26[, "propInv" := (count/(count+i.count))]
 propinvrad26 <-propinvrad26[, "total" := (count+i.count)]
@@ -207,7 +208,7 @@ allctrad26$Clus_rad_m <-  as.numeric(as.character(allctrad26$Clus_rad_m))
 p_clu_rad26 <- ggplot(datgha26) +
   geom_histogram(aes(x= Clus_rad_m, colour = JoinStatus), 
                  fill = "white", alpha = 0.2, position = "dodge") +
-  geom_vline(data = sum_clurm, aes(xintercept = rad.med, colour = JoinStatus),
+  geom_vline(data = sum_clu26, aes(xintercept = rad.med, colour = JoinStatus),
              linetype="dashed") +
   ggtitle("GHA 26") +
   xlab("Behaviours") + ylab("Cluster Radius (meters)") +
@@ -230,6 +231,7 @@ p_clu_rad26
 png('results/clu_rad26.png', width = 12000, height = 10000, res=1200, units="px")
 
 p_clu_rad26
+
 
 dev.off()
 
@@ -261,7 +263,7 @@ allctdur26$CluDurHours <-  as.numeric(as.character(allct26$CluDurHours))
 ###### by cluster duration
 p_clu_dur26<- ggplot(datgha26) +
   geom_histogram(aes(x= CluDurHours, colour = JoinStatus), 
-                 fill = "white", alpha = 0.2, position = "dodge") +
+                 fill = "white", alpha = 0.2, position = "dodge", bins = 30) +
   geom_vline(data = sum_clu26, aes(xintercept = hr.med, colour = JoinStatus),
              linetype="dashed") +
   ggtitle("GHA 26") +

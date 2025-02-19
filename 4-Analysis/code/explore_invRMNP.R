@@ -14,11 +14,11 @@ lapply(libs, require, character.only = TRUE)
 ####Load and subset data ####
 
 ### load All Sites data after cleaning protocol
-datrmp <- fread('data/aspatial_clu_dat_RMNP.csv')  ###6547 obs
+datrmnp <- fread('data/2023-02-22_RMNP_K_All_Clu.csv')  ###6547 obs
 #datrmp <- datrmp[Act_fixes <= 300] ###6433 obs. ##removes inv match only
 
 ### clusters matched with investigated sites
-inv_datrmnp <-datrmp[JoinStatus == 'Matched' & finalIgnore == 0]
+inv_datrmnp <-datrmnp[JoinStatus == 'Matched' & finalIgnore == 0]
 inv_datrmnp$Behaviour_1 <- as.factor(inv_datrmnp$Behaviour_1)
 summary(inv_datrmnp$Behaviour_1)
 

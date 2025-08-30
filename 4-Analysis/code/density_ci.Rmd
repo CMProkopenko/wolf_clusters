@@ -1,0 +1,872 @@
+---
+title: "RMNP CI's"
+author: "B. Carswell"
+output: pdf_document
+---
+
+```{r}
+##packages
+library(sf)
+library(dplyr)
+library(ggplot2)
+library(sp)
+library(raster)
+library(dplyr)
+```
+
+
+2014 survey data 
+```{r} 
+## data
+#survey lines?
+lines <- read_sf("./surveylines/lines_2020_full.shp")
+
+#load RMNP shapefile for reference. 
+rmnp_shape <- read_sf("./RMNP extent shapefile/RMNPextent.shp")
+
+#load pts 
+dat_2014 <- read.csv("./survey_dat/2014_pts.csv")
+
+##subset out species points
+#convert UTM to SF
+pts <- sf::st_as_sf(dat_2014, coords=c("east", "north"))
+st_crs(pts) <- 32614  #14N UTM reference
+
+#subset out moose and elk
+moose_pts_14 <- subset(pts, pts$species == "m")
+elk_pts_14 <- subset(pts, pts$species == "e")
+
+#remove points that are outside of RMNP boundary 
+moose_pts_14 <- st_intersection(moose_pts_14, rmnp_shape)
+elk_pts_14 <- st_intersection(elk_pts_14, rmnp_shape)
+
+#300m buffer on transects, assumed perfect detection range during surveys
+lines_b <- st_buffer(lines, 300)
+
+#join buffer and points 
+m_lines_pts <- st_join(lines_b, moose_pts_14)
+e_lines_pts <- st_join(lines_b, elk_pts_14)
+
+#replace NA with 0
+m_lines_pts$count <- m_lines_pts$count %>% replace(is.na(.), 0)
+e_lines_pts$count <- e_lines_pts$count %>% replace(is.na(.), 0)
+
+#transect area
+m_lines_pts$t_area <- st_area(m_lines_pts) / 1000000
+e_lines_pts$t_area <- st_area(e_lines_pts) / 1000000
+
+#clean up.
+m_lines_pts <- m_lines_pts %>%
+                group_by(LineNum) %>% 
+                reframe(count = sum(count), area = max(t_area))
+e_lines_pts <- e_lines_pts %>%
+                group_by(LineNum) %>% 
+                reframe(count = sum(count), area = max(t_area))
+
+#dens 
+m_lines_pts$dens <- as.numeric((m_lines_pts$count*3089) / (m_lines_pts$area))
+e_lines_pts$dens <- as.numeric((e_lines_pts$count*3089) / (e_lines_pts$area))
+
+#
+set.seed(25032025)
+moose_CI <- replicate(1000, mean(sample(m_lines_pts$dens, nrow(m_lines_pts) - 1, replace = TRUE)))
+elk_CI <- replicate(1000, mean(sample(e_lines_pts$dens, nrow(e_lines_pts) - 1, replace = TRUE)))
+
+##covariance equation 
+#count^2
+m_lines_pts$count_2 <- (m_lines_pts$count)^2
+#area^2
+m_lines_pts$area_2 <- (m_lines_pts$area)^2
+#count*area
+m_lines_pts$count_area <- (m_lines_pts$count * m_lines_pts$area) 
+
+
+#variance between area of sample units 
+##  (SUMSQ(area) - (Sum Area^2 / n)) / n-1
+var_unit <- (1/(nrow(m_lines_pts) - 1)) * 
+  ((sum(m_lines_pts$area_2)) - (sum(m_lines_pts$area)^2 / nrow(m_lines_pts)))
+
+#variance between animals on the transects 
+##  (SUMSQ(count) - (Sum count^2 / n)) / n-1
+var_count <- (1/(nrow(m_lines_pts) - 1)) * 
+  ((sum(m_lines_pts$count_2)) - (sum(m_lines_pts$count)^2 / nrow(m_lines_pts)))
+
+#covariance between animals counted and area of each transect 
+##  (SUMSQ(count*area) - (Sum count * sum area / n)) / n-1
+covar_c_a <- as.numeric((1/(nrow(m_lines_pts) - 1)) * 
+     ((sum(m_lines_pts$count_area)) - 
+     ((sum(m_lines_pts$count) * sum(m_lines_pts$area))/ nrow(m_lines_pts))))
+
+# variance based on number of sample units to total number in Population 
+pop_sample <- 268
+abundance <- as.numeric(sum(m_lines_pts$count) / sum(m_lines_pts$area))
+
+sample_var <- pop_sample*(pop_sample - nrow(m_lines_pts)) / nrow(m_lines_pts)
+
+var_2 <- var_count -2 * (abundance*covar_c_a)
+
+var_3 <- as.numeric((abundance*abundance) * (var_unit))
+
+variance <- sample_var*(var_2+var_3)
+
+SE <- sqrt(variance)
+
+m_CI <- SE * 1.96
+########################################################################
+##covariance equation 
+#count^2
+e_lines_pts$count_2 <- (e_lines_pts$count)^2
+#area^2
+e_lines_pts$area_2 <- (e_lines_pts$area)^2
+#count*area
+e_lines_pts$count_area <- (e_lines_pts$count * e_lines_pts$area) 
+
+
+#variance between area of sample units 
+##  (SUMSQ(area) - (Sum Area^2 / n)) / n-1
+var_unit <- (1/(nrow(e_lines_pts) - 1)) * 
+  ((sum(m_lines_pts$area_2)) - (sum(e_lines_pts$area)^2 / nrow(e_lines_pts)))
+
+#variance between animals on the transects 
+##  (SUMSQ(count) - (Sum count^2 / n)) / n-1
+var_count <- (1/(nrow(e_lines_pts) - 1)) * 
+  ((sum(e_lines_pts$count_2)) - (sum(e_lines_pts$count)^2 / nrow(e_lines_pts)))
+
+#covariance between animals counted and area of each transect 
+##  (SUMSQ(count*area) - (Sum count * sum area / n)) / n-1
+covar_c_a <- as.numeric((1/(nrow(e_lines_pts) - 1)) * 
+     ((sum(e_lines_pts$count_area)) - 
+     ((sum(e_lines_pts$count) * sum(e_lines_pts$area))/ nrow(e_lines_pts))))
+
+# variance based on number of sample units to total number in Population 
+pop_sample <- 268
+abundance <- as.numeric(sum(e_lines_pts$count) / sum(e_lines_pts$area))
+
+sample_var <- pop_sample*(pop_sample - nrow(e_lines_pts)) / nrow(e_lines_pts)
+
+var_2 <- var_count -2 * (abundance*covar_c_a)
+
+var_3 <- as.numeric((abundance*abundance) * (var_unit))
+
+variance <- sample_var*(var_2+var_3)
+
+SE <- sqrt(variance)
+
+e_CI <- SE * 1.96
+######################################################
+
+```
+
+2015 survey data 
+```{r} 
+## data
+#survey lines?
+lines <- read_sf("./surveylines/lines_2020_full.shp")
+
+#load RMNP shapefile for reference. 
+rmnp_shape <- read_sf("./RMNP extent shapefile/RMNPextent.shp")
+
+#load pts 
+dat_2015 <- read.csv("./survey_dat/2015_pts.csv")
+
+##subset out species points
+#convert UTM to SF
+pts <- sf::st_as_sf(dat_2015, coords=c("east", "north"))
+st_crs(pts) <- 32614  #14N UTM reference
+
+#subset out moose and elk
+moose_pts_15 <- subset(pts, pts$species == "m")
+elk_pts_15 <- subset(pts, pts$species == "e")
+
+#remove points that are outside of RMNP boundary 
+moose_pts_15 <- st_intersection(moose_pts_15, rmnp_shape)
+elk_pts_15 <- st_intersection(elk_pts_15, rmnp_shape)
+
+#300m buffer on transects, assumed perfect detections range during surveys
+lines_b <- st_buffer(lines, 300)
+
+#join buffer and points 
+m_lines_pts <- st_join(lines_b, moose_pts_15)
+e_lines_pts <- st_join(lines_b, elk_pts_15)
+
+#replace NA with 0
+m_lines_pts$count <- m_lines_pts$count %>% replace(is.na(.), 0)
+e_lines_pts$count <- e_lines_pts$count %>% replace(is.na(.), 0)
+
+#transect area
+m_lines_pts$t_area <- st_area(m_lines_pts) / 1000000
+e_lines_pts$t_area <- st_area(e_lines_pts) / 1000000
+
+#clean up.
+m_lines_pts <- m_lines_pts %>%
+                group_by(LineNum) %>% 
+                reframe(count = sum(count), area = max(t_area))
+e_lines_pts <- e_lines_pts %>%
+                group_by(LineNum) %>% 
+                reframe(count = sum(count), area = max(t_area))
+
+#dens 
+m_lines_pts$dens <- as.numeric((m_lines_pts$count*3089) / (m_lines_pts$area))
+e_lines_pts$dens <- as.numeric((e_lines_pts$count*3089) / (e_lines_pts$area))
+
+#
+set.seed(25032025)
+moose_CI <- replicate(1000, mean(sample(m_lines_pts$dens, nrow(m_lines_pts) - 1, replace = TRUE)))
+elk_CI <- replicate(1000, mean(sample(e_lines_pts$dens, nrow(e_lines_pts) - 1, replace = TRUE)))
+
+##covariance equation 
+#count^2
+m_lines_pts$count_2 <- (m_lines_pts$count)^2
+#area^2
+m_lines_pts$area_2 <- (m_lines_pts$area)^2
+#count*area
+m_lines_pts$count_area <- (m_lines_pts$count * m_lines_pts$area) 
+
+
+#variance between area of sample units 
+##  (SUMSQ(area) - (Sum Area^2 / n)) / n-1
+var_unit <- (1/(nrow(m_lines_pts) - 1)) * 
+  ((sum(m_lines_pts$area_2)) - (sum(m_lines_pts$area)^2 / nrow(m_lines_pts)))
+
+#variance between animals on the transects 
+##  (SUMSQ(count) - (Sum count^2 / n)) / n-1
+var_count <- (1/(nrow(m_lines_pts) - 1)) * 
+  ((sum(m_lines_pts$count_2)) - (sum(m_lines_pts$count)^2 / nrow(m_lines_pts)))
+
+#covariance between animals counted and area of each transect 
+##  (SUMSQ(count*area) - (Sum count * sum area / n)) / n-1
+covar_c_a <- as.numeric((1/(nrow(m_lines_pts) - 1)) * 
+     ((sum(m_lines_pts$count_area)) - 
+     ((sum(m_lines_pts$count) * sum(m_lines_pts$area))/ nrow(m_lines_pts))))
+
+# variance based on number of sample units to total number in Population 
+pop_sample <- 268
+abundance <- as.numeric(sum(m_lines_pts$count) / sum(m_lines_pts$area))
+
+sample_var <- pop_sample*(pop_sample - nrow(m_lines_pts)) / nrow(m_lines_pts)
+
+var_2 <- var_count -2 * (abundance*covar_c_a)
+
+var_3 <- as.numeric((abundance*abundance) * (var_unit))
+
+variance <- sample_var*(var_2+var_3)
+
+SE <- sqrt(variance)
+
+m_CI <- SE * 1.96
+########################################################################
+##covariance equation 
+#count^2
+e_lines_pts$count_2 <- (e_lines_pts$count)^2
+#area^2
+e_lines_pts$area_2 <- (e_lines_pts$area)^2
+#count*area
+e_lines_pts$count_area <- (e_lines_pts$count * e_lines_pts$area) 
+
+
+#variance between area of sample units 
+##  (SUMSQ(area) - (Sum Area^2 / n)) / n-1
+var_unit <- (1/(nrow(e_lines_pts) - 1)) * 
+  ((sum(m_lines_pts$area_2)) - (sum(e_lines_pts$area)^2 / nrow(e_lines_pts)))
+
+#variance between animals on the transects 
+##  (SUMSQ(count) - (Sum count^2 / n)) / n-1
+var_count <- (1/(nrow(e_lines_pts) - 1)) * 
+  ((sum(e_lines_pts$count_2)) - (sum(e_lines_pts$count)^2 / nrow(e_lines_pts)))
+
+#covariance between animals counted and area of each transect 
+##  (SUMSQ(count*area) - (Sum count * sum area / n)) / n-1
+covar_c_a <- as.numeric((1/(nrow(e_lines_pts) - 1)) * 
+     ((sum(e_lines_pts$count_area)) - 
+     ((sum(e_lines_pts$count) * sum(e_lines_pts$area))/ nrow(e_lines_pts))))
+
+# variance based on number of sample units to total number in Population 
+pop_sample <- 268
+abundance <- as.numeric(sum(e_lines_pts$count) / sum(e_lines_pts$area))
+
+sample_var <- pop_sample*(pop_sample - nrow(e_lines_pts)) / nrow(e_lines_pts)
+
+var_2 <- var_count -2 * (abundance*covar_c_a)
+
+var_3 <- as.numeric((abundance*abundance) * (var_unit))
+
+variance <- sample_var*(var_2+var_3)
+
+SE <- sqrt(variance)
+
+e_CI <- SE * 1.96
+######################################################
+
+```
+
+2016 survey data 
+```{r} 
+## data
+#survey lines?
+lines <- read_sf("./surveylines/lines_2020_full.shp")
+
+#load RMNP shapefile for reference. 
+rmnp_shape <- read_sf("./RMNP extent shapefile/RMNPextent.shp")
+
+#load pts 
+dat_2016 <- read.csv("./survey_dat/2016_pts.csv")
+
+##subset out species points
+#convert UTM to SF
+pts <- sf::st_as_sf(dat_2016, coords=c("x", "y"))
+st_crs(pts) <- 32614  #14N UTM reference
+
+#subset out moose and elk
+moose_pts_16 <- subset(pts, pts$species == "m")
+elk_pts_16 <- subset(pts, pts$species == "e")
+
+#remove points that are outside of RMNP boundary 
+moose_pts_16 <- st_intersection(moose_pts_16, rmnp_shape)
+elk_pts_16 <- st_intersection(elk_pts_16, rmnp_shape)
+
+#300m buffer on transects, assumed perfect detections range during surveys
+lines_b <- st_buffer(lines, 300)
+
+#join buffer and points 
+m_lines_pts <- st_join(lines_b, moose_pts_16)
+e_lines_pts <- st_join(lines_b, elk_pts_16)
+
+#replace NA with 0
+m_lines_pts$count <- m_lines_pts$count %>% replace(is.na(.), 0)
+e_lines_pts$count <- e_lines_pts$count %>% replace(is.na(.), 0)
+
+#transect area
+m_lines_pts$t_area <- st_area(m_lines_pts) / 1000000
+e_lines_pts$t_area <- st_area(e_lines_pts) / 1000000
+
+#clean up.
+m_lines_pts <- m_lines_pts %>%
+                group_by(LineNum) %>% 
+                reframe(count = sum(count), area = max(t_area))
+e_lines_pts <- e_lines_pts %>%
+                group_by(LineNum) %>% 
+                reframe(count = sum(count), area = max(t_area))
+
+#dens 
+m_lines_pts$dens <- as.numeric((m_lines_pts$count*3089) / (m_lines_pts$area))
+e_lines_pts$dens <- as.numeric((e_lines_pts$count*3089) / (e_lines_pts$area))
+
+#
+set.seed(25032025)
+moose_CI <- replicate(1000, mean(sample(m_lines_pts$dens, nrow(m_lines_pts) - 1, replace = TRUE)))
+elk_CI <- replicate(1000, mean(sample(e_lines_pts$dens, nrow(e_lines_pts) - 1, replace = TRUE)))
+
+##covariance equation 
+#count^2
+m_lines_pts$count_2 <- (m_lines_pts$count)^2
+#area^2
+m_lines_pts$area_2 <- (m_lines_pts$area)^2
+#count*area
+m_lines_pts$count_area <- (m_lines_pts$count * m_lines_pts$area) 
+
+
+#variance between area of sample units 
+##  (SUMSQ(area) - (Sum Area^2 / n)) / n-1
+var_unit <- (1/(nrow(m_lines_pts) - 1)) * 
+  ((sum(m_lines_pts$area_2)) - (sum(m_lines_pts$area)^2 / nrow(m_lines_pts)))
+
+#variance between animals on the transects 
+##  (SUMSQ(count) - (Sum count^2 / n)) / n-1
+var_count <- (1/(nrow(m_lines_pts) - 1)) * 
+  ((sum(m_lines_pts$count_2)) - (sum(m_lines_pts$count)^2 / nrow(m_lines_pts)))
+
+#covariance between animals counted and area of each transect 
+##  (SUMSQ(count*area) - (Sum count * sum area / n)) / n-1
+covar_c_a <- as.numeric((1/(nrow(m_lines_pts) - 1)) * 
+     ((sum(m_lines_pts$count_area)) - 
+     ((sum(m_lines_pts$count) * sum(m_lines_pts$area))/ nrow(m_lines_pts))))
+
+# variance based on number of sample units to total number in Population 
+pop_sample <- 268
+abundance <- as.numeric(sum(m_lines_pts$count) / sum(m_lines_pts$area))
+
+sample_var <- pop_sample*(pop_sample - nrow(m_lines_pts)) / nrow(m_lines_pts)
+
+var_2 <- var_count -2 * (abundance*covar_c_a)
+
+var_3 <- as.numeric((abundance*abundance) * (var_unit))
+
+variance <- sample_var*(var_2+var_3)
+
+SE <- sqrt(variance)
+
+m_CI <- SE * 1.96
+########################################################################
+##covariance equation 
+#count^2
+e_lines_pts$count_2 <- (e_lines_pts$count)^2
+#area^2
+e_lines_pts$area_2 <- (e_lines_pts$area)^2
+#count*area
+e_lines_pts$count_area <- (e_lines_pts$count * e_lines_pts$area) 
+
+
+#variance between area of sample units 
+##  (SUMSQ(area) - (Sum Area^2 / n)) / n-1
+var_unit <- (1/(nrow(e_lines_pts) - 1)) * 
+  ((sum(m_lines_pts$area_2)) - (sum(e_lines_pts$area)^2 / nrow(e_lines_pts)))
+
+#variance between animals on the transects 
+##  (SUMSQ(count) - (Sum count^2 / n)) / n-1
+var_count <- (1/(nrow(e_lines_pts) - 1)) * 
+  ((sum(e_lines_pts$count_2)) - (sum(e_lines_pts$count)^2 / nrow(e_lines_pts)))
+
+#covariance between animals counted and area of each transect 
+##  (SUMSQ(count*area) - (Sum count * sum area / n)) / n-1
+covar_c_a <- as.numeric((1/(nrow(e_lines_pts) - 1)) * 
+     ((sum(e_lines_pts$count_area)) - 
+     ((sum(e_lines_pts$count) * sum(e_lines_pts$area))/ nrow(e_lines_pts))))
+
+# variance based on number of sample units to total number in Population 
+pop_sample <- 268
+abundance <- as.numeric(sum(e_lines_pts$count) / sum(e_lines_pts$area))
+
+sample_var <- pop_sample*(pop_sample - nrow(e_lines_pts)) / nrow(e_lines_pts)
+
+var_2 <- var_count -2 * (abundance*covar_c_a)
+
+var_3 <- as.numeric((abundance*abundance) * (var_unit))
+
+variance <- sample_var*(var_2+var_3)
+
+SE <- sqrt(variance)
+
+e_CI <- SE * 1.96
+######################################################
+
+```
+
+2017 survey data 
+```{r} 
+## data
+#survey lines?
+lines <- read_sf("./surveylines/lines_2020_full.shp")
+
+#load RMNP shapefile for reference. 
+rmnp_shape <- read_sf("./RMNP extent shapefile/RMNPextent.shp")
+
+#load pts 
+dat_2017 <- read.csv("./survey_dat/2017_pts.csv")
+
+##subset out species points
+#convert UTM to SF
+pts <- sf::st_as_sf(dat_2017, coords=c("x", "y"))
+st_crs(pts) <- 32614  #14N UTM reference
+
+#subset out moose and elk
+moose_pts_17 <- subset(pts, pts$species == "m")
+elk_pts_17 <- subset(pts, pts$species == "e")
+
+#remove points that are outside of RMNP boundary 
+moose_pts_17 <- st_intersection(moose_pts_17, rmnp_shape)
+elk_pts_17 <- st_intersection(elk_pts_17, rmnp_shape)
+
+#300m buffer on transects, assumed perfect detections range during surveys
+lines_b <- st_buffer(lines, 300)
+
+#join buffer and points 
+m_lines_pts <- st_join(lines_b, moose_pts_17)
+e_lines_pts <- st_join(lines_b, elk_pts_17)
+
+#replace NA with 0
+m_lines_pts$count <- m_lines_pts$count %>% replace(is.na(.), 0)
+e_lines_pts$count <- e_lines_pts$count %>% replace(is.na(.), 0)
+
+#transect area
+m_lines_pts$t_area <- st_area(m_lines_pts) / 1000000
+e_lines_pts$t_area <- st_area(e_lines_pts) / 1000000
+
+#clean up.
+m_lines_pts <- m_lines_pts %>%
+                group_by(LineNum) %>% 
+                reframe(count = sum(count), area = max(t_area))
+e_lines_pts <- e_lines_pts %>%
+                group_by(LineNum) %>% 
+                reframe(count = sum(count), area = max(t_area))
+
+#dens 
+m_lines_pts$dens <- as.numeric((m_lines_pts$count*3089) / (m_lines_pts$area))
+e_lines_pts$dens <- as.numeric((e_lines_pts$count*3089) / (e_lines_pts$area))
+
+#
+set.seed(25032025)
+moose_CI <- replicate(1000, mean(sample(m_lines_pts$dens, nrow(m_lines_pts) - 1, replace = TRUE)))
+elk_CI <- replicate(1000, mean(sample(e_lines_pts$dens, nrow(e_lines_pts) - 1, replace = TRUE)))
+
+##covariance equation 
+#count^2
+m_lines_pts$count_2 <- (m_lines_pts$count)^2
+#area^2
+m_lines_pts$area_2 <- (m_lines_pts$area)^2
+#count*area
+m_lines_pts$count_area <- (m_lines_pts$count * m_lines_pts$area) 
+
+
+#variance between area of sample units 
+##  (SUMSQ(area) - (Sum Area^2 / n)) / n-1
+var_unit <- (1/(nrow(m_lines_pts) - 1)) * 
+  ((sum(m_lines_pts$area_2)) - (sum(m_lines_pts$area)^2 / nrow(m_lines_pts)))
+
+#variance between animals on the transects 
+##  (SUMSQ(count) - (Sum count^2 / n)) / n-1
+var_count <- (1/(nrow(m_lines_pts) - 1)) * 
+  ((sum(m_lines_pts$count_2)) - (sum(m_lines_pts$count)^2 / nrow(m_lines_pts)))
+
+#covariance between animals counted and area of each transect 
+##  (SUMSQ(count*area) - (Sum count * sum area / n)) / n-1
+covar_c_a <- as.numeric((1/(nrow(m_lines_pts) - 1)) * 
+     ((sum(m_lines_pts$count_area)) - 
+     ((sum(m_lines_pts$count) * sum(m_lines_pts$area))/ nrow(m_lines_pts))))
+
+# variance based on number of sample units to total number in Population 
+pop_sample <- 268
+abundance <- as.numeric(sum(m_lines_pts$count) / sum(m_lines_pts$area))
+
+sample_var <- pop_sample*(pop_sample - nrow(m_lines_pts)) / nrow(m_lines_pts)
+
+var_2 <- var_count -2 * (abundance*covar_c_a)
+
+var_3 <- as.numeric((abundance*abundance) * (var_unit))
+
+variance <- sample_var*(var_2+var_3)
+
+SE <- sqrt(variance)
+
+m_CI <- SE * 1.96
+########################################################################
+##covariance equation 
+#count^2
+e_lines_pts$count_2 <- (e_lines_pts$count)^2
+#area^2
+e_lines_pts$area_2 <- (e_lines_pts$area)^2
+#count*area
+e_lines_pts$count_area <- (e_lines_pts$count * e_lines_pts$area) 
+
+
+#variance between area of sample units 
+##  (SUMSQ(area) - (Sum Area^2 / n)) / n-1
+var_unit <- (1/(nrow(e_lines_pts) - 1)) * 
+  ((sum(m_lines_pts$area_2)) - (sum(e_lines_pts$area)^2 / nrow(e_lines_pts)))
+
+#variance between animals on the transects 
+##  (SUMSQ(count) - (Sum count^2 / n)) / n-1
+var_count <- (1/(nrow(e_lines_pts) - 1)) * 
+  ((sum(e_lines_pts$count_2)) - (sum(e_lines_pts$count)^2 / nrow(e_lines_pts)))
+
+#covariance between animals counted and area of each transect 
+##  (SUMSQ(count*area) - (Sum count * sum area / n)) / n-1
+covar_c_a <- as.numeric((1/(nrow(e_lines_pts) - 1)) * 
+     ((sum(e_lines_pts$count_area)) - 
+     ((sum(e_lines_pts$count) * sum(e_lines_pts$area))/ nrow(e_lines_pts))))
+
+# variance based on number of sample units to total number in Population 
+pop_sample <- 268
+abundance <- as.numeric(sum(e_lines_pts$count) / sum(e_lines_pts$area))
+
+sample_var <- pop_sample*(pop_sample - nrow(e_lines_pts)) / nrow(e_lines_pts)
+
+var_2 <- var_count -2 * (abundance*covar_c_a)
+
+var_3 <- as.numeric((abundance*abundance) * (var_unit))
+
+variance <- sample_var*(var_2+var_3)
+
+SE <- sqrt(variance)
+
+e_CI <- SE * 1.96
+######################################################
+
+#store mean and CI
+
+
+```
+
+2018 survey data 
+```{r} 
+
+## data
+#survey lines?
+lines <- read_sf("./surveylines/lines_2020_full.shp")
+
+#load RMNP shapefile for reference. 
+rmnp_shape <- read_sf("./RMNP extent shapefile/RMNPextent.shp")
+
+#load pts 
+dat_2018 <- read.csv("./survey_dat/2018_pts.csv")
+
+##subset out species points
+#convert UTM to SF
+pts <- sf::st_as_sf(dat_2018, coords=c("east", "north"))
+st_crs(pts) <- 32614  #14N UTM reference
+
+#subset out moose and elk
+moose_pts_18 <- subset(pts, pts$species == "m")
+elk_pts_18 <- subset(pts, pts$species == "e")
+
+#remove points that are outside of RMNP boundary 
+moose_pts_18 <- st_intersection(moose_pts_18, rmnp_shape)
+elk_pts_18 <- st_intersection(elk_pts_18, rmnp_shape)
+
+#300m buffer on transects, assumed perfect detections range during surveys
+lines_b <- st_buffer(lines, 300)
+
+#join buffer and points 
+m_lines_pts <- st_join(lines_b, moose_pts_18)
+e_lines_pts <- st_join(lines_b, elk_pts_18)
+
+#replace NA with 0
+m_lines_pts$count <- m_lines_pts$count %>% replace(is.na(.), 0)
+e_lines_pts$count <- e_lines_pts$count %>% replace(is.na(.), 0)
+
+#transect area
+m_lines_pts$t_area <- st_area(m_lines_pts) / 1000000
+e_lines_pts$t_area <- st_area(e_lines_pts) / 1000000
+
+#clean up.
+m_lines_pts <- m_lines_pts %>%
+                group_by(LineNum) %>% 
+                reframe(count = sum(count), area = max(t_area))
+e_lines_pts <- e_lines_pts %>%
+                group_by(LineNum) %>% 
+                reframe(count = sum(count), area = max(t_area))
+
+#dens 
+m_lines_pts$dens <- as.numeric((m_lines_pts$count*3089) / (m_lines_pts$area))
+e_lines_pts$dens <- as.numeric((e_lines_pts$count*3089) / (e_lines_pts$area))
+
+#
+set.seed(25032025)
+moose_CI <- replicate(1000, mean(sample(m_lines_pts$dens, nrow(m_lines_pts) - 1, replace = TRUE)))
+elk_CI <- replicate(1000, mean(sample(e_lines_pts$dens, nrow(e_lines_pts) - 1, replace = TRUE)))
+
+##covariance equation 
+#count^2
+m_lines_pts$count_2 <- (m_lines_pts$count)^2
+#area^2
+m_lines_pts$area_2 <- (m_lines_pts$area)^2
+#count*area
+m_lines_pts$count_area <- (m_lines_pts$count * m_lines_pts$area) 
+
+
+#variance between area of sample units 
+##  (SUMSQ(area) - (Sum Area^2 / n)) / n-1
+var_unit <- (1/(nrow(m_lines_pts) - 1)) * 
+  ((sum(m_lines_pts$area_2)) - (sum(m_lines_pts$area)^2 / nrow(m_lines_pts)))
+
+#variance between animals on the transects 
+##  (SUMSQ(count) - (Sum count^2 / n)) / n-1
+var_count <- (1/(nrow(m_lines_pts) - 1)) * 
+  ((sum(m_lines_pts$count_2)) - (sum(m_lines_pts$count)^2 / nrow(m_lines_pts)))
+
+#covariance between animals counted and area of each transect 
+##  (SUMSQ(count*area) - (Sum count * sum area / n)) / n-1
+covar_c_a <- as.numeric((1/(nrow(m_lines_pts) - 1)) * 
+     ((sum(m_lines_pts$count_area)) - 
+     ((sum(m_lines_pts$count) * sum(m_lines_pts$area))/ nrow(m_lines_pts))))
+
+# variance based on number of sample units to total number in Population 
+pop_sample <- 268
+abundance <- as.numeric(sum(m_lines_pts$count) / sum(m_lines_pts$area))
+
+sample_var <- pop_sample*(pop_sample - nrow(m_lines_pts)) / nrow(m_lines_pts)
+
+var_2 <- var_count -2 * (abundance*covar_c_a)
+
+var_3 <- as.numeric((abundance*abundance) * (var_unit))
+
+variance <- sample_var*(var_2+var_3)
+
+SE <- sqrt(variance)
+
+m_CI <- SE * 1.96
+########################################################################
+##covariance equation 
+#count^2
+e_lines_pts$count_2 <- (e_lines_pts$count)^2
+#area^2
+e_lines_pts$area_2 <- (e_lines_pts$area)^2
+#count*area
+e_lines_pts$count_area <- (e_lines_pts$count * e_lines_pts$area) 
+
+
+#variance between area of sample units 
+##  (SUMSQ(area) - (Sum Area^2 / n)) / n-1
+var_unit <- (1/(nrow(e_lines_pts) - 1)) * 
+  ((sum(m_lines_pts$area_2)) - (sum(e_lines_pts$area)^2 / nrow(e_lines_pts)))
+
+#variance between animals on the transects 
+##  (SUMSQ(count) - (Sum count^2 / n)) / n-1
+var_count <- (1/(nrow(e_lines_pts) - 1)) * 
+  ((sum(e_lines_pts$count_2)) - (sum(e_lines_pts$count)^2 / nrow(e_lines_pts)))
+
+#covariance between animals counted and area of each transect 
+##  (SUMSQ(count*area) - (Sum count * sum area / n)) / n-1
+covar_c_a <- as.numeric((1/(nrow(e_lines_pts) - 1)) * 
+     ((sum(e_lines_pts$count_area)) - 
+     ((sum(e_lines_pts$count) * sum(e_lines_pts$area))/ nrow(e_lines_pts))))
+
+# variance based on number of sample units to total number in Population 
+pop_sample <- 268
+abundance <- as.numeric(sum(e_lines_pts$count) / sum(e_lines_pts$area))
+
+sample_var <- pop_sample*(pop_sample - nrow(e_lines_pts)) / nrow(e_lines_pts)
+
+var_2 <- var_count -2 * (abundance*covar_c_a)
+
+var_3 <- as.numeric((abundance*abundance) * (var_unit))
+
+variance <- sample_var*(var_2+var_3)
+
+SE <- sqrt(variance)
+
+e_CI <- SE * 1.96
+
+```
+
+2019 survey data 
+```{r} 
+## data
+#survey lines?
+lines <- read_sf("./surveylines/lines_2020_full.shp")
+
+#load RMNP shapefile for reference. 
+rmnp_shape <- read_sf("./RMNP extent shapefile/RMNPextent.shp")
+
+#load pts 
+dat_2019 <- read.csv("./survey_dat/2019_pts.csv")
+
+##subset out species points
+#convert UTM to SF
+pts <- sf::st_as_sf(dat_2019, coords=c("east", "north"))
+st_crs(pts) <- 32614  #14N UTM reference
+
+#subset out moose and elk
+moose_pts_19 <- subset(pts, pts$species == "m")
+elk_pts_19 <- subset(pts, pts$species == "e")
+
+#remove points that are outside of RMNP boundary 
+moose_pts_19 <- st_intersection(moose_pts_19, rmnp_shape)
+elk_pts_19 <- st_intersection(elk_pts_19, rmnp_shape)
+
+#300m buffer on transects, assumed perfect detections range during surveys
+lines_b <- st_buffer(lines, 300)
+
+#join buffer and points 
+m_lines_pts <- st_join(lines_b, moose_pts_19)
+e_lines_pts <- st_join(lines_b, elk_pts_19)
+
+#replace NA with 0
+m_lines_pts$count <- m_lines_pts$count %>% replace(is.na(.), 0)
+e_lines_pts$count <- e_lines_pts$count %>% replace(is.na(.), 0)
+
+#transect area
+m_lines_pts$t_area <- st_area(m_lines_pts) / 1000000
+e_lines_pts$t_area <- st_area(e_lines_pts) / 1000000
+
+#clean up.
+m_lines_pts <- m_lines_pts %>%
+                group_by(LineNum) %>% 
+                reframe(count = sum(count), area = max(t_area))
+e_lines_pts <- e_lines_pts %>%
+                group_by(LineNum) %>% 
+                reframe(count = sum(count), area = max(t_area))
+
+#dens 
+m_lines_pts$dens <- as.numeric((m_lines_pts$count*3089) / (m_lines_pts$area))
+e_lines_pts$dens <- as.numeric((e_lines_pts$count*3089) / (e_lines_pts$area))
+
+#
+set.seed(25032025)
+moose_CI <- replicate(1000, mean(sample(m_lines_pts$dens, nrow(m_lines_pts) - 1, replace = TRUE)))
+elk_CI <- replicate(1000, mean(sample(e_lines_pts$dens, nrow(e_lines_pts) - 1, replace = TRUE)))
+
+##covariance equation 
+#count^2
+m_lines_pts$count_2 <- (m_lines_pts$count)^2
+#area^2
+m_lines_pts$area_2 <- (m_lines_pts$area)^2
+#count*area
+m_lines_pts$count_area <- (m_lines_pts$count * m_lines_pts$area) 
+
+
+#variance between area of sample units 
+##  (SUMSQ(area) - (Sum Area^2 / n)) / n-1
+var_unit <- (1/(nrow(m_lines_pts) - 1)) * 
+  ((sum(m_lines_pts$area_2)) - (sum(m_lines_pts$area)^2 / nrow(m_lines_pts)))
+
+#variance between animals on the transects 
+##  (SUMSQ(count) - (Sum count^2 / n)) / n-1
+var_count <- (1/(nrow(m_lines_pts) - 1)) * 
+  ((sum(m_lines_pts$count_2)) - (sum(m_lines_pts$count)^2 / nrow(m_lines_pts)))
+
+#covariance between animals counted and area of each transect 
+##  (SUMSQ(count*area) - (Sum count * sum area / n)) / n-1
+covar_c_a <- as.numeric((1/(nrow(m_lines_pts) - 1)) * 
+     ((sum(m_lines_pts$count_area)) - 
+     ((sum(m_lines_pts$count) * sum(m_lines_pts$area))/ nrow(m_lines_pts))))
+
+# variance based on number of sample units to total number in Population 
+pop_sample <- 268
+abundance <- as.numeric(sum(m_lines_pts$count) / sum(m_lines_pts$area))
+
+sample_var <- pop_sample*(pop_sample - nrow(m_lines_pts)) / nrow(m_lines_pts)
+
+var_2 <- var_count -2 * (abundance*covar_c_a)
+
+var_3 <- as.numeric((abundance*abundance) * (var_unit))
+
+variance <- sample_var*(var_2+var_3)
+
+SE <- sqrt(variance)
+
+m_CI <- SE * 1.96
+########################################################################
+##covariance equation 
+#count^2
+e_lines_pts$count_2 <- (e_lines_pts$count)^2
+#area^2
+e_lines_pts$area_2 <- (e_lines_pts$area)^2
+#count*area
+e_lines_pts$count_area <- (e_lines_pts$count * e_lines_pts$area) 
+
+
+#variance between area of sample units 
+##  (SUMSQ(area) - (Sum Area^2 / n)) / n-1
+var_unit <- (1/(nrow(e_lines_pts) - 1)) * 
+  ((sum(m_lines_pts$area_2)) - (sum(e_lines_pts$area)^2 / nrow(e_lines_pts)))
+
+#variance between animals on the transects 
+##  (SUMSQ(count) - (Sum count^2 / n)) / n-1
+var_count <- (1/(nrow(e_lines_pts) - 1)) * 
+  ((sum(e_lines_pts$count_2)) - (sum(e_lines_pts$count)^2 / nrow(e_lines_pts)))
+
+#covariance between animals counted and area of each transect 
+##  (SUMSQ(count*area) - (Sum count * sum area / n)) / n-1
+covar_c_a <- as.numeric((1/(nrow(e_lines_pts) - 1)) * 
+     ((sum(e_lines_pts$count_area)) - 
+     ((sum(e_lines_pts$count) * sum(e_lines_pts$area))/ nrow(e_lines_pts))))
+
+# variance based on number of sample units to total number in Population 
+pop_sample <- 268
+abundance <- as.numeric(sum(e_lines_pts$count) / sum(e_lines_pts$area))
+
+sample_var <- pop_sample*(pop_sample - nrow(e_lines_pts)) / nrow(e_lines_pts)
+
+var_2 <- var_count -2 * (abundance*covar_c_a)
+
+var_3 <- as.numeric((abundance*abundance) * (var_unit))
+
+variance <- sample_var*(var_2+var_3)
+
+SE <- sqrt(variance)
+
+e_CI <- SE * 1.96
+
+```
+
+

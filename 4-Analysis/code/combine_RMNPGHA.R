@@ -21,8 +21,8 @@ p_invfix2 <- ggplot() +
   xlab("Number of locations") +   #xlim(0,100) +
   #ggtitle("C.") + 
   facet_grid(. ~ title) + 
-  scale_colour_manual(values = c("#440154","#21918c"),labels=c('GHA 26', 'RMNP'), name = "Study Area") +
-  scale_fill_manual(values = c("#440154","#21918c"),labels=c('GHA 26', 'RMNP'), name = "Study Area") +
+  scale_colour_manual(values = c("#440154","#21918c"),labels=c('SEMB', 'RMNP'), name = "Study Area") +
+  scale_fill_manual(values = c("#440154","#21918c"),labels=c('SEMB', 'RMNP'), name = "Study Area") +
   theme_bw() + theme_bw()  + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
     panel.border = element_blank(),
@@ -36,6 +36,7 @@ p_invfix2 <- ggplot() +
     axis.text.y = element_text(size=20),
     legend.title=element_text(size=20),
     legend.text = element_text(size = 20),
+    legend.key = element_blank(),
     legend.position=c(0.8, 0.8)) 
 p_invfix2
 
@@ -110,6 +111,7 @@ p_invdur2 <- ggplot() +
     axis.text.y = element_text(size=20),
     legend.title=element_text(size=20),
     legend.text = element_text(size = 20),
+    legend.key = element_blank()
     legend.position=c(0.8, 0.7)) 
 p_invdur2 
 

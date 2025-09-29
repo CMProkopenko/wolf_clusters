@@ -72,6 +72,9 @@ kclu_datgha26 <- inv_datgha26[Behaviour_1 == "Kill"]
 ### unique kill sites (remove multiple clusters and wolves) 
 ksite_datgha26 <- kclu_datgha26[mwKfirst == 1]
 
+mean(inv_datgha26$Act_fixes)
+median(inv_datgha26$Act_fixes)
+sd(inv_datgha26$Act_fixes)
 
 ###calculate mean investigation time for sites
 ####
@@ -81,29 +84,42 @@ sum_inv26 <- inv_datgha26[ , .(days.med = median(daysEarly),
                                days.mean  = mean(daysEarly),
                                days.min = min(daysEarly),
                                days.max = max(daysEarly),
+                               days.sd = sd(daysEarly),
                                fix.med = median(Act_fixes),
                                fix.mean=mean(Act_fixes),
                                fix.min = min(Act_fixes),
                                fix.max=max(Act_fixes),
+                               fix.sd=sd(Act_fixes),
                                hr.med = median(CluDurHours),
                                hr.mean = mean(CluDurHours),
                                hr.min = min(CluDurHours),
                                hr.max = max(CluDurHours),
+                               hr.sd = sd(CluDurHours),
                                rad.med = median(Clus_rad_m),
                                rad.mean=mean(Clus_rad_m),
                                rad.min = min(Clus_rad_m),
                                rad.max=max(Clus_rad_m),
+                               rad.sd=sd(Clus_rad_m),
                                rev.med = median(Site_revisit),
                                rev.mean = mean(Site_revisit),
                                rev.min = min(Site_revisit),
                                rev.max = max(Site_revisit),
+                               rev.sd = sd(Site_revisit),
                                away.med = median(Away_ratio),
                                away.mean = mean(Away_ratio),
                                away.min = min(Away_ratio),
                                away.max = max(Away_ratio),
+                               away.sd = sd(Away_ratio),
                                count = .N
 ), by = Behaviour_1]
 sum_inv26
+
+sum(sum_inv26$count)
+
+sum_inv26[ , percent :=  (count/1897)*100]
+
+sum_inv26
+sum(sum_inv26$percent)
 
 write.csv(sum_inv26,"results/gha26_inv.csv")
 
@@ -114,29 +130,42 @@ sum_inv26_2<- inv_datgha26[ , .(days.med = median(daysEarly),
                               days.mean  = mean(daysEarly),
                               days.min = min(daysEarly),
                               days.max = max(daysEarly),
+                              days.sd = sd(daysEarly),
                               fix.med = median(Act_fixes),
                               fix.mean=mean(Act_fixes),
                               fix.min = min(Act_fixes),
                               fix.max=max(Act_fixes),
+                              fix.sd=sd(Act_fixes),
                               hr.med = median(CluDurHours),
                               hr.mean = mean(CluDurHours),
                               hr.min = min(CluDurHours),
                               hr.max = max(CluDurHours),
+                              hr.sd = sd(CluDurHours),
                               rad.med = median(Clus_rad_m),
                               rad.mean=mean(Clus_rad_m),
                               rad.min = min(Clus_rad_m),
                               rad.max=max(Clus_rad_m),
+                              rad.sd=sd(Clus_rad_m),
                               rev.med = median(Site_revisit),
                               rev.mean = mean(Site_revisit),
                               rev.min = min(Site_revisit),
                               rev.max = max(Site_revisit),
+                              rev.sd = sd(Site_revisit),
                               away.med = median(Away_ratio),
                               away.mean = mean(Away_ratio),
                               away.min = min(Away_ratio),
                               away.max = max(Away_ratio),
+                              away.sd = sd(Away_ratio),
                               count = .N
 ), by = Behav]
 sum_inv26_2
+
+sum(sum_inv26_2$count)
+
+sum_inv26_2[ , percent :=  (count/1897)*100]
+
+sum_inv26_2
+sum(sum_inv26_2$percent)
 
 write.csv(sum_inv26_2,"results/gha26_inv2.csv")
 
@@ -234,7 +263,7 @@ p_timeinv26 +  geom_boxplot() + coord_flip()
 
 ########Figure panel
 ##plot fix number by behaviour 
-inv_datgha26$title <- "E. GHA 26"
+inv_datgha26$title <- "E. SEMB"
 
 p_behavfix26 <- ggplot(inv_datgha26, aes(x = Behav, y = Act_fixes)) +
   geom_boxplot(outlier.shape = NA)  +
@@ -268,6 +297,7 @@ png('results/behaviourvfixes26.png', width = 10000, height = 7000, res=1000, uni
 p_behavfix26
 
 dev.off()
+
 
 
 ###add scatter
@@ -357,7 +387,7 @@ dev.off()
 p_behavdur26 <- ggplot(inv_datgha26,aes(x = Behav, y = CluDurHours)) +
   geom_boxplot(outlier.shape = NA ) + coord_flip() +  
   geom_jitter(position=position_jitter(0.2), alpha = 0.2) +
-  ggtitle("GHA 26") +
+  ggtitle("SEMB") +
   xlab("Behaviours") + ylab("Cluster Duration (hours)") +
   theme_bw() +theme_bw()  + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
@@ -385,7 +415,7 @@ p_revisit26 <- ggplot(inv_datgha26, aes(x = Behav, y = Site_revisit)) +
   geom_jitter(position=position_jitter(0.2), alpha = 0.2) +
   coord_flip() + 
   #ylim(0,500) +
-  ggtitle("GHA 26") +
+  ggtitle("SEMB") +
   xlab("Behaviours") + ylab("Revisit") +
   theme_bw() +theme_bw()  + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
@@ -413,7 +443,7 @@ p_away26 <- ggplot(inv_datgha26, aes(x = Behav, y = Away_ratio)) +
   geom_jitter(position=position_jitter(0.2), alpha = 0.2) +
   coord_flip() + 
   #ylim(0,500) +
-  ggtitle("GHA 26") +
+  ggtitle("SEMB") +
   xlab("Behaviours") + ylab("Away Ratio") +
   theme_bw() +theme_bw()  + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
@@ -442,7 +472,7 @@ p_investdays26 <- ggplot(inv_datgha26, aes(x = Behav, y = daysEarly)) +
   geom_jitter(position=position_jitter(0.2), alpha = 0.2) +
   coord_flip() + 
   #ylim(0,500) +
-  ggtitle("GHA 26") +
+  ggtitle("SEMB") +
   xlab("Behaviours") + ylab("Investigation Time (days)") +
   theme_bw() +theme_bw()  + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
@@ -463,4 +493,5 @@ png('results/investigationtime26.png', width = 12000, height = 10000, res=1200, 
 p_investdays26
 
 dev.off()
+
 

@@ -61,6 +61,10 @@ kclu_datrmp <- inv_datrmnp[Behaviour_1 == "Kill"]
 ### unique kill sites (remove multiple clusters and wolves) 
 ksite_datrmp <- kclu_datrmp[mwKfirst == 1]
 
+mean(inv_datrmnp$Act_fixes)
+median(inv_datrmnp$Act_fixes)
+sd(inv_datrmnp$Act_fixes)
+
 #####calculate stats for investigated clusters
 
 summary(as.factor(inv_datrmnp$Behaviour_1))
@@ -69,29 +73,41 @@ sum_invrm <- inv_datrmnp[ , .(days.med = median(daysEarly),
                               days.mean  = mean(daysEarly),
                               days.min = min(daysEarly),
                               days.max = max(daysEarly),
+                              days.sd = sd(daysEarly),
                               fix.med = median(Act_fixes),
                               fix.mean=mean(Act_fixes),
                               fix.min = min(Act_fixes),
                               fix.max=max(Act_fixes),
+                              fix.sd=sd(Act_fixes),
                               hr.med = median(CluDurHours),
                               hr.mean = mean(CluDurHours),
                               hr.min = min(CluDurHours),
                               hr.max = max(CluDurHours),
+                              hr.sd = sd(CluDurHours),
                               rad.med = median(Clus_rad_m),
                               rad.mean=mean(Clus_rad_m),
                               rad.min = min(Clus_rad_m),
                               rad.max=max(Clus_rad_m),
+                              rad.sd=sd(Clus_rad_m),
                               rev.med = median(Site_revisit),
                               rev.mean = mean(Site_revisit),
                               rev.min = min(Site_revisit),
                               rev.max = max(Site_revisit),
+                              rev.sd = sd(Site_revisit),
                               away.med = median(Away_ratio),
                               away.mean = mean(Away_ratio),
                               away.min = min(Away_ratio),
                               away.max = max(Away_ratio),
+                              away.sd = sd(Away_ratio),
                               count = .N
 ), by = Behaviour_1]
 sum_invrm
+
+sum(sum_invrm$count)
+
+
+
+sum_invrm[ , percent :=  (count/1061)*100]
 
 write.csv(sum_invrm,"results/rmnp_inv.csv")
 
@@ -104,29 +120,39 @@ sum_invrm_2 <- inv_datrmnp[ , .(days.med = median(daysEarly),
                                 days.mean  = mean(daysEarly),
                                 days.min = min(daysEarly),
                                 days.max = max(daysEarly),
+                                days.sd = sd(daysEarly),
                                 fix.med = median(Act_fixes),
                                 fix.mean=mean(Act_fixes),
                                 fix.min = min(Act_fixes),
                                 fix.max=max(Act_fixes),
+                                fix.sd=sd(Act_fixes),
                                 hr.med = median(CluDurHours),
                                 hr.mean = mean(CluDurHours),
                                 hr.min = min(CluDurHours),
                                 hr.max = max(CluDurHours),
+                                hr.sd = sd(CluDurHours),
                                 rad.med = median(Clus_rad_m),
                                 rad.mean=mean(Clus_rad_m),
                                 rad.min = min(Clus_rad_m),
                                 rad.max=max(Clus_rad_m),
+                                rad.sd=sd(Clus_rad_m),
                                 rev.med = median(Site_revisit),
                                 rev.mean = mean(Site_revisit),
                                 rev.min = min(Site_revisit),
                                 rev.max = max(Site_revisit),
+                                rev.sd = sd(Site_revisit),
                                 away.med = median(Away_ratio),
                                 away.mean = mean(Away_ratio),
                                 away.min = min(Away_ratio),
                                 away.max = max(Away_ratio),
+                                away.sd = sd(Away_ratio),
                                 count = .N
 ), by = Behav]
 sum_invrm_2
+
+sum(sum_invrm_2$count)
+
+sum_invrm_2[ , percent :=  (count/1061)*100]
 
 write.csv(sum_invrm_2,"results/rmnp_inv2.csv")
 

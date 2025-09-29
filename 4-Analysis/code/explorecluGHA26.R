@@ -1,6 +1,6 @@
 #########################################
 ###Cluster data exploration
-#### Eastern MB (GHA 26)
+#### Eastern MB (SEMB)
 ###### Christina Prokopenko
 ###### Started April 2023
 #########################################
@@ -123,7 +123,7 @@ p_clu26
 # 
 # p_invfix26
  
-datgha26$title <- "B. GHA 26"
+datgha26$title <- "B. SEMB"
 
 p_histfix26 <- ggplot() +
   geom_histogram(data = datgha26, aes(x= Act_fixes,fill = JoinStatus, colour = JoinStatus),
@@ -132,7 +132,7 @@ p_histfix26 <- ggplot() +
                linetype= "solid", size = 1) +
   ylab("Frequency") + #ylim(0,6000) +
   xlab("Number of locations") +   xlim(0,50) +
-  #ggtitle("B. GHA 26") + 
+  #ggtitle("B. SEMB") + 
   facet_grid(. ~ title) + 
   scale_colour_manual(values = c("#3b528b","#5ec962"),labels=c('Not Investigated', 'Investigated'), name = "Cluster Status") +
   scale_fill_manual(values = c("#3b528b","#5ec962"),labels=c('Not Investigated', 'Investigated'), name = "Cluster Status") +
@@ -210,7 +210,7 @@ p_clu_rad26 <- ggplot(datgha26) +
                  fill = "white", alpha = 0.2, position = "dodge") +
   geom_vline(data = sum_clu26, aes(xintercept = rad.med, colour = JoinStatus),
              linetype="dashed") +
-  ggtitle("GHA 26") +
+  ggtitle("SEMB") +
   xlab("Behaviours") + ylab("Cluster Radius (meters)") +
   theme_bw() + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
@@ -266,7 +266,7 @@ p_clu_dur26<- ggplot(datgha26) +
                  fill = "white", alpha = 0.2, position = "dodge", bins = 30) +
   geom_vline(data = sum_clu26, aes(xintercept = hr.med, colour = JoinStatus),
              linetype="dashed") +
-  ggtitle("GHA 26") +
+  ggtitle("SEMB") +
   xlab("Behaviours") + ylab("Cluster Duration (hours)") +
   theme_bw() + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),

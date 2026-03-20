@@ -46,7 +46,7 @@ p_invfix2
 
 hists <- p_histfixrm + p_histfix26 + plot_layout(nrow = 2)
 
-png('results/clusters_invest2.png', width = 20000, height = 15000, res=1200, units="px")
+png('results/clusters_invest.png', width = 20000, height = 15000, res=1200, units="px")
 
 
 #((p_histfixrm/p_histfix26)|p_invfix2)/(p_behavfixrm|p_behavfix26)
@@ -111,7 +111,7 @@ p_invdur2 <- ggplot() +
     axis.text.y = element_text(size=20),
     legend.title=element_text(size=20),
     legend.text = element_text(size = 20),
-    legend.key = element_blank()
+    legend.key = element_blank(),
     legend.position=c(0.8, 0.7)) 
 p_invdur2 
 

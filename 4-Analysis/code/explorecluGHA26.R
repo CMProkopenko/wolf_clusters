@@ -123,7 +123,7 @@ p_clu26
 # 
 # p_invfix26
  
-datgha26$title <- "B. SEMB"
+datgha26$title <- "B. SEMB (Low Resource - High Disturbance)"
 
 p_histfix26 <- ggplot() +
   geom_histogram(data = datgha26, aes(x= Act_fixes,fill = JoinStatus, colour = JoinStatus),

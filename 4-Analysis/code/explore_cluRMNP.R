@@ -138,7 +138,7 @@ p_clu
 #     legend.position=c(0.8, 0.9)) + xlim(0,100)
 #   
 # p_invfix 
-datrmnp$title <- "A. RMNP"
+datrmnp$title <- "A. RMNP (High Resource - Low Disturbance)"
 
 p_histfixrm <- ggplot() +
   geom_histogram(data = datrmnp, aes(x= Act_fixes,fill = JoinStatus, colour = JoinStatus),
@@ -275,7 +275,7 @@ p_clu_dur<- ggplot(datrmnp) +
   geom_vline(data = sum_clurm, aes(xintercept = hr.med, colour = JoinStatus),
              linetype="dashed") +
   xlab("Count") + ylab("Cluster Duration (hours)") +
-  ggtitle("RMNP") +
+  ggtitle("RMNP (High Resource - Low Disturbance)") +
   theme_bw() +theme_bw()  + theme(
     panel.background =element_rect(colour = "black", fill=NA, size=1),
     panel.border = element_blank(),

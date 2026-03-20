@@ -111,6 +111,18 @@ sum_invrm[ , percent :=  (count/1061)*100]
 
 write.csv(sum_invrm,"results/rmnp_inv.csv")
 
+IQR_invrm<- inv_datrmnp[ , .(days.iqr = IQR(daysEarly),
+                             fix.iqr=IQR(Act_fixes),
+                             hr.iqr = IQR(CluDurHours),
+                             rad.iqr=IQR(Clus_rad_m),
+                             rev.iqr = IQR(Site_revisit),
+                             away.iqr = IQR(Away_ratio),
+                             count = .N
+), by = Behaviour_1]
+IQR_invrm
+
+write.csv(IQR_invrm,"results/rmnp-iqr.csv")
+
 
 ###calculate stats investigation time for clusters
 ####
@@ -155,6 +167,18 @@ sum(sum_invrm_2$count)
 sum_invrm_2[ , percent :=  (count/1061)*100]
 
 write.csv(sum_invrm_2,"results/rmnp_inv2.csv")
+
+IQR_invrm2<- inv_datrmnp[ , .(days.iqr = IQR(daysEarly),
+                             fix.iqr=IQR(Act_fixes),
+                             hr.iqr = IQR(CluDurHours),
+                             rad.iqr=IQR(Clus_rad_m),
+                             rev.iqr = IQR(Site_revisit),
+                             away.iqr = IQR(Away_ratio),
+                             count = .N
+), by = Behav]
+IQR_invrm2
+
+write.csv(IQR_invrm,"results/rmnp-iqr2.csv")
 
 ####for large clusters only
 
@@ -227,7 +251,7 @@ p_timeinvrm +  geom_boxplot() + coord_flip()
 
 
 ##plot fix number by behaviour 
-inv_datrmnp$title <- "D. RMNP"
+inv_datrmnp$title <- "D. RMNP (High Resource - Low Disturbance)"
 
 p_behavfixrm <- ggplot(inv_datrmnp, aes(x = Behav, y = Act_fixes)) +
  geom_boxplot(outlier.shape = NA)  +

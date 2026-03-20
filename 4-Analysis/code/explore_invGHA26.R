@@ -74,7 +74,7 @@ ksite_datgha26 <- kclu_datgha26[mwKfirst == 1]
 
 mean(inv_datgha26$Act_fixes)
 median(inv_datgha26$Act_fixes)
-sd(inv_datgha26$Act_fixes)
+IQR(inv_datgha26$Act_fixes)
 
 ###calculate mean investigation time for sites
 ####
@@ -85,34 +85,41 @@ sum_inv26 <- inv_datgha26[ , .(days.med = median(daysEarly),
                                days.min = min(daysEarly),
                                days.max = max(daysEarly),
                                days.sd = sd(daysEarly),
+                               #days.iqr = IQR(daysEarly),
                                fix.med = median(Act_fixes),
                                fix.mean=mean(Act_fixes),
                                fix.min = min(Act_fixes),
                                fix.max=max(Act_fixes),
                                fix.sd=sd(Act_fixes),
+                               #fix.iqr=IQR(Act_fixes),
                                hr.med = median(CluDurHours),
                                hr.mean = mean(CluDurHours),
                                hr.min = min(CluDurHours),
                                hr.max = max(CluDurHours),
                                hr.sd = sd(CluDurHours),
+                               #hr.iqr = IQR(CluDurHours),
                                rad.med = median(Clus_rad_m),
                                rad.mean=mean(Clus_rad_m),
                                rad.min = min(Clus_rad_m),
                                rad.max=max(Clus_rad_m),
                                rad.sd=sd(Clus_rad_m),
+                               #rad.iqr=IQR(Clus_rad_m),
                                rev.med = median(Site_revisit),
                                rev.mean = mean(Site_revisit),
                                rev.min = min(Site_revisit),
                                rev.max = max(Site_revisit),
                                rev.sd = sd(Site_revisit),
+                               #rev.iqr = IQR(Site_revisit),
                                away.med = median(Away_ratio),
                                away.mean = mean(Away_ratio),
                                away.min = min(Away_ratio),
                                away.max = max(Away_ratio),
                                away.sd = sd(Away_ratio),
+                               #away.iqr = IQR(Away_ratio),
                                count = .N
 ), by = Behaviour_1]
 sum_inv26
+
 
 sum(sum_inv26$count)
 
@@ -123,6 +130,18 @@ sum(sum_inv26$percent)
 
 write.csv(sum_inv26,"results/gha26_inv.csv")
 
+IQR_inv26<- inv_datgha26[ , .(days.iqr = IQR(daysEarly),
+                              fix.iqr=IQR(Act_fixes),
+                              hr.iqr = IQR(CluDurHours),
+                              rad.iqr=IQR(Clus_rad_m),
+                              rev.iqr = IQR(Site_revisit),
+                              away.iqr = IQR(Away_ratio),
+                              count = .N
+), by = Behaviour_1]
+IQR_inv26
+
+write.csv(IQR_inv26_2,"results/gha26-iqr.csv")
+
 
 summary(as.factor(inv_datgha26$Behav))
 
@@ -131,6 +150,7 @@ sum_inv26_2<- inv_datgha26[ , .(days.med = median(daysEarly),
                               days.min = min(daysEarly),
                               days.max = max(daysEarly),
                               days.sd = sd(daysEarly),
+                              days.iqr = as.numeric(IQR(daysEarly)),
                               fix.med = median(Act_fixes),
                               fix.mean=mean(Act_fixes),
                               fix.min = min(Act_fixes),
@@ -146,6 +166,7 @@ sum_inv26_2<- inv_datgha26[ , .(days.med = median(daysEarly),
                               rad.min = min(Clus_rad_m),
                               rad.max=max(Clus_rad_m),
                               rad.sd=sd(Clus_rad_m),
+                              rad.iqr=IQR(Clus_rad_m),
                               rev.med = median(Site_revisit),
                               rev.mean = mean(Site_revisit),
                               rev.min = min(Site_revisit),
@@ -168,6 +189,18 @@ sum_inv26_2
 sum(sum_inv26_2$percent)
 
 write.csv(sum_inv26_2,"results/gha26_inv2.csv")
+
+IQR_inv26_2<- inv_datgha26[ , .(days.iqr = IQR(daysEarly),
+                                fix.iqr=IQR(Act_fixes),
+                                hr.iqr = IQR(CluDurHours),
+                                rad.iqr=IQR(Clus_rad_m),
+                                rev.iqr = IQR(Site_revisit),
+                                away.iqr = IQR(Away_ratio),
+                                count = .N
+), by = Behav]
+IQR_inv26_2
+
+write.csv(IQR_inv26_2,"results/gha26-iqr2.csv")
 
 ####
 
@@ -263,7 +296,7 @@ p_timeinv26 +  geom_boxplot() + coord_flip()
 
 ########Figure panel
 ##plot fix number by behaviour 
-inv_datgha26$title <- "E. SEMB"
+inv_datgha26$title <- "E. SEMB (Low Resource - High Disturbance)"
 
 p_behavfix26 <- ggplot(inv_datgha26, aes(x = Behav, y = Act_fixes)) +
   geom_boxplot(outlier.shape = NA)  +

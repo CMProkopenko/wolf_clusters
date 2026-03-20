@@ -141,7 +141,7 @@ cov_summary
 ####KILL CLUSTER MODELS (include cluster ID as random effect)
 
 
-#   
+  
 # patchtime <- lmer(log(CluDurHours) ~ 0+ log(Avg_Weight)+ moose_density_averaged + lf_dens + pack_size + wolf_density + decmix + StudySite+ Season  + (1|PackID/CollarID) , data=kill_covs2)
 # summary(patchtime)
 # logLik(patchtime)
@@ -152,6 +152,7 @@ patchtime <- lmer(log(CluDurHours) ~ 0 + log(Avg_Weight):StudySite + moose_densi
 summary(patchtime)
 logLik(patchtime)
 
+
 simple_patchtime <- lmer(log(CluDurHours) ~ 0 + log(Avg_Weight) + moose_density_averaged + lf_dens + wolf_density + pack_size  + decmix + Season +  StudySite + (1|PackID/CollarID) , data=kill_covs2)
 summary(simple_patchtime)
 logLik(simple_patchtime)
@@ -159,9 +160,15 @@ logLik(simple_patchtime)
 
 
 # rm_covs <- kill_covs2[kill_covs2$StudySite =='RMNP',]
-# se_covs <- kill_covs2[kill_covs2$StudySite =='SEMB',]
+
+moose_covs <- kill_covs2[kill_covs2$Species =='Moose_Adult',]
 # 
-# rmpatchtime <- lmer(log(CluDurHours) ~ 0+ log(Avg_Weight)+ moose_density_averaged + lf_dens + pack_size + wolf_density + decmix + Season  + (1|PackID/CollarID) , data=rm_covs)
+moosetime <- lmer(log(CluDurHours) ~ 0+ StudySite+ (1|PackID/CollarID) , data=moose_covs)
+summary(moosetime)
+broom.mixed::tidy(moosetime, conf.int=T)
+
+moose <- t.test(CluDurHours~StudySite, moose_covs)
+
 # rmtime_mod <- broom.mixed::tidy(rmpatchtime, conf.int=TRUE)
 # rmtime_mod
 # 

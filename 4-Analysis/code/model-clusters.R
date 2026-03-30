@@ -221,7 +221,6 @@ weightplot <- ggplot() +
   scale_colour_manual(values = c("#21918c","#440154"), name = "StudySite") +
   xlab("Prey Size (kg)") +
   ylab("log Cluster Duration (hours)") + 
-  ggtitle("a.")+
   theme_bw()  + 
   theme(legend.position = "none") +
   theme(
@@ -229,7 +228,7 @@ weightplot <- ggplot() +
     panel.border = element_blank(),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
-    plot.title = element_text(size = 20, hjust = 0.05, vjust = -8),
+    plot.title = element_text(size = 20, hjust = -.1),
     axis.line = element_line(colour = "black", linewidth = .1),
     axis.text.x = element_text(size=20),
     axis.title = element_text(size=20),
@@ -282,7 +281,6 @@ lfplot <- ggplot() +
   scale_colour_manual(values = c("#21918c","#440154"), name = "StudySite") +
   xlab("Linear Feature Density (km per squared km)") +
   ylab("log Cluster Duration (hours)") + 
-  ggtitle("e.")+
   theme_bw()  + 
   theme(legend.position = "none") +
   theme(
@@ -290,7 +288,7 @@ lfplot <- ggplot() +
     panel.border = element_blank(),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
-    plot.title = element_text(size = 20, hjust = 0.05, vjust = -8),
+    plot.title = element_text(size = 20, hjust = -.1),
     axis.line = element_line(colour = "black", linewidth = .1),
     axis.text.x = element_text(size=20),
     axis.title = element_text(size=20),
@@ -341,7 +339,6 @@ packplot <-ggplot() +
   scale_colour_manual(values = c("#21918c","#440154"), name = "StudySite") +
   xlab("Pack Size") +
   ylab("log Cluster Duration (hours)") + 
-  ggtitle("b.")+
   theme_bw()  + 
   theme(legend.position = c(0.9, 0.9)) +
   theme(
@@ -349,7 +346,7 @@ packplot <-ggplot() +
     panel.border = element_blank(),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
-    plot.title = element_text(size = 20, hjust = 0.05, vjust = -8),
+    plot.title = element_text(size = 20, hjust = -.1),
     axis.line = element_line(colour = "black", linewidth = .1),
     axis.text.x = element_text(size=20),
     axis.title = element_text(size=20),
@@ -404,7 +401,6 @@ wolfplot <- ggplot()+
   scale_colour_manual(values = c("#21918c","#440154"), name = "StudySite") +
   xlab("Wolf Density (per 10km2)") +
   ylab("log Cluster Duration (hours)") +
-  ggtitle("d.")+
   ## add rug plot based on original data
   geom_rug(data=pack_site_effect$data,aes(y=NULL),sides="b") +
   theme_bw()  + 
@@ -414,7 +410,7 @@ wolfplot <- ggplot()+
     panel.border = element_blank(),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
-    plot.title = element_text(size = 20, hjust = 0.05, vjust = -8),
+    plot.title = element_text(size = 20, hjust = -.1),
     axis.line = element_line(colour = "black", linewidth = .1),
     axis.text.x = element_text(size=20),
     axis.title = element_text(size=20),
@@ -437,7 +433,6 @@ mooseplot <- ggplot() +
   scale_colour_manual(values = c("#21918c","#440154"), name = "StudySite") +
   xlab("Moose Density (km^2)") +
   ylab("log Cluster Duration (hours)") + 
-  ggtitle("c.")+
   theme_bw()  + 
   theme(legend.position = "none") +
   theme(
@@ -445,8 +440,8 @@ mooseplot <- ggplot() +
     panel.border = element_blank(),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
-    plot.title = element_text(size = 20, hjust = 0.05, vjust = -8),
-    axis.line = element_line(colour = "black", linewidth =  = .1),
+    plot.title = element_text(size = 20, hjust = -.1),
+    axis.line = element_line(colour = "black", linewidth = .1),
     axis.text.x = element_text(size=20),
     axis.title = element_text(size=20),
     axis.text.y = element_text(size=20),
@@ -468,7 +463,6 @@ lcplot <- ggplot() +
   scale_colour_manual(values = c("#21918c","#440154"), name = "StudySite") +
   xlab("Proportion Deciduous/Mixed Forest") +
   ylab("log Cluster Duration (hours)") + 
-  ggtitle("f.")+
   theme_bw()  + 
   theme(legend.position = "none") +
   theme(
@@ -476,7 +470,7 @@ lcplot <- ggplot() +
     panel.border = element_blank(),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
-    plot.title = element_text(size = 20, hjust = 0.05, vjust = -8),
+    plot.title = element_text(size = 20, hjust = -.1),
     axis.line = element_line(colour = "black",linewidth = .1),
     axis.text.x = element_text(size=20),
     axis.title = element_text(size=20),
@@ -489,10 +483,19 @@ lcplot
 
 png('results/patchtime_interactions.png', width = 15000, height = 18000, res=1000, units="px")
 
-grid.arrange(weightplot,packplot,mooseplot,wolfplot,lfplot,lcplot, ncol = 2)
+
+(weightplot+packplot) / (mooseplot + wolfplot) / (lfplot + lcplot) +
+  plot_layout(guides = "collect", tag_level = "new") +
+  plot_annotation(tag_levels = "A") &
+  theme(legend.position = "bottom",
+        plot.tag = element_text(size = 20),
+        plot.tag.position = c(0, 1),
+        plot.margin = margin(t = 10, r = 10, b = 10, l = 20))
+
 
 
 dev.off()
+
 
 
 
